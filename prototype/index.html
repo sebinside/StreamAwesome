@@ -6,22 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Awesome - The Stream Deck Icon Generator using Font Awesome</title>
+    <link rel="stylesheet" href="fontawesome/css/all.css">
     <style type="text/css">
-        @font-face {
-            font-family: 'FontAwesome';
-            src: url('fontawesome/fa-solid-900.ttf');
-            font-weight: normal;
-            font-style: normal;
-        }
-
         body {
-            font-family: FontAwesome, Arial;
+            background: #222;
+            color:#FFF;
         }
     </style>
 </head>
 
 <body>
-    <canvas id="main" width=256 height=256></canvas>
+
+    <!-- This is required so the browser actually loads the font, lol -->
+    <div id="greeting">Hello World! 
+        <i class="fas fa-glasses"></i>
+        <i class="far fa-glasses"></i>
+        <i class="fal fa-glasses"></i>
+        <i class="fad fa-glasses"></i>
+    </div>
+
+    <div id="content">
+        <canvas id="main" width=256 height=256>
+        </canvas>
+    </div>
 
     <script>
 
@@ -79,7 +86,7 @@
 
             ctx.textBaseline = 'middle';
             ctx.textAlign = "center";
-            ctx.font = '900 170px FontAwesome';
+            ctx.font = '900 170px "Font Awesome 5 Pro"';
             ctx.fillText(icon, 128, 128);
             //ctx.fillText(String.fromCharCode(parseInt(icon, 16)), 128, 128);
 
@@ -88,9 +95,11 @@
 
             //let text = ctx.measureText(icon);
             //console.log(text);
+
+            console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
         }
 
-        document.fonts.ready.then(() => doThings(''));
+        document.fonts.ready.then(() => doThings('\u{f039}'));
     </script>
 </body>
 
