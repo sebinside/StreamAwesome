@@ -10,7 +10,7 @@
     <style type="text/css">
         body {
             background: #222;
-            color:#FFF;
+            color: #FFF;
         }
     </style>
 </head>
@@ -18,7 +18,7 @@
 <body>
 
     <!-- This is required so the browser actually loads the font, lol -->
-    <div id="greeting">Hello World! 
+    <div id="greeting">Hello World!
         <i class="fas fa-glasses"></i>
         <i class="far fa-glasses"></i>
         <i class="fal fa-glasses"></i>
@@ -41,15 +41,31 @@
         // TODO: Make button to save ass
         // TODO: measureText();
         // TODO: Add text
-        // TODO: Have a look at FontAwesome APIs (GraphQL / JS)
+
+        async function callAPI() {
+            const response = await fetch("https://api.fontawesome.com", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "query": "{ search(version: \"5.15.4\", query: \"coffee\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }" }
+                )
+            });
+            return response.json();
+        }
+
+        callAPI().then(data => {
+            console.log(data);
+            console.log(data.data.search[0].unicode);
+        });
 
         function doThings(icon, hue) {
             const canvas = document.getElementById("main");
             const ctx = canvas.getContext('2d');
 
             // #0A1423 #3D6EE0
-            const backgroundHSL = {h: parseInt(hue), s: 0.56, l:0.09};
-            const foregroundHSL = {h: parseInt(hue), s: 0.72, l:0.56};
+            const backgroundHSL = { h: parseInt(hue), s: 0.56, l: 0.09 };
+            const foregroundHSL = { h: parseInt(hue), s: 0.72, l: 0.56 };
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
