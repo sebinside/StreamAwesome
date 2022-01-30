@@ -25,6 +25,12 @@
         <i class="fad fa-glasses"></i>
     </div>
 
+    <div id="controls">
+        <p>Hue: <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
+        <p>Symbol: <input type="text" id="symbol" value="f013"></p>
+        <button id="generate" onclick="generate()">Generate!</button>
+    </div>
+
     <div id="content">
         <canvas id="main" width=256 height=256>
         </canvas>
@@ -32,63 +38,29 @@
 
     <script>
 
-        // TODO: Give Hue-Value and calculate the shift of the colors yo
         // TODO: Make button to save ass
         // TODO: measureText();
 
-        function rgbToHsl(r, g, b) {
-            r /= 255; g /= 255; b /= 255;
-            let max = Math.max(r, g, b);
-            let min = Math.min(r, g, b);
-            let d = max - min;
-            let h;
-            if (d === 0) h = 0;
-            else if (max === r) h = (g - b) / d % 6;
-            else if (max === g) h = (b - r) / d + 2;
-            else if (max === b) h = (r - g) / d + 4;
-            let l = (min + max) / 2;
-            let s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
-            return [h * 60, s, l];
-        }
-
-        function hslToRgb(h, s, l) {
-            let c = (1 - Math.abs(2 * l - 1)) * s;
-            let hp = h / 60.0;
-            let x = c * (1 - Math.abs((hp % 2) - 1));
-            let rgb1;
-            if (isNaN(h)) rgb1 = [0, 0, 0];
-            else if (hp <= 1) rgb1 = [c, x, 0];
-            else if (hp <= 2) rgb1 = [x, c, 0];
-            else if (hp <= 3) rgb1 = [0, c, x];
-            else if (hp <= 4) rgb1 = [0, x, c];
-            else if (hp <= 5) rgb1 = [x, 0, c];
-            else if (hp <= 6) rgb1 = [c, 0, x];
-            let m = l - c * 0.5;
-            return [
-                Math.round(255 * (rgb1[0] + m)),
-                Math.round(255 * (rgb1[1] + m)),
-                Math.round(255 * (rgb1[2] + m))];
-        }
-
-        //console.log(hslToRgb(0,1,0.5));
-
-        function doThings(icon) {
+        function doThings(icon, hue) {
             const canvas = document.getElementById("main");
             const ctx = canvas.getContext('2d');
 
+            // #0A1423 #3D6EE0
+            const backgroundHSL = {h: parseInt(hue), s: 0.56, l:0.09};
+            const foregroundHSL = {h: parseInt(hue), s: 0.72, l:0.56};
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = "#152409";
+            ctx.fillStyle = `hsl(${backgroundHSL.h}, ${backgroundHSL.s * 100}%, ${backgroundHSL.l * 100}%)`;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = "#74E735";
+            ctx.fillStyle = `hsl(${foregroundHSL.h}, ${foregroundHSL.s * 100}%, ${foregroundHSL.l * 100}%)`;
             ctx.globalAlpha = 1;
 
             ctx.textBaseline = 'middle';
             ctx.textAlign = "center";
             ctx.font = '900 170px "Font Awesome 5 Pro"';
             ctx.fillText(icon, 128, 128);
-            //ctx.fillText(String.fromCharCode(parseInt(icon, 16)), 128, 128);
 
             //ctx.font = '30px Arial';
             //ctx.fillText("Hello World!", 50, 200);
@@ -96,10 +68,16 @@
             //let text = ctx.measureText(icon);
             //console.log(text);
 
-            console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
+            //console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
         }
 
-        document.fonts.ready.then(() => doThings('\u{f039}'));
+        function generate() {
+            const symbol = document.getElementById("symbol").value;
+            const hue = document.getElementById("hue").value;
+            doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
+        }
+
+        document.fonts.ready.then(() => doThings('\u{f039}', 0));
     </script>
 </body>
 
