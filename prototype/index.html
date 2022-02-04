@@ -29,6 +29,7 @@
         <p>Hue: <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
         <p>Symbol: <input type="text" id="symbol" value="f013"></p>
         <button id="generate" onclick="generate()">Generate!</button>
+        <button id="saveImage" onclick="download()">Download!</button>
     </div>
 
     <div id="content">
@@ -37,9 +38,6 @@
     </div>
 
     <script>
-
-        // TODO: Make button to save ass
-        // TODO: measureText();
         // TODO: Add text
 
         async function callAPI() {
@@ -48,7 +46,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "query": "{ search(version: \"5.15.4\", query: \"coffee\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }" }
+                body: JSON.stringify({ "query": "{ search(version: \"5.15.4\", query: \"usb\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }" }
                 )
             });
             return response.json();
@@ -58,6 +56,15 @@
             console.log(data);
             console.log(data.data.search[0].unicode);
         });
+
+        function download() {
+            var canvas = document.getElementById("main");
+            image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            var link = document.createElement('a');
+            link.download = `stream-awesome-icon-${Math.round(Math.random()*100000)}.png`;
+            link.href = image;
+            link.click();
+        }
 
         function doThings(icon, hue) {
             const canvas = document.getElementById("main");
@@ -77,16 +84,16 @@
 
             ctx.textBaseline = 'middle';
             ctx.textAlign = "center";
-            ctx.font = '900 170px "Font Awesome 5 Pro"';
+            ctx.font = '900 180px "Font Awesome 5 Pro"';
+
+            const textMetrics = ctx.measureText(icon);
+            const realFontSize = Math.min(180, 180 * ((180 + 5) / textMetrics.width));
+            ctx.font = `900 ${realFontSize}px "Font Awesome 5 Pro"`;
+
             ctx.fillText(icon, 128, 128);
 
-            //ctx.font = '30px Arial';
-            //ctx.fillText("Hello World!", 50, 200);
-
-            //let text = ctx.measureText(icon);
-            //console.log(text);
-
-            //console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
+            //ctx.font = '30px Arial Black';
+            //ctx.fillText("Hello World!", 128, 200);
         }
 
         function generate() {
@@ -95,7 +102,10 @@
             doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
         }
 
-        document.fonts.ready.then(() => doThings('\u{f039}', 0));
+        document.fonts.ready.then(() => {
+            console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
+            doThings('\u{f8e9}', 0)
+        });
     </script>
 </body>
 
