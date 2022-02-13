@@ -27,7 +27,8 @@
 
     <div id="controls">
         <p>Hue: <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
-        <p>Symbol: <input type="text" id="symbol" value="f013"></p>
+        <p>Symbol: <input type="text" id="symbol" value="f013" onkeypress="callGenerate(event)"></p>
+        <p>Text: <input type="text" id="text" onkeypress="callGenerate(event)"/></p>
         <button id="generate" onclick="generate()">Generate!</button>
         <button id="saveImage" onclick="download()">Download!</button>
     </div>
@@ -92,14 +93,22 @@
 
             ctx.fillText(icon, 128, 128);
 
-            //ctx.font = '30px Arial Black';
-            //ctx.fillText("Hello World!", 128, 200);
+            var text = document.getElementById("text").value;
+            ctx.font = '30px Arial Black';
+            ctx.fillText(text, 128, 200);
         }
 
         function generate() {
             const symbol = document.getElementById("symbol").value;
             const hue = document.getElementById("hue").value;
             doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
+        }
+
+        function callGenerate(event) {
+            // Enter-Key
+            if (event.keyCode === 13) {
+                generate();
+            }
         }
 
         document.fonts.ready.then(() => {
