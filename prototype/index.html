@@ -11,6 +11,13 @@
         body {
             background: #222;
             color: #FFF;
+            font-size: 20px;
+        }
+        button {
+            font-size: 20px;
+        }
+        select {
+            font-size: 20px;
         }
     </style>
 </head>
@@ -25,19 +32,53 @@
         <i class="fad fa-glasses"></i>
     </div>
 
-    <div id="controls">
-        <p>Hue: <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
-        <p>Symbol: <input type="text" id="symbol" value="f013"></p>
-        <button id="generate" onclick="generate()">Generate!</button>
-        <button id="saveImage" onclick="download()">Download!</button>
-    </div>
+    <div id="version-selection">
+        <p style="font-size: 26px">Select your Font Awesome version</p>
+        <p>
+            <label for="version">Version: </label>
+            <select id="version">
+                <option value="6" selected>6</option>
+                <option value="5">5</option>
+                <option value="4">4</option>
+                <option value="3">3</option>
+                <option value="2">2</option>
+                <option value="1">1</option>
+            </select>
+        </p>
 
-    <div id="content">
-        <canvas id="main" width=256 height=256>
-        </canvas>
+        <p>
+            <label for="edition">Edition: </label>
+            <select id="edition">
+                <option value="Free" selected>Free</option>
+                <option value="Pro">Pro</option>
+            </select>
+        </p>
+
+        <div>
+            <button id="start" onclick="start()">Let's go!</button>
+        </div>
+
+        <label id="warning" style="color: red; font-size: 69px"></label>
+
+    </div>
+    <div id="main-tool">
+        <p><label id="fontawesome-version"></label></p>
+        <div id="controls">
+            <p><label for="hue">Hue: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
+            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"></p>
+            <button id="generate" onclick="generate()">Generate!</button>
+            <button id="saveImage" onclick="download()">Download!</button>
+        </div>
+
+        <div id="content">
+            <canvas id="main" width=256 height=256>
+            </canvas>
+        </div>
     </div>
 
     <script>
+        let versionNumber = '6';
+        let versionType = 'Free';
         // TODO: Add text
 
         async function callAPI() {
@@ -84,11 +125,11 @@
 
             ctx.textBaseline = 'middle';
             ctx.textAlign = "center";
-            ctx.font = '900 180px "Font Awesome 5 Pro"';
+            ctx.font = `900 180px "Font Awesome ${versionNumber} ${versionType}"`;
 
             const textMetrics = ctx.measureText(icon);
             const realFontSize = Math.min(180, 180 * ((180 + 5) / textMetrics.width));
-            ctx.font = `900 ${realFontSize}px "Font Awesome 5 Pro"`;
+            ctx.font = `900 ${realFontSize}px "Font Awesome ${versionNumber} ${versionType}"`;
 
             ctx.fillText(icon, 128, 128);
 
@@ -102,6 +143,31 @@
             doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
         }
 
+        function start() {
+            var dropdown = document.getElementById('version');
+            var option = dropdown.options[dropdown.selectedIndex];
+            const version = option.value;
+
+            dropdown = document.getElementById('edition');
+            option = dropdown.options[dropdown.selectedIndex];
+            const edition = option.value;
+
+            const font = `Font Awesome ${version} ${edition}`;
+            if (!document.fonts.check(`900 16px '${font}'`)) {
+                document.getElementById('warning').innerHTML = `${font} not available!`
+                return;
+            }
+            versionNumber = version;
+            versionType = edition;
+
+            doThings('\u{f8e9}', 0);
+
+            document.getElementById('fontawesome-version').innerHTML = `FontAwesome ${versionNumber} ${versionType}`
+            document.getElementById('main-tool').style.display = 'block';
+            document.getElementById('version-selection').style.display = 'none';
+        }
+
+        document.getElementById('main-tool').style.display = 'none';
         document.fonts.ready.then(() => {
             console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
             doThings('\u{f8e9}', 0)
