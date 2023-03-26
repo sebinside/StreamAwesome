@@ -27,7 +27,7 @@
 
     <div id="controls">
         <p>Hue: <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
-        <p>Symbol: <input type="text" id="symbol" value="f013"></p>
+        <p>Symbol: <input type="text" id="symbol" value="f013" onkeydown="if(event.keyCode === 13) generate()"></p>
         <button id="generate" onclick="generate()">Generate!</button>
         <button id="saveImage" onclick="download()">Download!</button>
     </div>
