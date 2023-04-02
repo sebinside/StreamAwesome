@@ -214,13 +214,12 @@
             console.log(onlyInstalled)
             const response = await fetch("https://api.github.com/repos/FortAwesome/Font-Awesome/tags", {method: 'GET'});
             response.json().then(data => {
-                let selected = true;
                 const allVersions = [];
-                const versionElement = document.getElementById("version");
-                versionElement.innerHTML = "";
+                const versionElement = document.getElementById('version');
+                versionElement.innerHTML = '';
                 for (let i = 0; i < data.length; i++) {
-                    let optionElement = document.createElement("option");
-                    const versionNumber = data[i].name.replace('v', '');
+                    let optionElement = document.createElement('option');
+                    const versionNumber = data[i].name.replace('v', ''); // some early version tags have "v" as prefix
                     if (!onlyInstalled || (document.fonts.check(`900 16px 'Font Awesome ${versionNumber.split(".")[0]} Free'`)
                     || document.fonts.check(`900 16px 'Font Awesome ${versionNumber.split(".")[0]} Pro'`))) {
                         optionElement.value = versionNumber;
@@ -239,9 +238,10 @@
                     }
                     return 0;
                 }).reverse();
+                let selected = true;
                 for (let i = 0; i < allVersions.length; i++) {
                     let version = allVersions[i];
-                    if (selected) {
+                    if (selected) { // select first value
                         version.selected = selected;
                         selected = false;
                     }
