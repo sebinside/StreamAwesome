@@ -101,21 +101,20 @@
         async function searchIcons() {
             const searchString = document.querySelector("#search").value;
             const result = await callAPI(searchString);
-            const entries = result.data.search.map(entry => [entry.id, entry.unicode]);
 
             document.querySelector("#searchResults").innerHTML = "";
             
-            for (let entry of entries) {
-                if (versionType === 'Free' && !isAvailableInFree(result, entry[1])) {
+            for (let entry of result.data.search) {
+                if (versionType === 'Free' && !isAvailableInFree(entry)) {
                     console.log(`Skipped ${entry[0]}`)
                     continue;
                 }
 
                 const displayElement = document.createElement('i');
-                displayElement.classList.add(`${isBrand(result, entry[1]) ? 'fab' : 'fas'}`);
-                displayElement.classList.add(`fa-${entry[0]}`);
-                displayElement.title = `${entry[0]} (${entry[1]})`;
-                displayElement.onclick = () => {updateSymbol(`${entry[1]}`);generate()};
+                displayElement.classList.add(`${isBrand(entry) ? 'fab' : 'fas'}`);
+                displayElement.classList.add(`fa-${entry.id}`);
+                displayElement.title = `${entry.id} (${entry.unicode})`;
+                displayElement.onclick = () => {updateSymbol(`${entry.unicode}`);generate()};
                 document.querySelector("#searchResults").appendChild(displayElement);
             }
         }
@@ -124,14 +123,13 @@
             document.querySelector("#symbol").value = symbol;
         }
 
-        function isAvailableInFree(data, unicode) {
-            const obj = data.data.search.find(obj => obj.unicode === unicode);
-            return obj.membership.free.includes('solid') || obj.membership.free.includes('brands'); // we only want brands and solids
+        function isAvailableInFree(icon) {
+            // Only brands and solids are available in free
+            return icon.membership.free.includes('solid') || icon.membership.free.includes('brands');
         }
 
-        function isBrand(data, unicode) {
-            const obj = data.data.search.find(obj => obj.unicode === unicode);
-            return obj.membership[versionType.toLowerCase()].includes('brands');
+        function isBrand(icon) {
+            return icon.membership[versionType.toLowerCase()].includes('brands');
         }
 
         async function callAPI(searchString) {
