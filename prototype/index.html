@@ -17,96 +17,96 @@
 
 <body>
 
-    <!-- This is required so the browser actually loads the font, lol -->
-    <div id="greeting">Hello World!
-        <i class="fas fa-glasses"></i>
-        <i class="far fa-glasses"></i>
-        <i class="fal fa-glasses"></i>
-        <i class="fad fa-glasses"></i>
-    </div>
+<!-- This is required so the browser actually loads the font, lol -->
+<div id="greeting">Hello World!
+    <i class="fas fa-glasses"></i>
+    <i class="far fa-glasses"></i>
+    <i class="fal fa-glasses"></i>
+    <i class="fad fa-glasses"></i>
+</div>
 
-    <div id="controls">
-        <p>Hue: <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
-        <p>Symbol: <input type="text" id="symbol" value="f013" onkeydown="if(event.keyCode === 13) generate()"></p>
-        <button id="generate" onclick="generate()">Generate!</button>
-        <button id="saveImage" onclick="download()">Download!</button>
-    </div>
+<div id="controls">
+    <p>Hue: <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
+    <p>Symbol: <input type="text" id="symbol" value="f013" onkeydown="if(event.keyCode === 13) generate()"></p>
+    <button id="generate" onclick="generate()">Generate!</button>
+    <button id="saveImage" onclick="download()">Download!</button>
+</div>
 
-    <div id="content">
-        <canvas id="main" width=256 height=256>
-        </canvas>
-    </div>
+<div id="content">
+    <canvas id="main" width=256 height=256>
+    </canvas>
+</div>
 
-    <script>
-        // TODO: Add text
+<script>
+    // TODO: Add text
 
-        async function callAPI() {
-            const response = await fetch("https://api.fontawesome.com", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "query": "{ search(version: \"5.15.4\", query: \"usb\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }" }
-                )
-            });
-            return response.json();
-        }
-
-        callAPI().then(data => {
-            console.log(data);
-            console.log(data.data.search[0].unicode);
+    async function callAPI() {
+        const response = await fetch("https://api.fontawesome.com", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "query": "{ search(version: \"5.15.4\", query: \"usb\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }" }
+            )
         });
+        return response.json();
+    }
 
-        function download() {
-            var canvas = document.getElementById("main");
-            image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            var link = document.createElement('a');
-            link.download = `stream-awesome-icon-${Math.round(Math.random()*100000)}.png`;
-            link.href = image;
-            link.click();
-        }
+    callAPI().then(data => {
+        console.log(data);
+        console.log(data.data.search[0].unicode);
+    });
 
-        function doThings(icon, hue) {
-            const canvas = document.getElementById("main");
-            const ctx = canvas.getContext('2d');
+    function download() {
+        var canvas = document.getElementById("main");
+        image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        var link = document.createElement('a');
+        link.download = `stream-awesome-icon-${Math.round(Math.random()*100000)}.png`;
+        link.href = image;
+        link.click();
+    }
 
-            // #0A1423 #3D6EE0
-            const backgroundHSL = { h: parseInt(hue), s: 0.56, l: 0.09 };
-            const foregroundHSL = { h: parseInt(hue), s: 0.72, l: 0.56 };
+    function doThings(icon, hue) {
+        const canvas = document.getElementById("main");
+        const ctx = canvas.getContext('2d');
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // #0A1423 #3D6EE0
+        const backgroundHSL = { h: parseInt(hue), s: 0.56, l: 0.09 };
+        const foregroundHSL = { h: parseInt(hue), s: 0.72, l: 0.56 };
 
-            ctx.fillStyle = `hsl(${backgroundHSL.h}, ${backgroundHSL.s * 100}%, ${backgroundHSL.l * 100}%)`;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = `hsl(${foregroundHSL.h}, ${foregroundHSL.s * 100}%, ${foregroundHSL.l * 100}%)`;
-            ctx.globalAlpha = 1;
+        ctx.fillStyle = `hsl(${backgroundHSL.h}, ${backgroundHSL.s * 100}%, ${backgroundHSL.l * 100}%)`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.textBaseline = 'middle';
-            ctx.textAlign = "center";
-            ctx.font = '900 180px "Font Awesome 5 Pro"';
+        ctx.fillStyle = `hsl(${foregroundHSL.h}, ${foregroundHSL.s * 100}%, ${foregroundHSL.l * 100}%)`;
+        ctx.globalAlpha = 1;
 
-            const textMetrics = ctx.measureText(icon);
-            const realFontSize = Math.min(180, 180 * ((180 + 5) / textMetrics.width));
-            ctx.font = `900 ${realFontSize}px "Font Awesome 5 Pro"`;
+        ctx.textBaseline = 'middle';
+        ctx.textAlign = "center";
+        ctx.font = '900 180px "Font Awesome 5 Pro"';
 
-            ctx.fillText(icon, 128, 128);
+        const textMetrics = ctx.measureText(icon);
+        const realFontSize = Math.min(180, 180 * ((180 + 5) / textMetrics.width));
+        ctx.font = `900 ${realFontSize}px "Font Awesome 5 Pro"`;
 
-            //ctx.font = '30px Arial Black';
-            //ctx.fillText("Hello World!", 128, 200);
-        }
+        ctx.fillText(icon, 128, 128);
 
-        function generate() {
-            const symbol = document.getElementById("symbol").value;
-            const hue = document.getElementById("hue").value;
-            doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
-        }
+        //ctx.font = '30px Arial Black';
+        //ctx.fillText("Hello World!", 128, 200);
+    }
 
-        document.fonts.ready.then(() => {
-            console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
-            doThings('\u{f8e9}', 0)
-        });
-    </script>
+    function generate() {
+        const symbol = document.getElementById("symbol").value;
+        const hue = document.getElementById("hue").value;
+        doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
+    }
+
+    document.fonts.ready.then(() => {
+        console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
+        doThings('\u{f8e9}', 0)
+    });
+</script>
 </body>
 
 </html>
