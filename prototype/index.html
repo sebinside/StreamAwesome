@@ -141,6 +141,7 @@
         }
 
         function doThings(icon, hue) {
+            console.log(icon)
             const canvas = document.getElementById("main");
             const ctx = canvas.getContext('2d');
 
@@ -173,6 +174,7 @@
         function generate() {
             const symbol = document.getElementById("symbol").value;
             const hue = document.getElementById("hue").value;
+            console.log(symbol)
             doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
         }
 
@@ -193,7 +195,7 @@
             versionNumber = version;
             versionType = edition;
 
-            doThings('\u{f8e9}', 0);
+            doThings('\u{f013}', 216);
 
             document.getElementById('fontawesome-version').innerHTML = `FontAwesome ${versionNumber} ${versionType}`
             document.getElementById('main-tool').style.display = 'block';
@@ -203,7 +205,6 @@
         document.getElementById('main-tool').style.display = 'none';
         document.fonts.ready.then(() => {
             console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
-            doThings('\u{f8e9}', 0)
         });
     </script>
 </body>
