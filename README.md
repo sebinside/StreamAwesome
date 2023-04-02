@@ -5,7 +5,7 @@ Generate awesome looking stream deck icons like [these](https://www.instagram.co
 
 ## How to install
 1. Clone the repository
-2. Download [Font Awesome for the web](https://fontawesome.com/download)
+2. Download [Font Awesome for the web](https://fontawesome.com/download) 5.6.0 or higher
 3. Extract the folder in `prototype` directory of cloned repository
 4. Rename extracted folder to `fontawesome`
 5. Open `prototype/index.html` in your favorite browser
