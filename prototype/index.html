@@ -13,12 +13,21 @@
             color: #FFF;
             font-size: 20px;
         }
+
         button {
             font-size: 20px;
         }
+
         select {
             font-size: 20px;
         }
+
+        #searchResults i {
+            font-size: 50pt;
+            margin-right: 30px;
+            margin-top: 30px;
+        }
+
     </style>
 </head>
 
@@ -37,8 +46,8 @@
         <p>
             <label for="version">Version: </label>
             <select id="version">
-                <option value="6" selected>6</option>
-                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="5" selected>5</option>
                 <option value="4">4</option>
                 <option value="3">3</option>
                 <option value="2">2</option>
@@ -49,13 +58,13 @@
         <p>
             <label for="edition">Edition: </label>
             <select id="edition">
-                <option value="Free" selected>Free</option>
-                <option value="Pro">Pro</option>
+                <option value="Free">Free</option>
+                <option value="Pro" selected>Pro</option>
             </select>
         </p>
 
         <div>
-            <button id="start" onclick="start()">Let's go!</button>
+            <button autofocus id="start" onclick="start()">Let's go!</button>
         </div>
 
         <label id="warning" style="color: red; font-size: 69px"></label>
@@ -64,8 +73,10 @@
     <div id="main-tool">
         <p><label id="fontawesome-version"></label></p>
         <div id="controls">
-            <p><label for="hue">Hue: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
-            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013" onkeydown="if(event.keyCode === 13) generate()"></p>
+            <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
+            </p>
+            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
+                    onkeydown="if(event.keyCode === 13) generate()"></p>
             <button id="generate" onclick="generate()">Generate!</button>
             <button id="saveImage" onclick="download()">Download!</button>
         </div>
@@ -74,6 +85,12 @@
             <canvas id="main" width=256 height=256>
             </canvas>
         </div>
+
+        <div id="picker">
+            <p><label for="search">Search: </label><input type="text" id="search" onkeydown="if(event.keyCode === 13) searchIcons()"></p>
+            <button id="searchIcons" onclick="searchIcons()">Search!</button>
+            <div id="searchResults"></div>
+        </div>
     </div>
 
     <script>
@@ -81,28 +98,44 @@
         let versionType = 'Free';
         // TODO: Add text
 
-        async function callAPI() {
+        async function searchIcons() {
+            const searchString = document.querySelector("#search").value;
+            const result = await callAPI(searchString);
+            const entries = result.data.search.map(entry => [entry.id, entry.unicode]);
+
+            document.querySelector("#searchResults").innerHTML = "";
+            
+            for (let entry of entries) {
+                const displayElement = document.createElement('i');
+                displayElement.classList.add("fas");
+                displayElement.classList.add(`fa-${entry[0]}`);
+                displayElement.title = `${entry[0]} (${entry[1]})`;
+                displayElement.onclick = () => {updateSymbol(`${entry[1]}`);generate()};
+                document.querySelector("#searchResults").appendChild(displayElement);
+            }
+        }
+
+        function updateSymbol(symbol) {
+            document.querySelector("#symbol").value = symbol;
+        }
+
+        async function callAPI(searchString) {
             const response = await fetch("https://api.fontawesome.com", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "query": "{ search(version: \"5.15.4\", query: \"usb\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }" }
+                body: JSON.stringify({ "query": `{ search(version: \"5.15.4\", query: \"${searchString}\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }` }
                 )
             });
             return response.json();
         }
 
-        callAPI().then(data => {
-            console.log(data);
-            console.log(data.data.search[0].unicode);
-        });
-
         function download() {
             var canvas = document.getElementById("main");
             image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
             var link = document.createElement('a');
-            link.download = `stream-awesome-icon-${Math.round(Math.random()*100000)}.png`;
+            link.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`;
             link.href = image;
             link.click();
         }
