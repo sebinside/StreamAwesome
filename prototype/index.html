@@ -45,14 +45,9 @@
         <p style="font-size: 26px">Select your Font Awesome version</p>
         <p>
             <label for="version">Version: </label>
-            <select id="version">
-                <option value="6">6</option>
-                <option value="5" selected>5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-            </select>
+            <select id="version"></select>
+            <input type="checkbox" id="only-installed" checked="checked" onchange="getVersions(this.checked)">
+            <label for="only-installed">Show only installed</label>
         </p>
 
         <p>
@@ -94,6 +89,7 @@
     </div>
 
     <script>
+        let exactVersionNumber = '6.4.0';
         let versionNumber = '6';
         let versionType = 'Free';
         // TODO: Add text
@@ -138,16 +134,15 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "query": `{ search(version: \"5.15.4\", query: \"${searchString}\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }` }
-                )
+                body: JSON.stringify({ "query": `{ search(version: \"${exactVersionNumber}\", query: \"${searchString}\", first: 30) {id\nlabel\nunicode\nmembership { ${versionType === 'Free' ? 'free' : 'free\npro'} } } }` })
             });
             return response.json();
         }
 
         function download() {
-            var canvas = document.getElementById("main");
-            image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            var link = document.createElement('a');
+            let canvas = document.getElementById("main");
+            const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            let link = document.createElement('a');
             link.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`;
             link.href = image;
             link.click();
@@ -190,9 +185,10 @@
         }
 
         function start() {
-            var dropdown = document.getElementById('version');
-            var option = dropdown.options[dropdown.selectedIndex];
-            const version = option.value;
+            let dropdown = document.getElementById('version');
+            let option = dropdown.options[dropdown.selectedIndex];
+            const exactVersion = option.value;
+            const version = exactVersion.split(".")[0]
 
             dropdown = document.getElementById('edition');
             option = dropdown.options[dropdown.selectedIndex];
@@ -203,6 +199,7 @@
                 document.getElementById('warning').innerHTML = `${font} not available!`
                 return;
             }
+            exactVersionNumber = exactVersion;
             versionNumber = version;
             versionType = edition;
 
@@ -213,10 +210,54 @@
             document.getElementById('version-selection').style.display = 'none';
         }
 
+        async function getVersions(onlyInstalled) {
+            console.log(onlyInstalled)
+            const response = await fetch("https://api.github.com/repos/FortAwesome/Font-Awesome/tags", {method: 'GET'});
+            response.json().then(data => {
+                let selected = true;
+                const allVersions = [];
+                const versionElement = document.getElementById("version");
+                versionElement.innerHTML = "";
+                for (let i = 0; i < data.length; i++) {
+                    let optionElement = document.createElement("option");
+                    const versionNumber = data[i].name.replace('v', '');
+                    if (!onlyInstalled || (document.fonts.check(`900 16px 'Font Awesome ${versionNumber.split(".")[0]} Free'`)
+                    || document.fonts.check(`900 16px 'Font Awesome ${versionNumber.split(".")[0]} Pro'`))) {
+                        optionElement.value = versionNumber;
+                        optionElement.text = optionElement.value;
+                        allVersions.push(optionElement);
+                    }
+                }
+                allVersions.sort(function (a, b) {
+                    const vA = a.value.toUpperCase();
+                    const vB = b.value.toUpperCase();
+                    if (vA < vB) {
+                        return -1;
+                    }
+                    if (vA > vB) {
+                        return 1;
+                    }
+                    return 0;
+                }).reverse();
+                for (let i = 0; i < allVersions.length; i++) {
+                    let version = allVersions[i];
+                    if (selected) {
+                        version.selected = selected;
+                        selected = false;
+                    }
+                    versionElement.appendChild(version);
+                }
+            }).catch(error => {
+                console.error(error)
+            })
+        }
+
         document.getElementById('main-tool').style.display = 'none';
         document.fonts.ready.then(() => {
             console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
         });
+
+        getVersions(true);
     </script>
 </body>
 
