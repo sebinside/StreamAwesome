@@ -97,7 +97,6 @@
         async function searchIcons() {
             const searchString = document.querySelector("#search").value;
             const result = await callAPI(searchString);
-            console.log(result)
             const entries = result.data.search.map(entry => [entry.id, entry.unicode]);
 
             document.querySelector("#searchResults").innerHTML = "";
@@ -199,7 +198,6 @@
         }
 
         async function getVersions(onlyInstalled) {
-            console.log(onlyInstalled)
             const response = await fetch("https://api.github.com/repos/FortAwesome/Font-Awesome/tags", {method: 'GET'});
             response.json().then(data => {
                 const allVersions = [];
