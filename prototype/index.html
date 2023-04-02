@@ -65,7 +65,7 @@
         <p><label id="fontawesome-version"></label></p>
         <div id="controls">
             <p><label for="hue">Hue: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()"></p>
-            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"></p>
+            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013" onkeydown="if(event.keyCode === 13) generate()"></p>
             <button id="generate" onclick="generate()">Generate!</button>
             <button id="saveImage" onclick="download()">Download!</button>
         </div>
