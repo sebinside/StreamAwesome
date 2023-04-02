@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Awesome - The Stream Deck Icon Generator using Font Awesome</title>
-    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="fontawesome2/css/all.css">
     <style type="text/css">
         body {
             background: #222;
@@ -46,8 +46,8 @@
         <p>
             <label for="version">Version: </label>
             <select id="version">
-                <option value="6">6</option>
-                <option value="5" selected>5</option>
+                <option value="6" selected>6</option>
+                <option value="5">5</option>
                 <option value="4">4</option>
                 <option value="3">3</option>
                 <option value="2">2</option>
@@ -106,8 +106,13 @@
             document.querySelector("#searchResults").innerHTML = "";
             
             for (let entry of entries) {
+                if (versionType === 'Free' && !isAvailableInFree(result, entry[1])) {
+                    console.log(`Skipped ${entry[0]}`)
+                    continue;
+                }
+
                 const displayElement = document.createElement('i');
-                displayElement.classList.add("fas");
+                displayElement.classList.add(`${isBrand(result, entry[1]) ? 'fab' : 'fas'}`);
                 displayElement.classList.add(`fa-${entry[0]}`);
                 displayElement.title = `${entry[0]} (${entry[1]})`;
                 displayElement.onclick = () => {updateSymbol(`${entry[1]}`);generate()};
@@ -117,6 +122,16 @@
 
         function updateSymbol(symbol) {
             document.querySelector("#symbol").value = symbol;
+        }
+
+        function isAvailableInFree(data, unicode) {
+            const obj = data.data.search.find(obj => obj.unicode === unicode);
+            return obj.membership.free.includes('solid') || obj.membership.free.includes('brands'); // we only want brands and solids
+        }
+
+        function isBrand(data, unicode) {
+            const obj = data.data.search.find(obj => obj.unicode === unicode);
+            return obj.membership[versionType.toLowerCase()].includes('brands');
         }
 
         async function callAPI(searchString) {
