@@ -49,6 +49,7 @@
     <div id="controls">
         <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
         </p>
+        <p><label for="brand">Brand Logo: </label><input type="checkbox" id="brand" oninput="generate()"></p>
         <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
                 onkeydown="if(event.keyCode === 13) generate()"></p>
         <button id="generate" onclick="generate()">Generate!</button>
@@ -88,13 +89,14 @@
                 displayElement.classList.add(`${isBrand(entry) ? 'fab' : 'fas'}`);
                 displayElement.classList.add(`fa-${entry.id}`);
                 displayElement.title = `${entry.id} (${entry.unicode})`;
-                displayElement.onclick = () => {updateSymbol(`${entry.unicode}`);generate()};
+                displayElement.onclick = () => {updateSymbol(`${entry.unicode}`, isBrand(entry));generate()};
                 document.querySelector("#searchResults").appendChild(displayElement);
             }
         }
 
-        function updateSymbol(symbol) {
+        function updateSymbol(symbol, isBrand) {
             document.querySelector("#symbol").value = symbol;
+            document.querySelector("#brand").checked = isBrand;
         }
 
         function isAvailableInFree(icon) {
@@ -126,7 +128,7 @@
             link.click();
         }
 
-        function doThings(icon, hue) {
+        function doThings(icon, hue, isBrand) {
             const canvas = document.getElementById("main");
             const ctx = canvas.getContext('2d');
 
@@ -144,11 +146,11 @@
 
             ctx.textBaseline = 'middle';
             ctx.textAlign = "center";
-            ctx.font = `900 180px "Font Awesome ${versionNumber} ${versionType}"`;
+            ctx.font = `${isBrand? 400 : 900} 180px "Font Awesome ${versionNumber} ${isBrand? 'Brands' : versionType}"`;
 
             const textMetrics = ctx.measureText(icon);
             const realFontSize = Math.min(180, 180 * ((180 + 5) / textMetrics.width));
-            ctx.font = `900 ${realFontSize}px "Font Awesome ${versionNumber} ${versionType}"`;
+            ctx.font = `${isBrand? 400 : 900} ${realFontSize}px "Font Awesome ${versionNumber} ${isBrand? 'Brands' : versionType}"`;
 
             ctx.fillText(icon, 128, 128);
 
@@ -159,7 +161,8 @@
         function generate() {
             const symbol = document.getElementById("symbol").value;
             const hue = document.getElementById("hue").value;
-            doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
+            const isBrand = document.getElementById("brand").checked;
+            doThings(String.fromCodePoint(parseInt(symbol, 16)), hue, isBrand);
         }
 
         async function start() {
