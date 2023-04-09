@@ -14,6 +14,10 @@
             font-size: 20px;
         }
 
+        body a {
+            color: #f5a80e;
+        }
+
         button {
             font-size: 20px;
         }
@@ -41,59 +45,29 @@
         <i class="fad fa-glasses"></i>
     </div>
 
-    <div id="version-selection">
-        <p style="font-size: 26px">Select your Font Awesome version</p>
-        <p>
-            <label for="version">Version: </label>
-            <select id="version">
-                <option value="6">6</option>
-                <option value="5" selected>5</option>
-                <option value="4">4</option>
-                <option value="3">3</option>
-                <option value="2">2</option>
-                <option value="1">1</option>
-            </select>
+    <p><label id="fontawesome-version"></label></p>
+    <div id="controls">
+        <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
         </p>
-
-        <p>
-            <label for="edition">Edition: </label>
-            <select id="edition">
-                <option value="Free">Free</option>
-                <option value="Pro" selected>Pro</option>
-            </select>
-        </p>
-
-        <div>
-            <button autofocus id="start" onclick="start()">Let's go!</button>
-        </div>
-
-        <label id="warning" style="color: red; font-size: 69px"></label>
-
+        <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
+                onkeydown="if(event.keyCode === 13) generate()"></p>
+        <button id="generate" onclick="generate()">Generate!</button>
+        <button id="saveImage" onclick="download()">Download!</button>
     </div>
-    <div id="main-tool">
-        <p><label id="fontawesome-version"></label></p>
-        <div id="controls">
-            <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
-            </p>
-            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
-                    onkeydown="if(event.keyCode === 13) generate()"></p>
-            <button id="generate" onclick="generate()">Generate!</button>
-            <button id="saveImage" onclick="download()">Download!</button>
-        </div>
 
-        <div id="content">
-            <canvas id="main" width=256 height=256>
-            </canvas>
-        </div>
+    <div id="content">
+        <canvas id="main" width=256 height=256>
+        </canvas>
+    </div>
 
-        <div id="picker">
-            <p><label for="search">Search: </label><input type="text" id="search" onkeydown="if(event.keyCode === 13) searchIcons()"></p>
-            <button id="searchIcons" onclick="searchIcons()">Search!</button>
-            <div id="searchResults"></div>
-        </div>
+    <div id="picker">
+        <p><label for="search">Search: </label><input type="text" id="search" onkeydown="if(event.keyCode === 13) searchIcons()"></p>
+        <button id="searchIcons" onclick="searchIcons()">Search!</button>
+        <div id="searchResults"></div>
     </div>
 
     <script>
+        let exactVersionNumber = '6.4.0';
         let versionNumber = '6';
         let versionType = 'Free';
         // TODO: Add text
@@ -138,16 +112,15 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "query": `{ search(version: \"5.15.4\", query: \"${searchString}\", first: 30) {id\nlabel\nunicode\nmembership { free\npro } } }` }
-                )
+                body: JSON.stringify({ "query": `{ search(version: \"${exactVersionNumber}\", query: \"${searchString}\", first: 30) {id\nlabel\nunicode\nmembership { ${versionType === 'Free' ? 'free' : 'free\npro'} } } }` })
             });
             return response.json();
         }
 
         function download() {
-            var canvas = document.getElementById("main");
-            image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            var link = document.createElement('a');
+            let canvas = document.getElementById("main");
+            const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            let link = document.createElement('a');
             link.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`;
             link.href = image;
             link.click();
@@ -189,34 +162,38 @@
             doThings(String.fromCodePoint(parseInt(symbol, 16)), hue);
         }
 
-        function start() {
-            var dropdown = document.getElementById('version');
-            var option = dropdown.options[dropdown.selectedIndex];
-            const version = option.value;
-
-            dropdown = document.getElementById('edition');
-            option = dropdown.options[dropdown.selectedIndex];
-            const edition = option.value;
-
-            const font = `Font Awesome ${version} ${edition}`;
-            if (!document.fonts.check(`900 16px '${font}'`)) {
-                document.getElementById('warning').innerHTML = `${font} not available!`
-                return;
-            }
-            versionNumber = version;
-            versionType = edition;
-
+        async function start() {
+            await getInstalledVersion();
             doThings('\u{f013}', 216);
-
-            document.getElementById('fontawesome-version').innerHTML = `FontAwesome ${versionNumber} ${versionType}`
-            document.getElementById('main-tool').style.display = 'block';
-            document.getElementById('version-selection').style.display = 'none';
+            document.getElementById('fontawesome-version').innerHTML = `FontAwesome ${exactVersionNumber} ${versionType}`
         }
 
-        document.getElementById('main-tool').style.display = 'none';
+        async function getInstalledVersion() {
+            const pattern = /\d+\.\d+\.\d+/;
+            const link = document.querySelector('link[rel="stylesheet"]');
+
+            const failText = 'Something went wrong. Please have a look at <a href="https://github.com/sebinside/StreamAwesome">StreamAwesome repo</a> for instructions.';
+            if (link) {
+                await fetch(link.href)
+                    .then(response => response.text())
+                    .then(css => {
+                        exactVersionNumber = css.match(pattern)[0];
+                        versionNumber = exactVersionNumber.split(".")[0];
+                        versionType = Array.from(document.fonts).filter(font => font.family.includes("Font Awesome")).find(font => font.family.includes("Pro")) ? 'Pro' : 'Free';
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        document.body.innerHTML = failText;
+                    });
+            } else {
+                document.body.innerHTML = failText;
+            }
+        }
+
         document.fonts.ready.then(() => {
-            console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
+            start();
         });
+
     </script>
 </body>
 
