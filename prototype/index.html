@@ -206,7 +206,7 @@
             versionNumber = version;
             versionType = edition;
 
-            doThings('\u{f8e9}', 0);
+            doThings('\u{f013}', 216);
 
             document.getElementById('fontawesome-version').innerHTML = `FontAwesome ${versionNumber} ${versionType}`
             document.getElementById('main-tool').style.display = 'block';
@@ -216,7 +216,6 @@
         document.getElementById('main-tool').style.display = 'none';
         document.fonts.ready.then(() => {
             console.log(document.fonts.check("900 16px 'Font Awesome 5 Pro'") ? "Pro is available" : "Pro is unavailable.");
-            doThings('\u{f8e9}', 0)
         });
     </script>
 </body>
