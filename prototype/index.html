@@ -15,6 +15,7 @@
             background: #222;
             color: #FFF;
             font-size: 20px;
+            font-family: sans-serif;
         }
 
         body a {
@@ -29,8 +30,12 @@
             font-size: 20px;
         }
 
+        #picker {
+            width: 700px;
+        }
+
         #searchResults i {
-            font-size: 50pt;
+            font-size: 30pt;
             margin-right: 30px;
             margin-top: 30px;
         }
@@ -40,13 +45,41 @@
             margin-bottom: 30px;
         }
 
+        #greeting i:nth-child(1) { color: red; }
+        #greeting i:nth-child(2) { color: orange; }
+        #greeting i:nth-child(3) { color: yellow; }
+        #greeting i:nth-child(4) { color: green; }
+        #greeting i:nth-child(5) { color: blue; }
+        #greeting i:nth-child(6) { color: indigo; }
+        #greeting i:nth-child(7) { color: violet; }
+
+        #mainPage {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        #content {
+            border: 3px solid #FFF;
+            height: 256px;
+            width: 256px;
+            display: block;
+            border-radius: 20px;
+            overflow: hidden;
+            min-width: 256px;
+            min-height: 256px;
+        }
+
+
     </style>
 </head>
 
 <body>
 
     <!-- This is required so the browser actually loads the font, lol -->
-    <div id="greeting">Hello World!
+    <div id="greeting">Stream Awesome Prototype
         <i class="fas fa-glasses"></i>
         <i class="far fa-glasses"></i>
         <i class="fal fa-glasses"></i>
@@ -56,38 +89,41 @@
         <i class="fa-sharp fa-light fa-glasses"></i>
     </div>
 
-    <p><label id="fontawesome-version"></label></p>
-    <div id="controls">
-        <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
-        </p>
-        <p><label for="brand">Brand Logo: </label><input type="checkbox" id="brand" oninput="generate()"></p>
-        <p><label for="styleSelect">Select an style:</label>
-            <select id="styleSelect" name="styleSelect" oninput="generate()">
-              <option value="Solid">Solid</option>
-              <option value="Regular">Regular</option>
-              <option value="Light">Light</option>
-              <option value="Thin">Thin</option>
-              <option value="SharpSolid">Sharp Solid</option>
-              <option value="SharpRegular">Sharp Regular</option>
-              <option value="SharpLight">Sharp Light</option>
-            </select>
+    
+    <div id="mainPage">
+        <div id="controls">
+            <p>Font: <label id="fontawesome-version"></label></p>
+            <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
             </p>
-        <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
-                onkeydown="if(event.keyCode === 13) generate()"></p>
-        <button id="generate" onclick="generate()">Generate!</button>
-        <button id="saveImage" onclick="download()">Download!</button>
-    </div>
+            <p><label for="brand">Brand Logo: </label><input type="checkbox" id="brand" oninput="generate()"></p>
+            <p><label for="styleSelect">Select an style:</label>
+                <select id="styleSelect" name="styleSelect" oninput="generate()">
+                <option value="Solid">Solid</option>
+                <option value="Regular">Regular</option>
+                <option value="Light">Light</option>
+                <option value="Thin">Thin</option>
+                <option value="SharpSolid">Sharp Solid</option>
+                <option value="SharpRegular">Sharp Regular</option>
+                <option value="SharpLight">Sharp Light</option>
+                </select>
+                </p>
+            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
+                    onkeydown="if(event.keyCode === 13) generate()"></p>
+            <button id="generate" onclick="generate()">Generate!</button>
+            <button id="saveImage" onclick="download()">Download!</button>
+        </div>
 
-    <div id="content">
-        <canvas id="main" width=256 height=256>
-        </canvas>
-    </div>
+        <div id="content">
+            <canvas id="main" width=256 height=256>
+            </canvas>
+        </div>
 
-    <div id="picker">
-        <p><label for="search">Search: </label><input type="text" id="search" onkeydown="if(event.keyCode === 13) searchIcons()"></p>
-        <button id="searchIcons" onclick="searchIcons()">Search!</button>
+        <div id="picker">
+        <p><label for="search">Search: </label><input type="text" id="search" onkeydown="if(event.keyCode === 13) searchIcons()"> <button id="searchIcons" onclick="searchIcons()">Search!</button></p>
         <div id="searchResults"></div>
     </div>
+
+    </div>  
 
     <script>
         let exactVersionNumber = '6.4.0';
