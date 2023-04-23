@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Awesome - The Stream Deck Icon Generator using Font Awesome</title>
     <link rel="stylesheet" href="fontawesome/css/all.css">
+    <link rel="stylesheet" href="fontawesome/css/sharp-light.css">
+    <link rel="stylesheet" href="fontawesome/css/sharp-regular.css">
+    <link rel="stylesheet" href="fontawesome/css/sharp-solid.css">
     <style type="text/css">
         body {
             background: #222;
@@ -32,6 +35,11 @@
             margin-top: 30px;
         }
 
+        #greeting {
+            font-size: 30pt;
+            margin-bottom: 30px;
+        }
+
     </style>
 </head>
 
@@ -43,6 +51,9 @@
         <i class="far fa-glasses"></i>
         <i class="fal fa-glasses"></i>
         <i class="fad fa-glasses"></i>
+        <i class="fa-sharp fa-solid fa-glasses"></i>
+        <i class="fa-sharp fa-regular fa-glasses"></i>
+        <i class="fa-sharp fa-light fa-glasses"></i>
     </div>
 
     <p><label id="fontawesome-version"></label></p>
@@ -50,6 +61,17 @@
         <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
         </p>
         <p><label for="brand">Brand Logo: </label><input type="checkbox" id="brand" oninput="generate()"></p>
+        <p><label for="styleSelect">Select an style:</label>
+            <select id="styleSelect" name="styleSelect" oninput="generate()">
+              <option value="Solid">Solid</option>
+              <option value="Regular">Regular</option>
+              <option value="Light">Light</option>
+              <option value="Thin">Thin</option>
+              <option value="SharpSolid">Sharp Solid</option>
+              <option value="SharpRegular">Sharp Regular</option>
+              <option value="SharpLight">Sharp Light</option>
+            </select>
+            </p>
         <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
                 onkeydown="if(event.keyCode === 13) generate()"></p>
         <button id="generate" onclick="generate()">Generate!</button>
@@ -71,7 +93,6 @@
         let exactVersionNumber = '6.4.0';
         let versionNumber = '6';
         let versionType = 'Free';
-        // TODO: Add text
 
         async function searchIcons() {
             const searchString = document.querySelector("#search").value;
@@ -128,9 +149,26 @@
             link.click();
         }
 
-        function doThings(icon, hue, isBrand) {
+        function doThings(icon, hue, isBrand, iconStyle) {
             const canvas = document.getElementById("main");
             const ctx = canvas.getContext('2d');
+
+            let fontType = versionType;
+            if(isBrand) {
+                fontType = 'Brands';
+            } else if(iconStyle === 'SharpSolid' || iconStyle === 'SharpRegular' || iconStyle === 'SharpLight') {
+                fontType = 'Sharp';
+            }
+
+            let fontWeight = 900;
+            if(isBrand || iconStyle === 'Regular' || iconStyle === 'SharpRegular') {
+                fontWeight = 400;
+            } else if(iconStyle === 'Light' || iconStyle === 'SharpLight') {
+                fontWeight = 300;
+            } else if(iconStyle === 'Thin') {
+                fontWeight = 100;
+            }
+
 
             // #0A1423 #3D6EE0
             const backgroundHSL = { h: parseInt(hue), s: 0.56, l: 0.09 };
@@ -146,11 +184,11 @@
 
             ctx.textBaseline = 'middle';
             ctx.textAlign = "center";
-            ctx.font = `${isBrand? 400 : 900} 180px "Font Awesome ${versionNumber} ${isBrand? 'Brands' : versionType}"`;
+            ctx.font = `${fontWeight} 180px "Font Awesome ${versionNumber} ${fontType}"`;
 
             const textMetrics = ctx.measureText(icon);
             const realFontSize = Math.min(180, 180 * ((180 + 5) / textMetrics.width));
-            ctx.font = `${isBrand? 400 : 900} ${realFontSize}px "Font Awesome ${versionNumber} ${isBrand? 'Brands' : versionType}"`;
+            ctx.font = `${fontWeight} ${realFontSize}px "Font Awesome ${versionNumber} ${fontType}"`;
 
             ctx.fillText(icon, 128, 128);
 
@@ -162,7 +200,8 @@
             const symbol = document.getElementById("symbol").value;
             const hue = document.getElementById("hue").value;
             const isBrand = document.getElementById("brand").checked;
-            doThings(String.fromCodePoint(parseInt(symbol, 16)), hue, isBrand);
+            const iconStyle = document.getElementById("styleSelect").value;
+            doThings(String.fromCodePoint(parseInt(symbol, 16)), hue, isBrand, iconStyle);
         }
 
         async function start() {
