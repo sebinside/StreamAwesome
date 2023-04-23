@@ -7,86 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Awesome - The Stream Deck Icon Generator using Font Awesome</title>
     <link rel="stylesheet" href="fontawesome/css/all.css">
-    <link rel="stylesheet" href="fontawesome/css/sharp-light.css">
-    <link rel="stylesheet" href="fontawesome/css/sharp-regular.css">
-    <link rel="stylesheet" href="fontawesome/css/sharp-solid.css">
-    <style type="text/css">
-        body {
-            background: #222;
-            color: #FFF;
-            font-size: 20px;
-            font-family: sans-serif;
-        }
-
-        body a {
-            color: #f5a80e;
-        }
-
-        button {
-            font-size: 20px;
-        }
-
-        select {
-            font-size: 20px;
-        }
-
-        #picker {
-            width: 700px;
-        }
-
-        #searchResults i {
-            font-size: 30pt;
-            margin-right: 30px;
-            margin-top: 30px;
-        }
-
-        #greeting {
-            font-size: 30pt;
-            margin-bottom: 30px;
-        }
-
-        #greeting i:nth-child(1) { color: red; }
-        #greeting i:nth-child(2) { color: orange; }
-        #greeting i:nth-child(3) { color: yellow; }
-        #greeting i:nth-child(4) { color: green; }
-        #greeting i:nth-child(5) { color: blue; }
-        #greeting i:nth-child(6) { color: indigo; }
-        #greeting i:nth-child(7) { color: violet; }
-
-        #mainPage {
-            display: flex;
-            flex-direction: row;
-            justify-content: left;
-            gap: 30px;
-            align-items: flex-start;
-        }
-
-        #content {
-            border: 3px solid #FFF;
-            height: 256px;
-            width: 256px;
-            display: block;
-            border-radius: 20px;
-            overflow: hidden;
-            min-width: 256px;
-            min-height: 256px;
-        }
-
-
-    </style>
+    <!-- Pro stylesheets loaded in addStylesheets() -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <!-- This is required so the browser actually loads the font, lol -->
     <div id="greeting">Stream Awesome Prototype
-        <i class="fas fa-glasses"></i>
-        <i class="far fa-glasses"></i>
-        <i class="fal fa-glasses"></i>
-        <i class="fad fa-glasses"></i>
-        <i class="fa-sharp fa-solid fa-glasses"></i>
-        <i class="fa-sharp fa-regular fa-glasses"></i>
-        <i class="fa-sharp fa-light fa-glasses"></i>
+        <!-- Loaded in addIcons() -->
     </div>
 
     
@@ -95,21 +24,15 @@
             <p>Font: <label id="fontawesome-version"></label></p>
             <p><label for="hue">Hü: </label><input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
             </p>
-            <p><label for="brand">Brand Logo: </label><input type="checkbox" id="brand" oninput="generate()"></p>
-            <p><label for="styleSelect">Select an style:</label>
+            <p><label for="styleSelect">Select a style:</label>
                 <select id="styleSelect" name="styleSelect" oninput="generate()">
                 <option value="Solid">Solid</option>
-                <option value="Regular">Regular</option>
-                <option value="Light">Light</option>
-                <option value="Thin">Thin</option>
-                <option value="SharpSolid">Sharp Solid</option>
-                <option value="SharpRegular">Sharp Regular</option>
-                <option value="SharpLight">Sharp Light</option>
+                <!-- Other options loaded later -->
                 </select>
                 </p>
-            <p><label for="symbol">Symbol: </label><input type="text" id="symbol" value="f013"
-                    onkeydown="if(event.keyCode === 13) generate()"></p>
-            <button id="generate" onclick="generate()">Generate!</button>
+            <p><label for="brand">Brand Logo: </label><label id="brand">❌</label></p>
+            <p><label for="symbol">Symbol ID: </label><label id="symbol">f013</label></p>
+            <!--<button id="generate" onclick="generate()">Generate!</button>-->
             <button id="saveImage" onclick="download()">Download!</button>
         </div>
 
@@ -137,7 +60,7 @@
             document.querySelector("#searchResults").innerHTML = "";
             
             for (let entry of result.data.search) {
-                if (versionType === 'Free' && !isAvailableInFree(entry)) {
+                if (isFreeVersion() && !isAvailableInFree(entry)) {
                     console.log(`Skipped ${entry[0]}`)
                     continue;
                 }
@@ -152,8 +75,10 @@
         }
 
         function updateSymbol(symbol, isBrand) {
-            document.querySelector("#symbol").value = symbol;
-            document.querySelector("#brand").checked = isBrand;
+            document.querySelector("#symbol").innerText = symbol;
+            document.querySelector("#brand").value = isBrand;
+            document.querySelector("#brand").innerHTML = isBrand ? "✅" : "❌";
+            document.querySelector("#styleSelect").disabled = isBrand || isFreeVersion();
         }
 
         function isAvailableInFree(icon) {
@@ -233,17 +158,30 @@
         }
 
         function generate() {
-            const symbol = document.getElementById("symbol").value;
+            const symbol = document.getElementById("symbol").innerText;
             const hue = document.getElementById("hue").value;
-            const isBrand = document.getElementById("brand").checked;
+            document.getElementById("hue").title = hue;
+            const isBrand = document.getElementById("brand").value;
             const iconStyle = document.getElementById("styleSelect").value;
             doThings(String.fromCodePoint(parseInt(symbol, 16)), hue, isBrand, iconStyle);
         }
 
         async function start() {
             await getInstalledVersion();
-            doThings('\u{f013}', 216);
-            document.getElementById('fontawesome-version').innerHTML = `FontAwesome ${exactVersionNumber} ${versionType}`
+            addStylesheets();
+            addIcons();
+            addStyleSelections();
+
+            if (isFreeVersion()) {
+                const styleSelectElement = document.getElementById('styleSelect');
+                styleSelectElement.disabled = isFreeVersion();
+                styleSelectElement.title = 'Free version may only use "Solid"';
+            }
+            document.getElementById('fontawesome-version').innerHTML = `FontAwesome ${exactVersionNumber} ${versionType}`;
+        }
+
+        function isFreeVersion() {
+            return versionType === 'Free';
         }
 
         async function getInstalledVersion() {
@@ -268,9 +206,70 @@
             }
         }
 
+        function addStylesheets() {
+            if (isFreeVersion()) {
+                return;
+            }
+
+            const stylesheets = [
+                "fontawesome/css/sharp-light.css",
+                "fontawesome/css/sharp-regular.css",
+                "fontawesome/css/sharp-solid.css"
+            ];
+
+            for (let stylesheet of stylesheets) {
+                let link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = stylesheet;
+                document.head.appendChild(link);
+            }
+        }
+
+        function addIcons() {
+            const icons = [
+                'fas fa-glasses'
+            ];
+            if (!isFreeVersion()) {
+                icons.push("far fa-glasses");
+                icons.push("fal fa-glasses");
+                icons.push("fad fa-glasses");
+                icons.push("fass fas fa-glasses");
+                icons.push("fass far fa-glasses");
+                icons.push("fass fal fa-glasses");
+            }
+
+            const greeting = document.getElementById('greeting');
+            for (let icon of icons) {
+                const element = document.createElement('i');
+                for (let clazz of icon.split(' ')) {
+                    element.classList.add(clazz);
+                }
+                greeting.appendChild(element);
+            }
+        }
+
+        function addStyleSelections() {
+            const options = [
+                "Regular",
+                "Light",
+                "Thin",
+                "Sharp Solid",
+                "Sharp Regular",
+                "Sharp Light"
+            ]
+            const styleSelect = document.getElementById('styleSelect');
+            for (let option of options) {
+                const optionElement = document.createElement('option');
+                optionElement.value = option.replace(/\s/g, '');
+                optionElement.innerHTML = option;
+                styleSelect.appendChild(optionElement);
+            }
+        }
+
         document.fonts.ready.then(() => {
             start();
         });
+        document.fonts.onloadingdone = generate;
 
     </script>
 </body>
