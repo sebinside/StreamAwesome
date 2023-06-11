@@ -48,6 +48,7 @@
                 <label for="harmonyRule">Select a harmony rule</label>
                 <select id="harmonyRule" name="harmonyRule" oninput="generate()">
                     <option value="Monochromatic">Monochromatic</option>
+                    <option value="Complementary">Complementary</option>
                     <!-- Other options loaded later -->
                 </select>
                 
@@ -119,6 +120,7 @@
                 const harmonyRule = document.getElementById("harmonyRule").value;
 
                 if (harmonyRule == "Monochromatic") {this.generateMonochromaticColors()}
+                if (harmonyRule == "Complementary") {this.generateComplementaryColors()}
 
                 const inversed = document.getElementById("inversed");
                 this.invertColors = inversed.checked;
@@ -134,6 +136,21 @@
                 this.foregroundH = this.hue;
                 this.foregroundS = 0.72;
                 this.foregroundL = 0.56;
+
+                this._foregroundHSL = { h: this.foregroundH, s: this.foregroundS, l: this.foregroundL };
+            }
+
+
+            generateComplementaryColors() {
+                this.backgroundH = this.hue;
+                this.backgroundS = 0.77;
+                this.backgroundL = 0.38;
+                
+                this._backgroundHSL = { h: this.backgroundH, s: this.backgroundS, l: this.backgroundL };
+                
+                this.foregroundH = (this.hue + 180) % 360;
+                this.foregroundS = 0.87;
+                this.foregroundL = 0.48;
 
                 this._foregroundHSL = { h: this.foregroundH, s: this.foregroundS, l: this.foregroundL };
             }
