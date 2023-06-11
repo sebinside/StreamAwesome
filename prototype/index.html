@@ -78,6 +78,58 @@
         let versionNumber = '6';
         let versionType = 'Free';
 
+        class ColorWay {
+            constructor() {
+                const hue = document.getElementById("hue").value;
+                this.hue = parseInt(hue);
+
+                // #0A1423 #3D6EE0
+                this.backgroundH = this.hue;
+                this.backgroundS = 0.56;
+                this.backgroundL = 0.09;
+                this._backgroundHSL;
+                
+                this.foregroundH = this.hue;
+                this.foregroundS = 0.72;
+                this.foregroundL = 0.56;
+                this._foregroundHSL;
+            }
+
+            updateColorWay() {
+
+                // Setting up color variables
+                const hue = document.getElementById("hue").value;
+                this.hue = parseInt(hue);
+
+                this.backgroundH = this.hue;
+                this.backgroundS = 0.56;
+                this.backgroundL = 0.09;
+                
+                this._backgroundHSL = { h: this.backgroundH, s: this.backgroundS, l: this.backgroundL };
+                
+                this.foregroundH = this.hue;
+                this.foregroundS = 0.72;
+                this.foregroundL = 0.56;
+
+                this._foregroundHSL = { h: this.foregroundH, s: this.foregroundS, l: this.foregroundL };
+
+                // Setting up setting variables
+                this.invertColors = false;
+            }
+
+            get backgroundHSL() {
+                this.updateColorWay();
+                return this._backgroundHSL
+                
+            }
+
+            get foregroundHSL() {
+                this.updateColorWay();
+                return this._foregroundHSL;
+            }
+        }
+
+
         async function searchIcons() {
             const searchString = document.querySelector("#search").value;
             const result = await callAPI(searchString);
@@ -156,9 +208,9 @@
             }
 
 
-            // #0A1423 #3D6EE0
-            const backgroundHSL = { h: parseInt(hue), s: 0.56, l: 0.09 };
-            const foregroundHSL = { h: parseInt(hue), s: 0.72, l: 0.56 };
+            const backgroundHSL = colorWay.backgroundHSL;
+            const foregroundHSL = colorWay.foregroundHSL;
+
             document.documentElement.style.setProperty('--selected-hue', hue)
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -296,6 +348,7 @@
             start();
         });
         document.fonts.onloadingdone = generate;
+        const colorWay = new ColorWay();
 
     </script>
 </body>
