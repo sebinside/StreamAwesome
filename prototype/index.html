@@ -41,6 +41,11 @@
             <div>
                 <label for="hue">Hue </label>
                 <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
+                
+                <label for="inversed">Invert colors</label>
+                <input type="checkbox" id="inversed" oninput="generate()">
+                
+                
             </div>
 
             <div>
@@ -83,6 +88,7 @@
                 const hue = document.getElementById("hue").value;
                 this.hue = parseInt(hue);
 
+                // Setting up color variables
                 // #0A1423 #3D6EE0
                 this.backgroundH = this.hue;
                 this.backgroundS = 0.56;
@@ -93,12 +99,15 @@
                 this.foregroundS = 0.72;
                 this.foregroundL = 0.56;
                 this._foregroundHSL;
+
+                // Setting up setting variables
+                this.invertColors = false;
             }
 
             updateColorWay() {
 
-                // Setting up color variables
                 const hue = document.getElementById("hue").value;
+                
                 this.hue = parseInt(hue);
 
                 this.backgroundH = this.hue;
@@ -113,19 +122,20 @@
 
                 this._foregroundHSL = { h: this.foregroundH, s: this.foregroundS, l: this.foregroundL };
 
-                // Setting up setting variables
-                this.invertColors = false;
+                const inversed = document.getElementById("inversed");
+                this.invertColors = inversed.checked;
             }
 
             get backgroundHSL() {
                 this.updateColorWay();
-                return this._backgroundHSL
-                
+                if (this.invertColors) { return this._backgroundHSL; }
+                else { return this._foregroundHSL; }
             }
 
             get foregroundHSL() {
                 this.updateColorWay();
-                return this._foregroundHSL;
+                if (this.invertColors) { return this._foregroundHSL; }
+                else { return this._backgroundHSL; }
             }
         }
 
