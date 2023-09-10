@@ -41,6 +41,18 @@
             <div>
                 <label for="hue">Hue </label>
                 <input type="range" id="hue" max=360 min=0 value=216 oninput="generate()">
+                
+                <label for="inversed">Invert colors</label>
+                <input type="checkbox" id="inversed" oninput="generate()">
+
+                <label for="harmonyRule">Select a harmony rule</label>
+                <select id="harmonyRule" name="harmonyRule" oninput="generate()">
+                    <option value="Monochromatic">Monochromatic</option>
+                    <option value="Complementary">Complementary</option>
+                    <!-- Other options loaded later -->
+                </select>
+                
+                
             </div>
 
             <div>
@@ -77,6 +89,85 @@
         let exactVersionNumber = '6.4.0';
         let versionNumber = '6';
         let versionType = 'Free';
+
+        class ColorWay {
+            constructor() {
+                const hue = document.getElementById("hue").value;
+                this.hue = parseInt(hue);
+
+                // Setting up color variables
+                // #0A1423 #3D6EE0
+                this.backgroundH = this.hue;
+                this.backgroundS = 0.56;
+                this.backgroundL = 0.09;
+                this._backgroundHSL;
+                
+                this.foregroundH = this.hue;
+                this.foregroundS = 0.72;
+                this.foregroundL = 0.56;
+                this._foregroundHSL;
+
+                // Setting up setting variables
+                this.invertColors = false;
+            }
+
+            updateColorWay() {
+
+                const hue = document.getElementById("hue").value;
+                
+                this.hue = parseInt(hue);
+
+                const harmonyRule = document.getElementById("harmonyRule").value;
+
+                if (harmonyRule == "Monochromatic") {this.generateMonochromaticColors()}
+                if (harmonyRule == "Complementary") {this.generateComplementaryColors()}
+
+                const inversed = document.getElementById("inversed");
+                this.invertColors = inversed.checked;
+            }
+
+            generateMonochromaticColors() {
+                this.backgroundH = this.hue;
+                this.backgroundS = 0.56;
+                this.backgroundL = 0.09;
+                
+                this._backgroundHSL = { h: this.backgroundH, s: this.backgroundS, l: this.backgroundL };
+                
+                this.foregroundH = this.hue;
+                this.foregroundS = 0.72;
+                this.foregroundL = 0.56;
+
+                this._foregroundHSL = { h: this.foregroundH, s: this.foregroundS, l: this.foregroundL };
+            }
+
+
+            generateComplementaryColors() {
+                this.backgroundH = this.hue;
+                this.backgroundS = 0.77;
+                this.backgroundL = 0.09;
+                
+                this._backgroundHSL = { h: this.backgroundH, s: this.backgroundS, l: this.backgroundL };
+                
+                this.foregroundH = (this.hue + 180) % 360;
+                this.foregroundS = 0.87;
+                this.foregroundL = 0.56;
+
+                this._foregroundHSL = { h: this.foregroundH, s: this.foregroundS, l: this.foregroundL };
+            }
+
+            get backgroundHSL() {
+                this.updateColorWay();
+                if (this.invertColors) { return this._backgroundHSL; }
+                else { return this._foregroundHSL; }
+            }
+
+            get foregroundHSL() {
+                this.updateColorWay();
+                if (this.invertColors) { return this._foregroundHSL; }
+                else { return this._backgroundHSL; }
+            }
+        }
+
 
         async function searchIcons() {
             const searchString = document.querySelector("#search").value;
@@ -156,9 +247,9 @@
             }
 
 
-            // #0A1423 #3D6EE0
-            const backgroundHSL = { h: parseInt(hue), s: 0.56, l: 0.09 };
-            const foregroundHSL = { h: parseInt(hue), s: 0.72, l: 0.56 };
+            const backgroundHSL = colorWay.backgroundHSL;
+            const foregroundHSL = colorWay.foregroundHSL;
+
             document.documentElement.style.setProperty('--selected-hue', hue)
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -296,6 +387,7 @@
             start();
         });
         document.fonts.onloadingdone = generate;
+        const colorWay = new ColorWay();
 
     </script>
 </body>
