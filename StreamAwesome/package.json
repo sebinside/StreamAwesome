@@ -46,8 +46,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,vue}": [
-      "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-      "prettier --write src/"
+      "npm run lint",
+      "npm run format"
     ]
   }
 }
