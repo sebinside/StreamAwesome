@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/StreamAwesome"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "Dependency"
+      
