@@ -12,7 +12,7 @@ const x = ref(3 + 8)
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
-      <h1 class="text-5xl font-thin underline text-blue-600">Hello world {{ x }}!</h1>
+      <h1 class="text-5xl font-thin text-blue-600 underline">Hello world {{ x }}!</h1>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
