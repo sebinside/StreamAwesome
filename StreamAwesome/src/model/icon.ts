@@ -1,3 +1,4 @@
+// TODO: Add more properties to Icon
 export default interface Icon {
   backgroundColor: string
   foregroundColor: string
