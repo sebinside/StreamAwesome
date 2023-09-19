@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import IconCanvas from './IconCanvas.vue'
-import type Icon from '../model/Icon'
+import type Icon from '../model/icon'
 
 function alertHelloWorld() {
   window.alert('Hello World!')
@@ -20,3 +20,4 @@ const sampleIcon: Icon = {
   <IconCanvas :icon="sampleIcon" />
   <button @click="alertHelloWorld">Generate icon</button>
 </template>
+../model/icon
