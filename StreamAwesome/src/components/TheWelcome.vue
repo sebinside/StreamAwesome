@@ -14,7 +14,7 @@ const sampleIcon: Icon = {
 </script>
 
 <template>
-  <h1 class="text-3xl font-bold">Stream Awesome</h1>
+  <h1 class="text-3xl font-bold">Stream Awesome <i class="fa-solid fa-square-question"></i></h1>
   <RouterLink to="/about">About</RouterLink>
 
   <IconCanvas :icon="sampleIcon" />
