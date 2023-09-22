@@ -12,6 +12,13 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
+
+      - name: Clone font overwrites
+        uses: actions/checkout@v2
+        with:
+          repository: sebinside/StreamAwesome-Overwrites
+          path: StreamAwesome/public/fonts
+          token: ${{ secrets.TOKEN }}
       
       - uses: actions/setup-node@v3
         with:
@@ -24,7 +31,11 @@ jobs:
           npm run build
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.4.0
+        uses: burnett01/rsync-deployments@4.1
         with:
-          branch: gh-pages
-          folder: StreamAwesome/dist
+          switches: -avzr --delete
+          path: StreamAwesome/dist/
+          remote_path: /home/${{ secrets.USERNAME }}/html/${{ vars.TARGET }}
+          remote_host: ${{ secrets.SERVER }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.PRIVATE_KEY }}
