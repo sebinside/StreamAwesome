@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import IconCanvas from './IconCanvas.vue'
-import type Icon from '../model/icon'
-
-function alertHelloWorld() {
-  window.alert('Hello World!')
-}
+import type Icon from '@/model/icon'
 
 const sampleIcon: Icon = {
   backgroundColor: '#0b1524',
   foregroundColor: '#4982dd',
-  symbol: 'f013'
+  symbol: 'f013',
+  fontSize: 180,
+  fontAwesomeFontFamily: 'Pro'
 }
 </script>
 
@@ -18,6 +16,4 @@ const sampleIcon: Icon = {
   <RouterLink to="/about">About</RouterLink>
 
   <IconCanvas :icon="sampleIcon" />
-  <button @click="alertHelloWorld">Generate icon</button>
 </template>
-../model/icon
