@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import IconCanvas from './IconCanvas.vue'
-import type Icon from '@/model/icon'
+import HueSelector from './HueSelector.vue'
+import { useIconsStore } from '@/stores/icons'
+import chroma from 'chroma-js'
 
-const sampleIcon: Icon = {
-  backgroundColor: '#0b1524',
-  foregroundColor: '#4982dd',
-  symbol: 'f013',
-  fontSize: 180,
-  fontAwesomeFontFamily: 'Pro'
+const iconStore = useIconsStore()
+
+function udpateHue(hue: number) {
+  const foregroundColor = chroma(iconStore.currentIcon.foregroundColor)
+  const backgroundColor = chroma(iconStore.currentIcon.backgroundColor)
+  iconStore.currentIcon.foregroundColor = foregroundColor.set('hsl.h', hue).hex()
+  iconStore.currentIcon.backgroundColor = backgroundColor.set('hsl.h', hue).hex()
 }
 </script>
 
@@ -15,5 +18,6 @@ const sampleIcon: Icon = {
   <h1 class="text-3xl font-bold">Stream Awesome <i class="fa-solid fa-square-question"></i></h1>
   <RouterLink to="/about">About</RouterLink>
 
-  <IconCanvas :icon="sampleIcon" />
+  <IconCanvas :icon="iconStore.currentIcon" /><br />
+  <HueSelector :value="216" @input="udpateHue" />
 </template>

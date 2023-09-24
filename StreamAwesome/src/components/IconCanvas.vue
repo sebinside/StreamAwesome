@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type Icon from '@/model/icon'
 import IconGenerator from '@/logic/generator'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useFontsInfoStore } from '@/stores/fontsInfo'
 
 const fontsInfoStore = useFontsInfoStore()
@@ -28,8 +28,14 @@ onMounted(() => {
 
 function callGenerator() {
   if (props.icon && iconCanvas.value) {
-    new IconGenerator(iconCanvas.value).generateIcon(props.icon)
-    console.log('called generator')
+    const iconGenerator = new IconGenerator(iconCanvas.value)
+    iconGenerator.generateIcon(props.icon)
+
+    watch(props.icon, () => {
+      if (props.icon) {
+        iconGenerator.generateIcon(props.icon)
+      }
+    })
   }
 }
 </script>
