@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type Icon from '@/model/icon'
+import type { Icon } from '@/model/icon'
 import IconGenerator from '@/logic/generator'
 import { onMounted, ref, watch } from 'vue'
 import { useFontsInfoStore } from '@/stores/fontsInfo'

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import IconCanvas from './IconCanvas.vue'
 import HueSelector from './HueSelector.vue'
+import IconSettings from './IconSettings.vue'
 import { useIconsStore } from '@/stores/icons'
 import chroma from 'chroma-js'
 
@@ -19,5 +20,6 @@ function udpateHue(hue: number) {
   <RouterLink to="/about">About</RouterLink>
 
   <IconCanvas :icon="iconStore.currentIcon" /><br />
-  <HueSelector :value="216" @input="udpateHue" />
+  <HueSelector :value="216" @input="udpateHue" /><br />
+  <IconSettings :icon="iconStore.currentIcon"></IconSettings>
 </template>
