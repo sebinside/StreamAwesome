@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useFontsInfoStore } from '@/stores/fontsInfo'
-const fontsInfoStore = useFontsInfoStore()
-document.fonts.onloadingdone = () => fontsInfoStore.setFontsLoaded(true)
+import { useFontsStatusStore } from '@/stores/fontStatus'
+const fontStatusStore = useFontsStatusStore()
+document.fonts.onloadingdone = () => fontStatusStore.setFontsLoaded()
 </script>
 
 <template>
@@ -21,3 +21,4 @@ document.fonts.onloadingdone = () => fontsInfoStore.setFontsLoaded(true)
   visibility: hidden;
 }
 </style>
+@/stores/fontStatus

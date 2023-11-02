@@ -2,9 +2,9 @@
 import type { Icon } from '@/model/icon'
 import IconGenerator from '@/logic/generator'
 import { onMounted, ref, watch } from 'vue'
-import { useFontsInfoStore } from '@/stores/fontsInfo'
+import { useFontsStatusStore } from '@/stores/fontStatus'
 
-const fontsInfoStore = useFontsInfoStore()
+const fontStatustore = useFontsStatusStore()
 const iconCanvas = ref<HTMLCanvasElement | null>(null)
 const props = defineProps({
   icon: {
@@ -13,20 +13,24 @@ const props = defineProps({
 })
 
 onMounted(() => {
+  waitForRequiredInitialization(createGenerator)
+})
+
+function waitForRequiredInitialization(callback: () => void) {
   if (iconCanvas.value) {
-    if (fontsInfoStore.fontsLoaded) {
-      callGenerator()
+    if (fontStatustore.fontsLoaded) {
+      callback()
     } else {
-      fontsInfoStore.$subscribe((_, state) => {
+      fontStatustore.$subscribe((_, state) => {
         if (state.fontsLoaded) {
-          callGenerator()
+          callback()
         }
       })
     }
   }
-})
+}
 
-function callGenerator() {
+function createGenerator() {
   if (props.icon && iconCanvas.value) {
     const iconGenerator = new IconGenerator(iconCanvas.value)
     iconGenerator.generateIcon(props.icon)
@@ -48,6 +52,5 @@ function callGenerator() {
     height="256"
     class="rounded-3xl border border-cyan-500"
   ></canvas>
-  <p>Recevied {{ icon?.symbol || 'no icon' }}</p>
-  <button @click="callGenerator">Generate icon</button>
 </template>
+@/stores/fontStatus

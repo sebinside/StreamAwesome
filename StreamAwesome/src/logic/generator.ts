@@ -14,15 +14,14 @@ export default class IconGenerator {
     }
   }
 
+  generateIcon(icon: Icon) {
+    this.fillBackground(icon.backgroundColor)
+    this.drawIcon(icon)
+  }
+
   private fillBackground(backgroundColor: string): void {
-    const canvasStartIndex = 0
     this.renderingContext.fillStyle = backgroundColor
-    this.renderingContext.fillRect(
-      canvasStartIndex,
-      canvasStartIndex,
-      this.canvas.width,
-      this.canvas.height
-    )
+    this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
   private drawIcon(icon: Icon): void {
@@ -80,10 +79,5 @@ export default class IconGenerator {
     fontFamily: FontFamily
   ): string {
     return `${fontWeight} ${fontSize}px "${fontFamilyBase} ${fontFamily}"`
-  }
-
-  generateIcon(icon: Icon) {
-    this.fillBackground(icon.backgroundColor)
-    this.drawIcon(icon)
   }
 }

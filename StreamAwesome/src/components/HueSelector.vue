@@ -13,7 +13,9 @@ function emitUpdate() {
 </script>
 
 <template>
-  <label for="hueSelector">Hue </label>
+  <label for="hueSelector" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+    >Hue:</label
+  >
   <input
     type="range"
     id="hueSelector"

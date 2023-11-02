@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useFontsInfoStore = defineStore('fontsInfo', () => {
+export const useFontsStatusStore = defineStore('fontStatus', () => {
   const fontsLoaded = ref(false)
-  function setFontsLoaded(loaded: boolean) {
-    fontsLoaded.value = loaded
+  function setFontsLoaded() {
+    fontsLoaded.value = true
   }
 
   return { fontsLoaded, setFontsLoaded }
