@@ -1,8 +1,8 @@
 import './style.css'
-import '../public/fonts/fontawesome/css/all.min.css'
-import '../public/fonts/fontawesome/css/sharp-light.min.css'
-import '../public/fonts/fontawesome/css/sharp-regular.min.css'
-import '../public/fonts/fontawesome/css/sharp-solid.min.css'
+import '../fonts/fontawesome/css/all.min.css'
+import '../fonts/fontawesome/css/sharp-light.min.css'
+import '../fonts/fontawesome/css/sharp-regular.min.css'
+import '../fonts/fontawesome/css/sharp-solid.min.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

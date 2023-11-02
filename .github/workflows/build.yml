@@ -12,11 +12,11 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
 
-      - name: Clone font overwrites
+      - name: Clone Font Awesome Overwrites ✌️
         uses: actions/checkout@v2
         with:
           repository: sebinside/StreamAwesome-Overwrites
-          path: StreamAwesome/public/fonts
+          path: StreamAwesome/fonts
           token: ${{ secrets.TOKEN }}
       
       - uses: actions/setup-node@v3

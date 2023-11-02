@@ -2,7 +2,7 @@
 import type { Icon } from '@/model/icon'
 import HueSelector from './HueSelector.vue'
 import chroma from 'chroma-js'
-import { defineProps, reactive } from 'vue'
+import { reactive } from 'vue'
 const props = defineProps({
   icon: {
     type: Object as () => Icon
