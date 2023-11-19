@@ -8,7 +8,9 @@ const fontAwesomeBrowser = new FontAwesomeBrowser(
   fontStatusStore.fontAwesomeInfo.fontLicense
 )
 
-fontAwesomeBrowser.callAPI('Car')
+fontAwesomeBrowser.getAvailableIcons('Car').then((icons) => {
+  console.log(icons)
+})
 </script>
 
 <template>
