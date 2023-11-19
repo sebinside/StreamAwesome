@@ -2,9 +2,11 @@ import type { Icon, FontFamily, FontWeight } from '@/model/icon'
 
 export default class IconGenerator {
   private renderingContext: CanvasRenderingContext2D
-  private readonly fontFamilyBase = 'Font Awesome 6'
 
-  public constructor(private readonly canvas: HTMLCanvasElement) {
+  public constructor(
+    private readonly canvas: HTMLCanvasElement,
+    private readonly fontFamilyBase: string
+  ) {
     const context = canvas.getContext('2d')
 
     if (context == null) {
