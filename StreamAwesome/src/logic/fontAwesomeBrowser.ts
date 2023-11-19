@@ -8,6 +8,7 @@ export class FontAwesomeBrowser {
 
   private fontAwesomeAPIEndpoint = 'https://api.fontawesome.com'
   private searchDetails = 'id\nlabel\nunicode\nmembership'
+  // TODO: Update membership to https://fontawesome.com/docs/apis/graphql/objects#familystylesbylicense
 
   public async getAvailableIcons(
     searchTerm: string,
