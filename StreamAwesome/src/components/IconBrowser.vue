@@ -3,12 +3,9 @@ import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import { useFontsStatusStore } from '@/stores/fontStatus'
 
 const fontStatusStore = useFontsStatusStore()
-const fontAwesomeBrowser = new FontAwesomeBrowser(
-  fontStatusStore.fontAwesomeInfo.fontVersion,
-  fontStatusStore.fontAwesomeInfo.fontLicense
-)
+const fontAwesomeBrowser = new FontAwesomeBrowser(fontStatusStore.fontAwesomeInfo.fontVersion)
 
-fontAwesomeBrowser.getAvailableIcons('Car').then((icons) => {
+fontAwesomeBrowser.getAvailableIcons('github').then((icons) => {
   console.log(icons)
 })
 </script>
