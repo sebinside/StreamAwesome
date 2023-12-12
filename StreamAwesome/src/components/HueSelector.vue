@@ -59,6 +59,6 @@ input[type='range']::-moz-range-thumb {
   outline: 2px solid transparent;
   border: none;
   border-radius: 0.25rem;
-  background-color: hsl(var(--selected-hue), 72%, 56%);
+  background-color: hsl(v-bind('currentValue'), 72%, 56%);
 }
 </style>
