@@ -19,7 +19,8 @@ import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { useIconsStore } from '@/stores/icons'
 import TypeCaster from '@/logic/typeCaster'
-const fontAwesomeBrowser = new FontAwesomeBrowser('6.5.1')
+import { useFontsStatusStore } from '@/stores/fontStatus'
+
 export default {
   data() {
     return {
@@ -29,6 +30,8 @@ export default {
   },
   methods: {
     async queryIcons(query: string) {
+      const fontStatusStore = useFontsStatusStore()
+      const fontAwesomeBrowser = new FontAwesomeBrowser(fontStatusStore.fontAwesomeInfo.fontVersion)
       let icons = await fontAwesomeBrowser.getAvailableIcons(query)
       this.availableIcons = icons.filter((icon) => icon.isFree())
       console.log(this.availableIcons)
