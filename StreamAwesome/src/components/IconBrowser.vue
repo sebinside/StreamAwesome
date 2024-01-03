@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { useIconsStore } from '@/stores/icons'
 import TypeCaster from '@/logic/typeCaster'
 import { useFontsStatusStore } from '@/stores/fontStatus'
-import { reactive, ref, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 
-let availableIcons: FontAwesomeIcon[] = reactive([])
+let availableIcons: Ref<FontAwesomeIcon[]> = ref([])
 
 function selectIcon(icon: FontAwesomeIcon) {
   const iconStore = useIconsStore()
@@ -21,8 +21,7 @@ async function queryIcons(query: string) {
   const fontStatusStore = useFontsStatusStore()
   const fontAwesomeBrowser = new FontAwesomeBrowser(fontStatusStore.fontAwesomeInfo.fontVersion)
   let icons = await fontAwesomeBrowser.getAvailableIcons(query)
-  availableIcons = icons.filter((icon) => icon.isFree())
-  console.log(availableIcons)
+  availableIcons.value = icons.filter((icon) => icon.isFree())
 }
 </script>
 <template>
