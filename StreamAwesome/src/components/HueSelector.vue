@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { ref, type Ref } from 'vue'
+
+const props = defineProps({
+  value: {
+    default: 0,
+    type: Number
+  }
+})
+defineEmits(['input'])
+
+const currentValue: Ref<Number> = ref(props.value)
+</script>
+
 <template>
   <label for="hueSelector" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
     >Hue:</label
@@ -11,21 +25,7 @@
     @input="$emit('input', currentValue)"
   />
 </template>
-<script lang="ts">
-export default {
-  props: {
-    value: {
-      default: 0
-    }
-  },
-  data() {
-    return {
-      currentValue: this.value
-    }
-  },
-  emits: ['input']
-}
-</script>
+
 <style scoped>
 #hueSelector {
   display: block;

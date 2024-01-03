@@ -1,36 +1,36 @@
-<template>
-  <span>{{ unicodeString }}</span>
-</template>
-<script lang="ts">
+<script setup lang="ts">
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import type { PropType } from 'vue'
+import { computed, type ComputedRef } from 'vue'
 import { useFontsStatusStore } from '@/stores/fontStatus'
 import TypeCaster from '@/logic/typeCaster'
 import { useIconsStore } from '@/stores/icons'
-export default {
-  props: {
-    icon: {
-      required: true,
-      type: Object as PropType<FontAwesomeIcon>
-    }
-  },
-  computed: {
-    unicodeString() {
-      return String.fromCharCode(parseInt(this.icon.unicode, 16))
-    },
-    cssFontString() {
-      const fontStatusStore = useFontsStatusStore()
-      return `"${fontStatusStore.fontAwesomeInfo.fontFamilyBase} ${TypeCaster.fontFamilyFromIcon(
-        this.icon
-      )}"`
-    },
-    cssFontWeight() {
-      const iconStore = useIconsStore()
-      return iconStore.currentIcon.fontWeight
-    }
+import type { FontWeight } from '@/model/icon'
+
+const iconStore = useIconsStore()
+const fontStatusStore = useFontsStatusStore()
+
+const props = defineProps({
+  icon: {
+    required: true,
+    type: Object as () => FontAwesomeIcon
   }
-}
+})
+
+const unicodeString: ComputedRef<string> = computed(() => {
+  return String.fromCharCode(parseInt(props.icon.unicode, 16))
+})
+const cssFontString: ComputedRef<string> = computed(() => {
+  return `"${fontStatusStore.fontAwesomeInfo.fontFamilyBase} ${TypeCaster.fontFamilyFromIcon(
+    props.icon
+  )}"`
+})
+const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
+  return iconStore.currentIcon.fontWeight
+})
 </script>
+<template>
+  <span>{{ unicodeString }}</span>
+</template>
 <style scoped>
 span {
   font-family: v-bind('cssFontString');
