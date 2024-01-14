@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import FontLoader from './components/FontLoader.vue'
+import FontLoader from '@/components/utils/FontLoader.vue'
 </script>
 
 <template>

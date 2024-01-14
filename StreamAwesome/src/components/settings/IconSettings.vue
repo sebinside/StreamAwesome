@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CustomIcon } from '@/model/customIcon'
-import HueSelector from './HueSelector.vue'
+import HueSelector from '@/components/settings/HueSelector.vue'
 import chroma from 'chroma-js'
 import { reactive } from 'vue'
 const props = defineProps({

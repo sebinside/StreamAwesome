@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import InputGroup from './InputGroup.vue'
-import Icon from './IconDisplay.vue'
+import InputGroup from '@/components/browser/InputGroup.vue'
+import Icon from '@/components/browser/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'

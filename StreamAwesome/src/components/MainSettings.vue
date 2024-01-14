@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import IconBrowser from './IconBrowser.vue'
-import IconCanvas from './IconCanvas.vue'
-import IconSettings from './IconSettings.vue'
+import IconBrowser from '@/components/browser/IconBrowser.vue'
+import IconCanvas from '@/components/IconCanvas.vue'
+import IconSettings from '@/components/settings/IconSettings.vue'
 import { useIconsStore } from '@/stores/icons'
 
 const iconStore = useIconsStore()

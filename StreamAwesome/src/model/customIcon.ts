@@ -1,4 +1,4 @@
-import type { FontFamilySuffix, FontWeight } from './fontAwesomeIcon'
+import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeIcon'
 
 export interface CustomIcon {
   backgroundColor: string
