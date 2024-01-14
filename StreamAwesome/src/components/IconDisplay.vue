@@ -25,6 +25,8 @@ const cssFontString: ComputedRef<string> = computed(() => {
 const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
   return iconStore.currentIcon.fontWeight
 })
+
+// TODO: Add switch for stream deck look
 </script>
 <template>
   <span>{{ unicodeString }}</span>

@@ -8,7 +8,8 @@ defineProps({
     type: String
   },
   modelValue: {
-    required: false
+    required: false,
+    default: 'video'
   }
 })
 defineEmits(['update:modelValue'])

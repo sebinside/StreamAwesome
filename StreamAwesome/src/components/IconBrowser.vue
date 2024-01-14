@@ -26,6 +26,11 @@ async function queryIcons(query: string) {
   let icons = await fontAwesomeBrowser.getAvailableIcons(query)
   availableIcons.value = icons.filter((icon) => icon.isFree())
 }
+
+// TODO: Find better way to do this
+queryIcons('video')
+
+// TODO: Add insipre me button
 </script>
 <template>
   <InputGroup label="Search:" inputId="iconBrowser" @input="queryIcons($event.target.value)" />

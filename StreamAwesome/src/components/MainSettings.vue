@@ -8,7 +8,13 @@ const iconStore = useIconsStore()
 </script>
 
 <template>
-  <IconCanvas :icon="iconStore.currentIcon" class="mb-5 mt-5" />
-  <IconSettings :icon="iconStore.currentIcon" />
-  <IconBrowser />
+  <div class="grid grid-cols-3 gap-4">
+    <div style="max-width: 256px">
+      <IconCanvas :icon="iconStore.currentIcon" class="mb-5 mt-5" />
+      <IconSettings :icon="iconStore.currentIcon" />
+    </div>
+    <div class="col-span-2">
+      <IconBrowser />
+    </div>
+  </div>
 </template>
