@@ -6,7 +6,7 @@ on:
   types: [opened, synchronize, reopened]
       
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
