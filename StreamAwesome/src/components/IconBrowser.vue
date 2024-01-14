@@ -12,6 +12,13 @@ const iconStore = useIconsStore()
 
 function selectIcon(icon: FontAwesomeIcon) {
   iconStore.currentIcon.symbol = icon.unicode
+
+  // TODO: Rework this to be more dynamic once Duotone support is added
+  if (icon.isBrand()) {
+    iconStore.currentIcon.fontAwesomeFontFamilySuffix = 'Brands'
+  } else {
+    iconStore.currentIcon.fontAwesomeFontFamilySuffix = FontAwesomeIcon.fontVersionInfo.fontLicense
+  }
 }
 
 async function queryIcons(query: string) {

@@ -17,8 +17,9 @@ const unicodeString: ComputedRef<string> = computed(() => {
   return String.fromCharCode(parseInt(props.icon.unicode, 16))
 })
 const cssFontString: ComputedRef<string> = computed(() => {
+  // TODO: Rework this to be more dynamic once Duotone support is added
   return `"${FontAwesomeIcon.fontVersionInfo.fontFamilyBase} ${
-    props.icon.isBrand() ? 'Brands' : iconStore.currentIcon.fontAwesomeFontFamilySuffix
+    props.icon.isBrand() ? 'Brands' : FontAwesomeIcon.fontVersionInfo.fontLicense
   }"`
 })
 const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
