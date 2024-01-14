@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { Icon } from '@/model/icon'
+import type { CustomIcon } from '@/model/customIcon'
 import IconGenerator from '@/logic/generator'
 import { onMounted, ref, watch } from 'vue'
 import { useFontsStatusStore } from '@/stores/fontStatus'
+import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 
 const fontStatusStore = useFontsStatusStore()
 const iconCanvas = ref<HTMLCanvasElement | null>(null)
 const props = defineProps({
   icon: {
-    type: Object as () => Icon
+    type: Object as () => CustomIcon
   }
 })
 
@@ -34,7 +35,7 @@ function createGenerator() {
   if (props.icon && iconCanvas.value) {
     const iconGenerator = new IconGenerator(
       iconCanvas.value,
-      fontStatusStore.fontAwesomeInfo.fontFamilyBase
+      FontAwesomeIcon.fontVersionInfo.fontFamilyBase
     )
     iconGenerator.generateIcon(props.icon)
 
@@ -56,3 +57,4 @@ function createGenerator() {
     class="rounded-3xl border border-cyan-500"
   ></canvas>
 </template>
+@/model/customIcon

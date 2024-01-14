@@ -1,14 +1,14 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
-import type { Icon } from '@/model/icon'
+import type { CustomIcon } from '@/model/customIcon'
 
 export const useIconsStore = defineStore('icons', () => {
-  const currentIcon: Icon = reactive({
+  const currentIcon: CustomIcon = reactive({
     backgroundColor: '#0b1524',
     foregroundColor: '#4982dd',
     symbol: 'f013',
     fontSize: 180,
-    fontAwesomeFontFamily: 'Pro',
+    fontAwesomeFontFamilySuffix: 'Pro',
     fontWeight: 900
   })
 

@@ -1,25 +1,21 @@
 <script setup lang="ts">
-import InputGroup from './partials/InputGroup.vue'
-import Icon from './partials/IconDisplay.vue'
+import InputGroup from './InputGroup.vue'
+import Icon from './IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { useIconsStore } from '@/stores/icons'
-import TypeCaster from '@/logic/typeCaster'
-import { useFontsStatusStore } from '@/stores/fontStatus'
 import { ref, type Ref } from 'vue'
 
 let availableIcons: Ref<FontAwesomeIcon[]> = ref([])
+const iconStore = useIconsStore()
 
 function selectIcon(icon: FontAwesomeIcon) {
-  const iconStore = useIconsStore()
   iconStore.currentIcon.symbol = icon.unicode
-  iconStore.currentIcon.fontAwesomeFontFamily = TypeCaster.fontFamilyFromIcon(icon)
 }
 
 async function queryIcons(query: string) {
-  const fontStatusStore = useFontsStatusStore()
-  const fontAwesomeBrowser = new FontAwesomeBrowser(fontStatusStore.fontAwesomeInfo.fontVersion)
+  const fontAwesomeBrowser = new FontAwesomeBrowser(FontAwesomeIcon.fontVersionInfo.fontVersion)
   let icons = await fontAwesomeBrowser.getAvailableIcons(query)
   availableIcons.value = icons.filter((icon) => icon.isFree())
 }

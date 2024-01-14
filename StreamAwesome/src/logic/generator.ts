@@ -1,4 +1,5 @@
-import type { Icon, FontFamily, FontWeight } from '@/model/icon'
+import type { CustomIcon } from '@/model/customIcon'
+import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeIcon'
 
 export default class IconGenerator {
   private renderingContext: CanvasRenderingContext2D
@@ -16,7 +17,7 @@ export default class IconGenerator {
     }
   }
 
-  generateIcon(icon: Icon) {
+  generateIcon(icon: CustomIcon) {
     this.fillBackground(icon.backgroundColor)
     this.drawIcon(icon)
   }
@@ -26,11 +27,11 @@ export default class IconGenerator {
     this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
   }
 
-  private drawIcon(icon: Icon): void {
+  private drawIcon(icon: CustomIcon): void {
     const centerOfCanvas = this.canvas.width / 2
     const iconCode = this.calculateIcon(icon.symbol)
 
-    this.setupFont(icon.symbol, icon.fontSize, icon.fontWeight, icon.fontAwesomeFontFamily)
+    this.setupFont(icon.symbol, icon.fontSize, icon.fontWeight, icon.fontAwesomeFontFamilySuffix)
 
     this.renderingContext.fillStyle = icon.foregroundColor
     this.renderingContext.fillText(iconCode, centerOfCanvas, centerOfCanvas)
@@ -44,7 +45,7 @@ export default class IconGenerator {
     iconUnicode: string,
     fontSize: number,
     fontWeight: FontWeight,
-    font: FontFamily
+    font: FontFamilySuffix
   ): void {
     this.renderingContext.textBaseline = 'middle'
     this.renderingContext.textAlign = 'center'
@@ -62,7 +63,7 @@ export default class IconGenerator {
     iconUnicode: string,
     fontSize: number,
     fontWeight: FontWeight,
-    font: FontFamily
+    font: FontFamilySuffix
   ) {
     const textMetrics = this.renderingContext.measureText(this.calculateIcon(iconUnicode))
     const normalizedFontSize = Math.min(fontSize, fontSize * ((fontSize + 5) / textMetrics.width))
@@ -78,7 +79,7 @@ export default class IconGenerator {
     fontSize: number,
     fontWeight: number,
     fontFamilyBase: string,
-    fontFamily: FontFamily
+    fontFamily: FontFamilySuffix
   ): string {
     return `${fontWeight} ${fontSize}px "${fontFamilyBase} ${fontFamily}"`
   }

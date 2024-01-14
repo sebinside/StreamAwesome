@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { Icon } from '@/model/icon'
+import type { CustomIcon } from '@/model/customIcon'
 import HueSelector from './HueSelector.vue'
 import chroma from 'chroma-js'
 import { reactive } from 'vue'
 const props = defineProps({
   icon: {
-    type: Object as () => Icon
+    type: Object as () => CustomIcon
   }
 })
 
-const currentIcon = reactive(props.icon || ({} as Icon))
+const currentIcon = reactive(props.icon || ({} as CustomIcon))
 
 function udpateHue(hue: number) {
   const foregroundColor = chroma(currentIcon.foregroundColor)
@@ -63,3 +63,4 @@ function udpateHue(hue: number) {
     </select>
   </div>
 </template>
+@/model/customIcon

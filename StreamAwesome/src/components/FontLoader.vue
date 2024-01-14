@@ -21,4 +21,3 @@ document.fonts.onloadingdone = () => fontStatusStore.setFontsLoaded()
   visibility: hidden;
 }
 </style>
-@/stores/fontStatus
