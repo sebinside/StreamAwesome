@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
+
 const props = defineProps({
-  value: Number
+  value: {
+    default: 0,
+    type: Number
+  }
 })
+defineEmits(['input'])
 
-let currentValue = ref(props.value)
-const emit = defineEmits(['input'])
-
-function emitUpdate() {
-  emit('input', currentValue.value)
-}
+const currentValue: Ref<Number> = ref(props.value)
 </script>
 
 <template>
@@ -22,7 +22,7 @@ function emitUpdate() {
     max="360"
     min="0"
     v-model="currentValue"
-    @input="emitUpdate"
+    @input="$emit('input', currentValue)"
   />
 </template>
 
@@ -59,6 +59,6 @@ input[type='range']::-moz-range-thumb {
   outline: 2px solid transparent;
   border: none;
   border-radius: 0.25rem;
-  background-color: hsl(var(--selected-hue), 72%, 56%);
+  background-color: hsl(v-bind('currentValue'), 72%, 56%);
 }
 </style>
