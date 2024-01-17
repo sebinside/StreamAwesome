@@ -28,10 +28,11 @@ function udpateHue(hue: number) {
       >Symbol:
     </label>
     <input
+      disabled
       id="iconSymbol"
       type="text"
       v-model="currentIcon.symbol"
-      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
     />
   </div>
   <div class="mt-5">
