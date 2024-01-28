@@ -17,13 +17,14 @@ function udpateHue(hue: number) {
   currentIcon.foregroundColor = foregroundColor.set('hsl.h', hue).hex()
   currentIcon.backgroundColor = backgroundColor.set('hsl.h', hue).hex()
 }
+defineEmits(['downloadIcon'])
 </script>
 
 <template>
   <div>
     <HueSelector :value="chroma(currentIcon.foregroundColor).hsl()[0]" @input="udpateHue" />
   </div>
-  <div class="mt-5">
+  <div class="mt-5 hidden">
     <label for="iconSymbol" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Symbol:
     </label>
@@ -63,5 +64,13 @@ function udpateHue(hue: number) {
       <option value="900">Solid</option>
     </select>
   </div>
+  <div class="mt-5">
+    <button
+      type="button"
+      class="mb-2 me-2 w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-cyan-300 dark:focus:ring-cyan-800"
+      @click="$emit('downloadIcon')"
+    >
+      Download Icon
+    </button>
+  </div>
 </template>
-@/model/customIcon

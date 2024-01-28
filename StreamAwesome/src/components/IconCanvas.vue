@@ -46,6 +46,8 @@ function createGenerator() {
     })
   }
 }
+
+defineEmits(['downloadIcon'])
 </script>
 
 <template>
@@ -54,7 +56,7 @@ function createGenerator() {
     id="symbol"
     width="256"
     height="256"
-    class="rounded-3xl border border-cyan-500"
+    class="cursor-pointer rounded-3xl border border-cyan-500"
+    @click="$emit('downloadIcon')"
   ></canvas>
 </template>
-@/model/customIcon
