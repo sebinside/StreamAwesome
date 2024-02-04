@@ -10,4 +10,6 @@ Generate awesome looking Stream Deck icons like [these](https://www.instagram.co
 1. Clone this repository
 2. Download a recent version of [Font Awesome For The Web](https://fontawesome.com/download)
 3. Extract the folders `css` and `webfonts` into `StreamAwesome/fonts/fontawesome`
-4. Run `npm run dev` from within the `StreamAwesome` folder or use the provided Visual Studio Code config
+4. Run `npm install` from within the `StreamAwesome` folder to install all dependencies
+5. Run `npm run dev` from within the `StreamAwesome` folder or use the provided Visual Studio Code config
+6. Open the displayed localhost port in your web browser
