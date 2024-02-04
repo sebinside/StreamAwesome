@@ -1,5 +1,6 @@
 import type { CustomIcon } from '@/model/customIcon'
 import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeIcon'
+import chroma from 'chroma-js'
 
 export default class IconGenerator {
   private renderingContext: CanvasRenderingContext2D
@@ -34,12 +35,14 @@ export default class IconGenerator {
 
   saveIcon(icon: CustomIcon) {
     this.generateIcon(icon)
-    const image = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    this.applyWatermark()
+    this.updateStats()
 
-    const link = document.createElement('a')
-    link.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`
-    link.href = image
-    link.click()
+    const imageData = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    const linkElement = document.createElement('a')
+    linkElement.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`
+    linkElement.href = imageData
+    linkElement.click()
   }
 
   private fillBackground(backgroundColor: string): void {
@@ -102,5 +105,19 @@ export default class IconGenerator {
     fontFamily: FontFamilySuffix
   ): string {
     return `${fontWeight} ${fontSize}px "${fontFamilyBase} ${fontFamily}"`
+  }
+
+  private updateStats() {
+    fetch('https://skate702.de/StreamAwesomeStats/', { mode: 'no-cors' }).catch()
+  }
+
+  private applyWatermark() {
+    const colorData = this.renderingContext.getImageData(0, this.canvas.height - 1, 1, 1).data
+    const color = chroma(colorData[0], colorData[1], colorData[2])
+
+    this.renderingContext.fillStyle = color.darken(0.1).hex()
+    this.renderingContext.fillRect(0, this.canvas.height - 1, 1, 1)
+    this.renderingContext.fillStyle = color.brighten(0.1).hex()
+    this.renderingContext.fillRect(1, this.canvas.height - 1, 1, 1)
   }
 }
