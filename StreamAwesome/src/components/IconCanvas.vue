@@ -34,8 +34,8 @@ function waitForRequiredInitialization(callback: () => void) {
 function createGenerator() {
   if (props.icon && iconCanvas.value) {
     const iconGenerator = new IconGenerator(
-      iconCanvas.value,
-      FontAwesomeIcon.fontVersionInfo.fontFamilyBase
+      FontAwesomeIcon.fontVersionInfo.fontFamilyBase,
+      iconCanvas.value
     )
     iconGenerator.generateIcon(props.icon)
 

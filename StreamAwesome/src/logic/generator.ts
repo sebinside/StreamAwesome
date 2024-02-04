@@ -4,12 +4,22 @@ import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeIcon'
 export default class IconGenerator {
   private renderingContext: CanvasRenderingContext2D
 
-  public constructor(
-    private readonly canvas: HTMLCanvasElement,
-    private readonly fontFamilyBase: string
-  ) {
-    const context = canvas.getContext('2d')
+  private defaultCanvasSize = 256
+  private readonly canvas: HTMLCanvasElement
 
+  public constructor(
+    private readonly fontFamilyBase: string,
+    canvas?: HTMLCanvasElement
+  ) {
+    if (canvas) {
+      this.canvas = canvas
+    } else {
+      this.canvas = document.createElement('canvas')
+      this.canvas.width = this.defaultCanvasSize
+      this.canvas.height = this.defaultCanvasSize
+    }
+
+    const context = this.canvas.getContext('2d')
     if (context == null) {
       throw new Error('Could not get rendering context from canvas element')
     } else {
@@ -20,6 +30,17 @@ export default class IconGenerator {
   generateIcon(icon: CustomIcon) {
     this.fillBackground(icon.backgroundColor)
     this.drawIcon(icon)
+  }
+
+  saveIcon(icon: CustomIcon) {
+    this.generateIcon(icon)
+    const image = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+
+    // TODO: Implement better naming using color-namer
+    const link = document.createElement('a')
+    link.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`
+    link.href = image
+    link.click()
   }
 
   private fillBackground(backgroundColor: string): void {

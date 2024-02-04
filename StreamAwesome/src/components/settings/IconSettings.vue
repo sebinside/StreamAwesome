@@ -11,18 +11,19 @@ const props = defineProps({
 
 const currentIcon = reactive(props.icon || ({} as CustomIcon))
 
-function udpateHue(hue: number) {
+function updateHue(hue: number) {
   const foregroundColor = chroma(currentIcon.foregroundColor)
   const backgroundColor = chroma(currentIcon.backgroundColor)
   currentIcon.foregroundColor = foregroundColor.set('hsl.h', hue).hex()
   currentIcon.backgroundColor = backgroundColor.set('hsl.h', hue).hex()
 }
 defineEmits(['downloadIcon'])
+// TODO: Refactor icon settings to use Input Group or somewhat similar
 </script>
 
 <template>
   <div>
-    <HueSelector :value="chroma(currentIcon.foregroundColor).hsl()[0]" @input="udpateHue" />
+    <HueSelector :value="chroma(currentIcon.foregroundColor).hsl()[0]" @input="updateHue" />
   </div>
   <div class="mt-5 hidden">
     <label for="iconSymbol" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
