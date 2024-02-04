@@ -18,7 +18,6 @@ function updateHue(hue: number) {
   currentIcon.backgroundColor = backgroundColor.set('hsl.h', hue).hex()
 }
 defineEmits(['downloadIcon'])
-// TODO: Refactor icon settings to use Input Group or somewhat similar
 </script>
 
 <template>

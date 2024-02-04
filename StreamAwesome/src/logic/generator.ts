@@ -36,7 +36,6 @@ export default class IconGenerator {
     this.generateIcon(icon)
     const image = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
 
-    // TODO: Implement better naming using color-namer
     const link = document.createElement('a')
     link.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`
     link.href = image

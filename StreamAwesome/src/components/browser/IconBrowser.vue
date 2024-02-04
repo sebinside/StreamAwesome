@@ -13,7 +13,6 @@ const iconStore = useIconsStore()
 function selectIcon(icon: FontAwesomeIcon) {
   iconStore.currentIcon.symbol = icon.unicode
 
-  // TODO: Rework this to be more dynamic once Duotone support is added
   if (icon.isBrand()) {
     iconStore.currentIcon.fontAwesomeFontFamilySuffix = 'Brands'
   } else {
@@ -27,10 +26,7 @@ async function queryIcons(query: string) {
   availableIcons.value = icons.filter((icon) => icon.isFree())
 }
 
-// TODO: Find better way to do this
 queryIcons('video')
-
-// TODO: Add insipre me button
 </script>
 <template>
   <InputGroup label="Search:" inputId="iconBrowser" @input="queryIcons($event.target.value)" />
