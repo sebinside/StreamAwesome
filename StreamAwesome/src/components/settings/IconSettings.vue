@@ -32,7 +32,7 @@ defineEmits(['downloadIcon'])
       disabled
       id="iconSymbol"
       type="text"
-      v-model="currentIcon.symbol"
+      v-model="currentIcon.unicode"
       class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
     />
   </div>
@@ -58,10 +58,10 @@ defineEmits(['downloadIcon'])
       v-model="currentIcon.fontWeight"
       class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
     >
-      <option value="100">Thin</option>
-      <option value="300">Light</option>
-      <option value="400">Regular</option>
-      <option value="900">Solid</option>
+      <option :value="100">Thin</option>
+      <option :value="300">Light</option>
+      <option :value="400">Regular</option>
+      <option :value="900">Solid</option>
     </select>
   </div>
   <div class="mt-5">
