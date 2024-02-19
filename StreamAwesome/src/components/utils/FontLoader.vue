@@ -18,6 +18,6 @@ document.fonts.onloadingdone = () => fontStatusStore.setFontsLoaded()
 
 <style scoped>
 * {
-  visibility: hidden;
+  display: none;
 }
 </style>
