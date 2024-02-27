@@ -65,6 +65,19 @@ export class FontAwesomeIcon {
         return 400
     }
   }
+
+  static getFontAwesomeStyle(fontWeight: FontWeight): FontAwesomeStyle {
+    switch (fontWeight) {
+      case 100:
+        return 'thin'
+      case 300:
+        return 'light'
+      case 400:
+        return 'regular'
+      case 900:
+        return 'solid'
+    }
+  }
 }
 
 export interface FontAwesomeFamilyStyle {

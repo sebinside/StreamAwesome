@@ -11,7 +11,8 @@ let availableIcons: Ref<FontAwesomeIcon[]> = ref([])
 const iconStore = useIconsStore()
 
 function selectIcon(icon: FontAwesomeIcon) {
-  iconStore.currentIcon.symbol = icon.unicode
+  iconStore.currentIcon.unicode = icon.unicode
+  iconStore.currentIcon.label = icon.label
 
   if (icon.isBrand()) {
     iconStore.currentIcon.fontAwesomeFontFamilySuffix = 'Brands'

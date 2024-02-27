@@ -1,6 +1,7 @@
 import type { CustomIcon } from '@/model/customIcon'
-import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeIcon'
+import { FontAwesomeIcon, type FontFamilySuffix, type FontWeight } from '@/model/fontAwesomeIcon'
 import chroma from 'chroma-js'
+import namer from 'color-namer'
 
 export default class IconGenerator {
   private renderingContext: CanvasRenderingContext2D
@@ -40,9 +41,17 @@ export default class IconGenerator {
 
     const imageData = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
     const linkElement = document.createElement('a')
-    linkElement.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`
+    linkElement.download = `${this.generateIconName(icon)}.png`
     linkElement.href = imageData
     linkElement.click()
+  }
+
+  private generateIconName(icon: CustomIcon): string {
+    const colorName = namer(icon.foregroundColor, { pick: ['html'] }).html[0].name
+    const iconName = icon.label.toLowerCase().replace(/\s/g, '')
+    const fontAwesomeStyle = FontAwesomeIcon.getFontAwesomeStyle(icon.fontWeight)
+
+    return `${iconName}-${colorName}-${fontAwesomeStyle}`
   }
 
   private fillBackground(backgroundColor: string): void {
@@ -52,9 +61,9 @@ export default class IconGenerator {
 
   private drawIcon(icon: CustomIcon): void {
     const centerOfCanvas = this.canvas.width / 2
-    const iconCode = this.calculateIcon(icon.symbol)
+    const iconCode = this.calculateIcon(icon.unicode)
 
-    this.setupFont(icon.symbol, icon.fontSize, icon.fontWeight, icon.fontAwesomeFontFamilySuffix)
+    this.setupFont(icon.unicode, icon.fontSize, icon.fontWeight, icon.fontAwesomeFontFamilySuffix)
 
     this.renderingContext.fillStyle = icon.foregroundColor
     this.renderingContext.fillText(iconCode, centerOfCanvas, centerOfCanvas)
