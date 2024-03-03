@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CustomIcon } from '@/model/customIcon'
 import HueSelector from '@/components/settings/HueSelector.vue'
+import StyleSelector from '@/components/settings/StyleSelector.vue'
 import chroma from 'chroma-js'
 import { reactive } from 'vue'
 const props = defineProps({
@@ -49,6 +50,7 @@ defineEmits(['downloadIcon'])
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
     />
   </div>
+  <StyleSelector />
   <div class="mt-5">
     <label for="iconStyle" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Style:
