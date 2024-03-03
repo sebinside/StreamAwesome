@@ -4,7 +4,7 @@ import MainSettings from '@/components/MainSettings.vue'
 
 <template>
   <main>
-    <h1 class="text-3xl font-bold">
+    <h1 class="text-center text-3xl font-bold md:text-start">
       Stream Awesome
       <span class="text-sm text-gray-400">1.0.0</span>
     </h1>

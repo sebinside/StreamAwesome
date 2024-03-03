@@ -21,6 +21,7 @@ const currentValue: Ref<Number> = ref(props.value)
     id="hueSelector"
     max="360"
     min="0"
+    class="focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
     v-model="currentValue"
     @input="$emit('input', currentValue)"
   />

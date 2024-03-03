@@ -33,11 +33,11 @@ defineEmits(['downloadIcon'])
       id="iconSymbol"
       type="text"
       v-model="currentIcon.unicode"
-      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
+      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
     />
   </div>
   <div class="mt-5">
-    <label for="iconSize" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+    <label for="iconSize" class="mb-[0.5] block text-sm font-medium text-gray-900 dark:text-white"
       >Size:
     </label>
     <input
@@ -46,7 +46,7 @@ defineEmits(['downloadIcon'])
       v-model="currentIcon.fontSize"
       min="50"
       max="250"
-      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 dark:bg-gray-700"
+      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
     />
   </div>
   <div class="mt-5">
@@ -56,7 +56,7 @@ defineEmits(['downloadIcon'])
     <select
       id="iconStyle"
       v-model="currentIcon.fontWeight"
-      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
     >
       <option :value="100">Thin</option>
       <option :value="300">Light</option>
