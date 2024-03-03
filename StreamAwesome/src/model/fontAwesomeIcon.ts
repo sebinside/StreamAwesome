@@ -48,6 +48,8 @@ export class FontAwesomeIcon {
         return 'Duotone'
       case 'sharp':
         return 'Sharp'
+      default:
+        return this.fontVersionInfo.fontLicense
     }
   }
 
@@ -63,6 +65,8 @@ export class FontAwesomeIcon {
         return 100
       case 'brands':
         return 400
+      default:
+        return 900
     }
   }
 
@@ -85,7 +89,11 @@ export interface FontAwesomeFamilyStyle {
   readonly style: FontAwesomeStyle
 }
 
-export type FontAwesomeFamily = 'classic' | 'duotone' | 'sharp'
-export type FontAwesomeStyle = 'solid' | 'regular' | 'light' | 'thin' | 'brands'
-export type FontFamilySuffix = 'Free' | 'Pro' | 'Duotone' | 'Sharp' | 'Brands'
+export const FontAwesomeFamilyKeys = ['classic', 'duotone', 'sharp']
+export const FontAwesomeStyleKeys = ['solid', 'regular', 'light', 'thin', 'brands']
+export const FontFamilySuffixKeys = ['Free', 'Pro', 'Duotone', 'Sharp', 'Brands']
+
+export type FontAwesomeFamily = (typeof FontAwesomeFamilyKeys)[number]
+export type FontAwesomeStyle = (typeof FontAwesomeStyleKeys)[number]
+export type FontFamilySuffix = (typeof FontFamilySuffixKeys)[number]
 export type FontWeight = 100 | 300 | 400 | 900
