@@ -14,7 +14,10 @@ const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
 })
 
 // TODO: Make icon display independent of fontWeight and use this instead (move iconDisplay to Utils before)
-const calculateStyle = (style: string) => [`fa-${props.icon?.fontAwesomeFontFamilySuffix === 'Brands' ? 'brands' : style}`, `fa-${props.icon?.label.toLowerCase().replace(' ', '-')}`]
+const calculateStyle = (style: string) => [
+  `fa-${props.icon?.fontAwesomeFontFamilySuffix === 'Brands' ? 'brands' : style}`,
+  `fa-${props.icon?.label.toLowerCase().replace(' ', '-')}`
+]
 
 defineEmits(['input'])
 </script>

@@ -1,23 +1,43 @@
 <script setup lang="ts">
 import type { CustomIcon } from '@/model/customIcon'
-import HueSelector from '@/components/settings/HueSelector.vue'
+import ColorSelector from '@/components/settings/ColorSelector.vue'
 import StyleSelector from '@/components/settings/StyleSelector.vue'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import chroma from 'chroma-js'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 const props = defineProps({
   icon: {
     type: Object as () => CustomIcon
   }
 })
 
-const currentIcon = reactive(props.icon || ({} as CustomIcon))
+const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
 
-function updateHue(hue: number) {
+const hslValues = chroma(currentIcon.foregroundColor).hsl()
+const hexValue: Ref<string> = ref(
+  chroma(currentIcon.foregroundColor).hex().replace('#', '').toUpperCase()
+)
+
+function updateColorValue(param: { key: 'h' | 's' | 'l'; value: number }) {
+  if (!param.value) return
+
   const foregroundColor = chroma(currentIcon.foregroundColor)
-  const backgroundColor = chroma(currentIcon.backgroundColor)
-  currentIcon.foregroundColor = foregroundColor.set('hsl.h', hue).hex()
-  currentIcon.backgroundColor = backgroundColor.set('hsl.h', hue).hex()
+  currentIcon.foregroundColor = foregroundColor.set('hsl.' + param.key, param.value).hex()
+  currentIcon.backgroundColor = chroma(currentIcon.foregroundColor).darken(4.15).hex()
+}
+
+function updateColorByHex(hex: string) {
+  if (
+    !hex ||
+    !(hex.length == 6 && !hex.startsWith('#')) ||
+    !(hex.length == 7 && hex.startsWith('#'))
+  )
+    return
+
+  const hslColor = chroma(hex.startsWith('#') ? hex : '#' + hex).hsl()
+  updateColorValue({ key: 'h', value: hslColor[0] })
+  updateColorValue({ key: 's', value: hslColor[1] })
+  updateColorValue({ key: 'l', value: hslColor[2] })
 }
 
 function updateStyle(style: string) {
@@ -29,7 +49,14 @@ defineEmits(['downloadIcon'])
 
 <template>
   <div>
-    <HueSelector :value="chroma(currentIcon.foregroundColor).hsl()[0]" @input="updateHue" />
+    <ColorSelector
+      :hue="hslValues[0]"
+      :saturation="hslValues[1]"
+      :lightness="hslValues[2]"
+      @input="updateColorValue"
+      :hex="hexValue"
+      @hexChange="updateColorByHex"
+    />
   </div>
   <div class="mt-5 hidden">
     <label for="iconSymbol" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
