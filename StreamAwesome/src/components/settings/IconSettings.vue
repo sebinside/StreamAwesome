@@ -22,22 +22,25 @@ function updateColorValue(param: { key: 'h' | 's' | 'l'; value: number }) {
   if (!param.value) return
 
   const foregroundColor = chroma(currentIcon.foregroundColor)
-  currentIcon.foregroundColor = foregroundColor.set('hsl.' + param.key, param.value).hex()
+  const newHexColor = foregroundColor.set('hsl.' + param.key, param.value).hex()
+  currentIcon.foregroundColor = newHexColor
+  hexValue.value = newHexColor.replace('#', '').toUpperCase()
   currentIcon.backgroundColor = chroma(currentIcon.foregroundColor).darken(4.15).hex()
 }
 
 function updateColorByHex(hex: string) {
-  if (
-    !hex ||
-    !(hex.length == 6 && !hex.startsWith('#')) ||
-    !(hex.length == 7 && hex.startsWith('#'))
-  )
+  if (!isValidHex(hex)) {
     return
+  }
 
   const hslColor = chroma(hex.startsWith('#') ? hex : '#' + hex).hsl()
   updateColorValue({ key: 'h', value: hslColor[0] })
   updateColorValue({ key: 's', value: hslColor[1] })
   updateColorValue({ key: 'l', value: hslColor[2] })
+}
+
+function isValidHex(hex: string) {
+  return /^#?([0-9A-F]{3}){1,2}$/is.test(hex)
 }
 
 function updateStyle(style: string) {

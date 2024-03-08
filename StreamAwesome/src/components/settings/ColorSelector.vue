@@ -19,6 +19,7 @@ const props = defineProps({
     type: Number
   },
   hex: {
+    default: '#AAAAAA',
     type: String
   }
 })
@@ -44,6 +45,12 @@ const resetColor = (e: Event<HTMLButtonElement>) => {
   emit('input', { key: 's', value: DEFAULT_SATURATION })
   emit('input', { key: 'l', value: DEFAULT_LIGHTNESS })
   e.target.blur()
+}
+
+const onHexInput = (e: Event<HTMLInputElement>) => {
+  const hex = e.target.value
+  currentHex.value = hex
+  emit('hexChange', hex)
 }
 </script>
 
@@ -79,7 +86,7 @@ const resetColor = (e: Event<HTMLButtonElement>) => {
     v-model="currentHue"
     @input="$emit('input', { key: 'h', value: currentHue })"
   />
-  <div v-if="settingsExpanded" class="mt-2">
+  <div v-if="settingsExpanded" class="mt-2 border-l-2 border-l-gray-700 pl-2">
     <label for="saturationSelector" class="block text-sm font-medium text-gray-900 dark:text-white"
       >Saturation:</label
     >
@@ -87,7 +94,7 @@ const resetColor = (e: Event<HTMLButtonElement>) => {
       type="range"
       id="saturationSelector"
       max="1"
-      min="0.1"
+      min="0.05"
       step="0.01"
       class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
       v-model="currentSaturation"
@@ -101,8 +108,8 @@ const resetColor = (e: Event<HTMLButtonElement>) => {
     <input
       type="range"
       id="lightnessSelector"
-      max="0.9"
-      min="0.1"
+      max="0.95"
+      min="0.05"
       step="0.01"
       class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
       v-model="currentLightness"
@@ -118,10 +125,9 @@ const resetColor = (e: Event<HTMLButtonElement>) => {
       <input
         type="text"
         id="hexInput"
-        disabled
-        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 ps-7 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 ps-7 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
         :value="currentHex"
-        @input="$emit('hexChange', $event.target.value)"
+        @input="onHexInput"
       />
     </div>
   </div>
@@ -154,7 +160,7 @@ const resetColor = (e: Event<HTMLButtonElement>) => {
 #saturationSelector {
   background: linear-gradient(
     90deg,
-    hsl(v-bind('currentHue'), 10%, 56%) 0%,
+    hsl(v-bind('currentHue'), 5%, 56%) 0%,
     hsl(v-bind('currentHue'), 100%, 56%) 100%
   );
 }
@@ -162,8 +168,8 @@ const resetColor = (e: Event<HTMLButtonElement>) => {
 #lightnessSelector {
   background: linear-gradient(
     90deg,
-    hsl(v-bind('currentHue'), 72%, 10%) 0%,
-    hsl(v-bind('currentHue'), 72%, 90%) 100%
+    hsl(v-bind('currentHue'), 72%, 5%) 0%,
+    hsl(v-bind('currentHue'), 72%, 95%) 100%
   );
 }
 
