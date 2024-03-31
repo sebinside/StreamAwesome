@@ -8,6 +8,7 @@ on:
       
 jobs:
   build:
+    if: github.actor == 'sebinside' || github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
