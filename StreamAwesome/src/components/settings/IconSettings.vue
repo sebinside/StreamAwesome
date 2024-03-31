@@ -58,22 +58,7 @@ defineEmits(['downloadIcon'])
     />
   </div>
   <StyleSelector :icon="icon" @input="updateStyle" />
-  <div class="mt-5">
-    <label for="iconStyle" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-      >Style:
-    </label>
-    <select
-      id="iconStyle"
-      v-model="currentIcon.fontWeight"
-      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-    >
-      <option :value="100">Thin</option>
-      <option :value="300">Light</option>
-      <option :value="400">Regular</option>
-      <option :value="900">Solid</option>
-    </select>
-  </div>
-  <div class="mt-5">
+  <div class="mt-10">
     <button
       type="button"
       class="mb-2 me-2 w-full rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gradient-to-bl focus:outline-none focus:ring-2 focus:ring-cyan-300 dark:focus:ring-cyan-800"
