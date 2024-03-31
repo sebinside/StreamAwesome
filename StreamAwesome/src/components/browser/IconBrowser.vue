@@ -38,6 +38,7 @@ queryIcons('video')
       :key="icon.id"
       :iconUnicode="icon.unicode"
       :isBrandIcon="icon.isBrand()"
+      :title="icon.label"
       class="cursor-pointer rounded bg-slate-900 p-2 text-xl hover:text-blue-500 focus:text-blue-500"
     ></Icon>
   </div>

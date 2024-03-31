@@ -21,7 +21,7 @@ defineEmits(['input'])
   <p for="iconSymbol" class="mb-3 mt-2 block text-sm font-medium text-gray-900 dark:text-white">
     Style:
   </p>
-  <div class="inline-flex rounded-md shadow-sm" id="styleSelector">
+  <div class="rounded-md shadow-sm" id="styleSelector">
     <span v-for="(style, index) in relevantStyles" :key="style">
       <input
         type="radio"
@@ -44,10 +44,15 @@ defineEmits(['input'])
       :iconUnicode="props.icon?.unicode || '3f'"
       :isBrandIcon="props.icon?.fontAwesomeFontFamilySuffix === 'Brands'"
       :fontWeight="FontAwesomeIcon.getFontWeight(style)"
+      :title="style[0].toUpperCase() + style.slice(1)"
       /> 
       </label>
     </span>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#styleSelector {
+  max-width:256px;
+}
+</style>
