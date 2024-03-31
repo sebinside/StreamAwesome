@@ -7,22 +7,30 @@ import type { FontWeight } from '@/model/fontAwesomeIcon'
 const iconStore = useIconsStore()
 
 const props = defineProps({
-  icon: {
+  iconUnicode: {
     required: true,
-    type: Object as () => FontAwesomeIcon
+    type: String
+  },
+  isBrandIcon: {
+    required: false,
+    type: Boolean
+  },
+  fontWeight: {
+    required: false,
+    type: Object as () => FontWeight
   }
 })
 
 const unicodeString: ComputedRef<string> = computed(() => {
-  return String.fromCharCode(parseInt(props.icon.unicode, 16))
+  return String.fromCharCode(parseInt(props.iconUnicode, 16))
 })
 const cssFontString: ComputedRef<string> = computed(() => {
   return `"${FontAwesomeIcon.fontVersionInfo.fontFamilyBase} ${
-    props.icon.isBrand() ? 'Brands' : FontAwesomeIcon.fontVersionInfo.fontLicense
+    props.isBrandIcon ? 'Brands' : FontAwesomeIcon.fontVersionInfo.fontLicense
   }"`
 })
 const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
-  return iconStore.currentIcon.fontWeight
+  return props.fontWeight || iconStore.currentIcon.fontWeight
 })
 </script>
 

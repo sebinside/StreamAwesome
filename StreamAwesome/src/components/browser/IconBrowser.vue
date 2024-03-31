@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import InputGroup from '@/components/browser/InputGroup.vue'
-import Icon from '@/components/browser/IconDisplay.vue'
+import Icon from '@/components/utils/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
@@ -36,7 +36,8 @@ queryIcons('video')
       v-for="icon of availableIcons"
       @click="selectIcon(icon)"
       :key="icon.id"
-      :icon="icon"
+      :iconUnicode="icon.unicode"
+      :isBrandIcon="icon.isBrand()"
       class="cursor-pointer rounded bg-slate-900 p-2 text-xl hover:text-blue-500 focus:text-blue-500"
     ></Icon>
   </div>

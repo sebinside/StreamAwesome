@@ -2,6 +2,7 @@
 import type { CustomIcon } from '@/model/customIcon'
 import { FontAwesomeStyleKeys } from '@/model/fontAwesomeIcon'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import Icon from '@/components/utils/IconDisplay.vue'
 
 const props = defineProps({
   icon: {
@@ -12,12 +13,6 @@ const props = defineProps({
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
   return key !== 'brands'
 })
-
-// TODO: Make icon display independent of fontWeight and use this instead (move iconDisplay to Utils before)
-const calculateStyle = (style: string) => [
-  `fa-${props.icon?.fontAwesomeFontFamilySuffix === 'Brands' ? 'brands' : style}`,
-  `fa-${props.icon?.label.toLowerCase().replace(/\s/g, '-')}`
-]
 
 defineEmits(['input'])
 </script>
@@ -45,7 +40,11 @@ defineEmits(['input'])
         }"
         class="cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
       >
-        <i class="w-8 text-center" :class="calculateStyle(style)"></i>
+      <Icon
+      :iconUnicode="props.icon?.unicode || '3f'"
+      :isBrandIcon="props.icon?.fontAwesomeFontFamilySuffix === 'Brands'"
+      :fontWeight="FontAwesomeIcon.getFontWeight(style)"
+      /> 
       </label>
     </span>
   </div>
