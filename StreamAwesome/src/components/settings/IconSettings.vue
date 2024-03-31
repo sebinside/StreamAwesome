@@ -4,7 +4,7 @@ import ColorSelector from '@/components/settings/ColorSelector.vue'
 import StyleSelector from '@/components/settings/StyleSelector.vue'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import chroma from 'chroma-js'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 const props = defineProps({
   icon: {
     type: Object as () => CustomIcon
@@ -13,34 +13,12 @@ const props = defineProps({
 
 const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
 
-const hslValues = chroma(currentIcon.foregroundColor).hsl()
-const hexValue: Ref<string> = ref(
-  chroma(currentIcon.foregroundColor).hex().replace('#', '').toUpperCase()
-)
-
 function updateColorValue(param: { key: 'h' | 's' | 'l'; value: number }) {
   if (!param.value) return
 
   const foregroundColor = chroma(currentIcon.foregroundColor)
-  const newHexColor = foregroundColor.set('hsl.' + param.key, param.value).hex()
-  currentIcon.foregroundColor = newHexColor
-  hexValue.value = newHexColor.replace('#', '').toUpperCase()
+  currentIcon.foregroundColor = foregroundColor.set('hsl.' + param.key, param.value).hex()
   currentIcon.backgroundColor = chroma(currentIcon.foregroundColor).darken(4.15).hex()
-}
-
-function updateColorByHex(hex: string) {
-  if (!isValidHex(hex)) {
-    return
-  }
-
-  const hslColor = chroma(hex.startsWith('#') ? hex : '#' + hex).hsl()
-  updateColorValue({ key: 'h', value: hslColor[0] })
-  updateColorValue({ key: 's', value: hslColor[1] })
-  updateColorValue({ key: 'l', value: hslColor[2] })
-}
-
-function isValidHex(hex: string) {
-  return /^#?([0-9A-F]{3}){1,2}$/is.test(hex)
 }
 
 function updateStyle(style: string) {
@@ -52,14 +30,7 @@ defineEmits(['downloadIcon'])
 
 <template>
   <div>
-    <ColorSelector
-      :hue="hslValues[0]"
-      :saturation="hslValues[1]"
-      :lightness="hslValues[2]"
-      @input="updateColorValue"
-      :hex="hexValue"
-      @hexChange="updateColorByHex"
-    />
+    <ColorSelector :colorHexString="currentIcon.foregroundColor" @input="updateColorValue" />
   </div>
   <div class="mt-5 hidden">
     <label for="iconSymbol" class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"

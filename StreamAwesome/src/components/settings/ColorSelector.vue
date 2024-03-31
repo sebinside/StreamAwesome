@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import chroma from 'chroma-js'
 import { ref, type Ref } from 'vue'
 
 const DEFAULT_HUE = 217
@@ -6,51 +7,32 @@ const DEFAULT_SATURATION = 0.69
 const DEFAULT_LIGHTNESS = 0.57
 
 const props = defineProps({
-  hue: {
-    default: 215,
-    type: Number
-  },
-  saturation: {
-    default: 0.75,
-    type: Number
-  },
-  lightness: {
-    default: 0.6,
-    type: Number
-  },
-  hex: {
-    default: '#AAAAAA',
-    type: String
+  colorHexString: {
+    type: String,
+    required: true
   }
 })
-const emit = defineEmits(['input', 'hexChange'])
+const emit = defineEmits(['input'])
 
-const currentHue: Ref<Number> = ref(props.hue)
-const currentSaturation: Ref<Number> = ref(props.saturation)
-const currentLightness: Ref<Number> = ref(props.lightness)
-const currentHex: Ref<String> = ref(props.hex)
+const color = chroma(props.colorHexString)
+
+const currentHue: Ref<Number> = ref(color.hsl()[0])
+const currentSaturation: Ref<Number> = ref(color.hsl()[1])
+const currentLightness: Ref<Number> = ref(color.hsl()[2])
 
 const settingsExpanded: Ref<boolean> = ref(false)
 
-const toggleSettings = (e: Event<HTMLButtonElement>) => {
+const toggleSettings = () => {
   settingsExpanded.value = !settingsExpanded.value
-  e.target.blur()
 }
 
-const resetColor = (e: Event<HTMLButtonElement>) => {
+const resetColor = () => {
   currentHue.value = DEFAULT_HUE
   currentSaturation.value = DEFAULT_SATURATION
   currentLightness.value = DEFAULT_LIGHTNESS
   emit('input', { key: 'h', value: DEFAULT_HUE })
   emit('input', { key: 's', value: DEFAULT_SATURATION })
   emit('input', { key: 'l', value: DEFAULT_LIGHTNESS })
-  e.target.blur()
-}
-
-const onHexInput = (e: Event<HTMLInputElement>) => {
-  const hex = e.target.value
-  currentHex.value = hex
-  emit('hexChange', hex)
 }
 </script>
 
@@ -115,21 +97,6 @@ const onHexInput = (e: Event<HTMLInputElement>) => {
       v-model="currentLightness"
       @input="$emit('input', { key: 'l', value: currentLightness })"
     />
-    <label for="hexInput" class="mt-2 block text-sm font-medium text-gray-900 dark:text-white"
-      >HEX value:</label
-    >
-    <div class="relative">
-      <div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
-        <span class="h-6 w-4 align-middle text-gray-500 dark:text-gray-400">#</span>
-      </div>
-      <input
-        type="text"
-        id="hexInput"
-        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 ps-7 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-        :value="currentHex"
-        @input="onHexInput"
-      />
-    </div>
   </div>
 </template>
 
