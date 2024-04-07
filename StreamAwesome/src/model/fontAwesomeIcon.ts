@@ -37,10 +37,10 @@ export class FontAwesomeIcon {
   }
 
   static getFontFamilySuffix(familyStyle: FontAwesomeFamilyStyle): FontFamilySuffix {
-    if(familyStyle.style === 'brands') {
+    if (familyStyle.style === 'brands') {
       return 'Brands'
-    } 
-    
+    }
+
     switch (familyStyle.family) {
       case 'classic':
         return this.fontVersionInfo.fontLicense
@@ -51,11 +51,10 @@ export class FontAwesomeIcon {
       default:
         return this.fontVersionInfo.fontLicense
     }
-  
   }
 
   static getFontFamily(fontFamilySuffix: FontFamilySuffix): FontAwesomeFamily {
-    switch(fontFamilySuffix) {
+    switch (fontFamilySuffix) {
       case 'Free':
         return 'classic'
       case 'Pro':
@@ -67,7 +66,7 @@ export class FontAwesomeIcon {
       case 'Brands':
         return 'classic'
       default:
-          return 'classic'
+        return 'classic'
     }
   }
 

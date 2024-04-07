@@ -27,7 +27,10 @@ function updateStyle(style: string) {
 
 // FIXME: Dirty hack, needs refactoring of icon representation
 function updateFamily(family: string) {
-  currentIcon.fontAwesomeFontFamilySuffix = FontAwesomeIcon.getFontFamilySuffix({ family, style: currentIcon.fontAwesomeFontFamilySuffix === 'Brands' ? 'brands' : 'solid'})
+  currentIcon.fontAwesomeFontFamilySuffix = FontAwesomeIcon.getFontFamilySuffix({
+    family,
+    style: currentIcon.fontAwesomeFontFamilySuffix === 'Brands' ? 'brands' : 'solid'
+  })
 }
 
 defineEmits(['downloadIcon'])

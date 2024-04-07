@@ -32,7 +32,12 @@ defineEmits(['updateStyle', 'updateFamily'])
         :value="family"
         class="peer hidden"
         @change="$emit('updateFamily', family)"
-        :checked="family === FontAwesomeIcon.getFontFamily(props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense)"
+        :checked="
+          family ===
+          FontAwesomeIcon.getFontFamily(
+            props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense
+          )
+        "
       />
       <label
         :for="family"
@@ -42,7 +47,7 @@ defineEmits(['updateStyle', 'updateFamily'])
         }"
         class="cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-lg text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
       >
-      {{ family[0].toUpperCase() + family.slice(1) }}
+        {{ family[0].toUpperCase() + family.slice(1) }}
       </label>
     </span>
   </div>
@@ -69,13 +74,15 @@ defineEmits(['updateStyle', 'updateFamily'])
         }"
         class="cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
       >
-      <Icon
-      :iconUnicode="props.icon?.unicode || '3f'"
-      :isBrandIcon="props.icon?.fontAwesomeFontFamilySuffix === 'Brands'"
-      :fontWeight="FontAwesomeIcon.getFontWeight(style)"
-      :fontFamilySuffix="props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense"
-      :title="style[0].toUpperCase() + style.slice(1)"
-      /> 
+        <Icon
+          :iconUnicode="props.icon?.unicode || '3f'"
+          :isBrandIcon="props.icon?.fontAwesomeFontFamilySuffix === 'Brands'"
+          :fontWeight="FontAwesomeIcon.getFontWeight(style)"
+          :fontFamilySuffix="
+            props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense
+          "
+          :title="style[0].toUpperCase() + style.slice(1)"
+        />
       </label>
     </span>
   </div>
@@ -83,6 +90,6 @@ defineEmits(['updateStyle', 'updateFamily'])
 
 <style scoped>
 #styleSelector {
-  max-width:256px;
+  max-width: 256px;
 }
 </style>

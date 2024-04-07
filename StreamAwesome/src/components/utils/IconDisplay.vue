@@ -30,7 +30,9 @@ const unicodeString: ComputedRef<string> = computed(() => {
 })
 const cssFontString: ComputedRef<string> = computed(() => {
   return `"${FontAwesomeIcon.fontVersionInfo.fontFamilyBase} ${
-    props.isBrandIcon ? 'Brands' : (props.fontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense)
+    props.isBrandIcon
+      ? 'Brands'
+      : props.fontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense
   }"`
 })
 const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
