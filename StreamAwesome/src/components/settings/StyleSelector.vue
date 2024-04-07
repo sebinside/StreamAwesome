@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CustomIcon } from '@/model/customIcon'
-import { FontAwesomeStyleKeys } from '@/model/fontAwesomeIcon'
+import { FontAwesomeFamilyKeys, FontAwesomeStyleKeys } from '@/model/fontAwesomeIcon'
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import Icon from '@/components/utils/IconDisplay.vue'
 
@@ -10,15 +10,44 @@ const props = defineProps({
   }
 })
 
+// TODO: Replace copy pase by encapsulated object in template
+const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
   return key !== 'brands'
 })
 
-defineEmits(['input'])
+defineEmits(['updateStyle', 'updateFamily'])
 </script>
 
 <template>
   <p for="iconSymbol" class="mb-3 mt-2 block text-sm font-medium text-gray-900 dark:text-white">
+    Family:
+  </p>
+  <div class="rounded-md shadow-sm" id="familySelector">
+    <span v-for="(family, index) in relevantFamilies" :key="family">
+      <input
+        type="radio"
+        name="iconFamily"
+        :id="family"
+        :value="family"
+        class="peer hidden"
+        @change="$emit('updateFamily', family)"
+        :checked="family === FontAwesomeIcon.getFontFamily(props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense)"
+      />
+      <label
+        :for="family"
+        :class="{
+          'rounded-s-lg': index === 0,
+          'rounded-e-lg': index === relevantFamilies.length - 1
+        }"
+        class="cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-lg text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+      >
+      {{ family[0].toUpperCase() + family.slice(1) }}
+      </label>
+    </span>
+  </div>
+
+  <p for="iconSymbol" class="mb-3 mt-6 block text-sm font-medium text-gray-900 dark:text-white">
     Style:
   </p>
   <div class="rounded-md shadow-sm" id="styleSelector">
@@ -29,7 +58,7 @@ defineEmits(['input'])
         :id="style"
         :value="style"
         class="peer hidden"
-        @change="$emit('input', style)"
+        @change="$emit('updateStyle', style)"
         :checked="style === FontAwesomeIcon.getFontAwesomeStyle(props.icon?.fontWeight || 900)"
       />
       <label
@@ -44,6 +73,7 @@ defineEmits(['input'])
       :iconUnicode="props.icon?.unicode || '3f'"
       :isBrandIcon="props.icon?.fontAwesomeFontFamilySuffix === 'Brands'"
       :fontWeight="FontAwesomeIcon.getFontWeight(style)"
+      :fontFamilySuffix="props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense"
       :title="style[0].toUpperCase() + style.slice(1)"
       /> 
       </label>

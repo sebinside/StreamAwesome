@@ -25,6 +25,11 @@ function updateStyle(style: string) {
   currentIcon.fontWeight = FontAwesomeIcon.getFontWeight(style)
 }
 
+// FIXME: Dirty hack, needs refactoring of icon representation
+function updateFamily(family: string) {
+  currentIcon.fontAwesomeFontFamilySuffix = FontAwesomeIcon.getFontFamilySuffix({ family, style: currentIcon.fontAwesomeFontFamilySuffix === 'Brands' ? 'brands' : 'solid'})
+}
+
 defineEmits(['downloadIcon'])
 </script>
 
@@ -57,7 +62,7 @@ defineEmits(['downloadIcon'])
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
     />
   </div>
-  <StyleSelector :icon="icon" @input="updateStyle" />
+  <StyleSelector :icon="icon" @updateStyle="updateStyle" @updateFamily="updateFamily" />
   <div class="mt-10">
     <button
       type="button"

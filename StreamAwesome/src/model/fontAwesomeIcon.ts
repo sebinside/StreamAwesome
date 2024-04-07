@@ -37,19 +37,37 @@ export class FontAwesomeIcon {
   }
 
   static getFontFamilySuffix(familyStyle: FontAwesomeFamilyStyle): FontFamilySuffix {
+    if(familyStyle.style === 'brands') {
+      return 'Brands'
+    } 
+    
     switch (familyStyle.family) {
       case 'classic':
-        if (familyStyle.style === 'brands') {
-          return 'Brands'
-        } else {
-          return this.fontVersionInfo.fontLicense
-        }
+        return this.fontVersionInfo.fontLicense
       case 'duotone':
         return 'Duotone'
       case 'sharp':
         return 'Sharp'
       default:
         return this.fontVersionInfo.fontLicense
+    }
+  
+  }
+
+  static getFontFamily(fontFamilySuffix: FontFamilySuffix): FontAwesomeFamily {
+    switch(fontFamilySuffix) {
+      case 'Free':
+        return 'classic'
+      case 'Pro':
+        return 'classic'
+      case 'Duotone':
+        return 'duotone'
+      case 'Sharp':
+        return 'sharp'
+      case 'Brands':
+        return 'classic'
+      default:
+          return 'classic'
     }
   }
 
@@ -89,7 +107,7 @@ export interface FontAwesomeFamilyStyle {
   readonly style: FontAwesomeStyle
 }
 
-export const FontAwesomeFamilyKeys = ['classic', 'duotone', 'sharp']
+export const FontAwesomeFamilyKeys = ['classic', 'sharp', 'duotone']
 export const FontAwesomeStyleKeys = ['solid', 'regular', 'light', 'thin', 'brands']
 export const FontFamilySuffixKeys = ['Free', 'Pro', 'Duotone', 'Sharp', 'Brands']
 

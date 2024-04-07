@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { computed, type ComputedRef } from 'vue'
 import { useIconsStore } from '@/stores/icons'
-import type { FontWeight } from '@/model/fontAwesomeIcon'
+import type { FontWeight, FontFamilySuffix } from '@/model/fontAwesomeIcon'
 
 const iconStore = useIconsStore()
 
@@ -18,6 +18,10 @@ const props = defineProps({
   fontWeight: {
     required: false,
     type: Object as () => FontWeight
+  },
+  fontFamilySuffix: {
+    required: false,
+    type: Object as () => FontFamilySuffix
   }
 })
 
@@ -26,7 +30,7 @@ const unicodeString: ComputedRef<string> = computed(() => {
 })
 const cssFontString: ComputedRef<string> = computed(() => {
   return `"${FontAwesomeIcon.fontVersionInfo.fontFamilyBase} ${
-    props.isBrandIcon ? 'Brands' : FontAwesomeIcon.fontVersionInfo.fontLicense
+    props.isBrandIcon ? 'Brands' : (props.fontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense)
   }"`
 })
 const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
