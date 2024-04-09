@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 
 const props = defineProps({
   icon: {
@@ -22,18 +23,27 @@ const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
   return key !== 'brands'
 })
 
-// TODO: Replace ??? with proper id, label, family
-// TODO: Create public visible fallback icon for all these cases
 function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon {
-  const id = props.icon?.fontAwesomeIcon.id || '???'
-  const label = props.icon?.fontAwesomeIcon.label || '???'
-  const unicode = props.icon?.fontAwesomeIcon.unicode || '3f'
-  const family = props.icon?.fontAwesomeIcon.family || 'Pro'
+  if (props.icon === undefined) {
+    const fallBackIcon = FontAwesomeIconType.createFallBackIcon()
+    return {
+      id: fallBackIcon.id,
+      label: fallBackIcon.label,
+      unicode: fallBackIcon.unicode,
+      family: fontAwesomeVersionInfo.fontLicense,
+      style: style
+    }
+  } else {
+    const id = props.icon?.fontAwesomeIcon.id
+    const label = props.icon?.fontAwesomeIcon.label
+    const unicode = props.icon?.fontAwesomeIcon.unicode
+    const family = props.icon?.fontAwesomeIcon.family
 
-  // FIXME: Replace this hardcoded switch
-  const brandCompliantStyle = props.icon?.fontAwesomeIcon.style === 'brands' ? 'brands' : style
+    // FIXME: Replace this hardcoded switch
+    const brandCompliantStyle = props.icon?.fontAwesomeIcon.style === 'brands' ? 'brands' : style
 
-  return { id, label, unicode, family, style: brandCompliantStyle }
+    return { id, label, unicode, family, style: brandCompliantStyle }
+  }
 }
 
 defineEmits(['updateStyle', 'updateFamily'])

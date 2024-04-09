@@ -42,12 +42,7 @@ export class FontAwesomeBrowser {
     if (id == null || label == null || unicode == null || familyStyles == null) {
       console.error(`Could not convert result entry "${id}" to FontAwesomeIcon`)
 
-      const fallBackQuestionMarkIcon = new FontAwesomeIconType('question', 'Question', '3f', {
-        free: [{ family: 'classic', style: 'solid' }],
-        pro: [{ family: 'classic', style: 'solid' }]
-      })
-
-      return fallBackQuestionMarkIcon
+      return FontAwesomeIconType.createFallBackIcon()
     }
 
     return new FontAwesomeIconType(id, label, unicode, familyStyles)

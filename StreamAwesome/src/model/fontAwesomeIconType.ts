@@ -73,4 +73,13 @@ export class FontAwesomeIconType {
         return 900
     }
   }
+
+  static createFallBackIcon(): FontAwesomeIconType {
+    const fallBackQuestionMarkIcon = new FontAwesomeIconType('question', 'Question', '3f', {
+      free: [{ family: 'classic', style: 'solid' }],
+      pro: [{ family: 'classic', style: 'solid' }]
+    })
+
+    return fallBackQuestionMarkIcon
+  }
 }
