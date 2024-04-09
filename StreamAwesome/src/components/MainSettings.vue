@@ -3,13 +3,12 @@ import IconBrowser from '@/components/browser/IconBrowser.vue'
 import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
 import IconGenerator from '@/logic/generator'
-import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { useIconsStore } from '@/stores/icons'
 
 const iconStore = useIconsStore()
 
 function downloadIcon() {
-  const iconGenerator = new IconGenerator(FontAwesomeIcon.fontVersionInfo.fontFamilyBase)
+  const iconGenerator = new IconGenerator()
   iconGenerator.saveIcon(iconStore.currentIcon)
 }
 </script>

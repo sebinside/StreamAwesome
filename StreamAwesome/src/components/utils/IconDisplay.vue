@@ -1,42 +1,28 @@
 <script setup lang="ts">
-import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { computed, type ComputedRef } from 'vue'
-import { useIconsStore } from '@/stores/icons'
-import type { FontWeight, FontFamilySuffix } from '@/model/fontAwesomeIcon'
-
-const iconStore = useIconsStore()
+import type { FontWeight } from '@/model/fontAwesomeIconType'
+import { fontAwesomeVersionInfo } from '@/model/versions'
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 
 const props = defineProps({
-  iconUnicode: {
+  fontAwesomeIcon: {
     required: true,
-    type: String
-  },
-  isBrandIcon: {
-    required: false,
-    type: Boolean
-  },
-  fontWeight: {
-    required: false,
-    type: Object as () => FontWeight
-  },
-  fontFamilySuffix: {
-    required: false,
-    type: Object as () => FontFamilySuffix
+    type: Object as () => FontAwesomeIcon
   }
 })
 
 const unicodeString: ComputedRef<string> = computed(() => {
-  return String.fromCharCode(parseInt(props.iconUnicode, 16))
+  return String.fromCharCode(parseInt(props.fontAwesomeIcon.unicode, 16))
 })
 const cssFontString: ComputedRef<string> = computed(() => {
-  return `"${FontAwesomeIcon.fontVersionInfo.fontFamilyBase} ${
-    props.isBrandIcon
-      ? 'Brands'
-      : props.fontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense
-  }"`
+  return `"${fontAwesomeVersionInfo.fontFamilyBase} ${FontAwesomeIconType.getFontFamilySuffix(
+    props.fontAwesomeIcon.family,
+    props.fontAwesomeIcon.style
+  )}"`
 })
 const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
-  return props.fontWeight || iconStore.currentIcon.fontWeight
+  return FontAwesomeIconType.getFontWeightOfStyle(props.fontAwesomeIcon.style)
 })
 </script>
 
