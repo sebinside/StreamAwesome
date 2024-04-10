@@ -2,7 +2,7 @@
 import type { CustomIcon } from '@/model/customIcon'
 import ColorSelector from '@/components/settings/ColorSelector.vue'
 import StyleSelector from '@/components/settings/StyleSelector.vue'
-import { type FontAwesomeFamily, type FontAwesomeStyle } from '@/model/fontAwesomeIconType'
+import { type FontAwesomeFamily, type FontAwesomeStyle } from '@/model/fontAwesomeConstants'
 import chroma from 'chroma-js'
 import { reactive } from 'vue'
 const props = defineProps({

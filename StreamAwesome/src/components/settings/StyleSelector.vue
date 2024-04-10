@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { CustomIcon } from '@/model/customIcon'
 import {
+  BrandsKeyword,
   FontAwesomeFamilyKeys,
   FontAwesomeStyleKeys,
   type FontAwesomeStyle
-} from '@/model/fontAwesomeIconType'
+} from '@/model/fontAwesomeConstants'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
@@ -17,10 +18,9 @@ const props = defineProps({
 })
 
 // TODO: Replace copy pase by encapsulated object in template
-// TODO: Replace every occurance of 'brands' with a link to the brandskeyword property
 const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
-  return key !== 'brands'
+  return key !== BrandsKeyword
 })
 
 function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon {
@@ -30,19 +30,18 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
       id: fallBackIcon.id,
       label: fallBackIcon.label,
       unicode: fallBackIcon.unicode,
+      isBrandsIcon: fallBackIcon.isBrand(),
       family: fontAwesomeVersionInfo.fontLicense,
       style: style
     }
   } else {
-    const id = props.icon?.fontAwesomeIcon.id
-    const label = props.icon?.fontAwesomeIcon.label
-    const unicode = props.icon?.fontAwesomeIcon.unicode
-    const family = props.icon?.fontAwesomeIcon.family
+    const id = props.icon.fontAwesomeIcon.id
+    const label = props.icon.fontAwesomeIcon.label
+    const unicode = props.icon.fontAwesomeIcon.unicode
+    const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
+    const family = props.icon.fontAwesomeIcon.family
 
-    // FIXME: Replace this hardcoded switch
-    const brandCompliantStyle = props.icon?.fontAwesomeIcon.style === 'brands' ? 'brands' : style
-
-    return { id, label, unicode, family, style: brandCompliantStyle }
+    return { id, label, unicode, isBrandsIcon, family, style }
   }
 }
 

@@ -1,9 +1,6 @@
 import type { CustomIcon } from '@/model/customIcon'
-import {
-  FontAwesomeIconType,
-  type FontFamilySuffix,
-  type FontWeight
-} from '@/model/fontAwesomeIconType'
+import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeConstants'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import chroma from 'chroma-js'
 import namer from 'color-namer'
@@ -65,10 +62,7 @@ export default class IconGenerator {
     const centerOfCanvas = this.canvas.width / 2
     const iconCode = this.calculateIcon(icon.fontAwesomeIcon.unicode)
     const fontWeight = FontAwesomeIconType.getFontWeightOfStyle(icon.fontAwesomeIcon.style)
-    const fontFamilySuffix = FontAwesomeIconType.getFontFamilySuffix(
-      icon.fontAwesomeIcon.family,
-      icon.fontAwesomeIcon.style
-    )
+    const fontFamilySuffix = FontAwesomeIconType.getFontFamilySuffix(icon.fontAwesomeIcon)
 
     this.setupFont(icon.fontAwesomeIcon.unicode, icon.fontSize, fontWeight, fontFamilySuffix)
 

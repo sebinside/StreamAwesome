@@ -1,8 +1,5 @@
-import {
-  FontAwesomeIconType,
-  type FontAwesomeFamily,
-  type FontAwesomeStyle
-} from '@/model/fontAwesomeIconType'
+import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeConstants'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 
 export class FontAwesomeBrowser {
   public constructor(private readonly fontVersion: string) {}

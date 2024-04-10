@@ -3,6 +3,7 @@ import InputGroup from '@/components/browser/InputGroup.vue'
 import Icon from '@/components/utils/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
+import { BrandsKeyword } from '@/model/fontAwesomeConstants'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
@@ -13,30 +14,20 @@ let availableIcons: Ref<FontAwesomeIconType[]> = ref([])
 const iconStore = useIconsStore()
 
 function selectIcon(icon: FontAwesomeIconType) {
-  iconStore.currentIcon.fontAwesomeIcon.unicode = icon.unicode
-  iconStore.currentIcon.fontAwesomeIcon.label = icon.label
-  iconStore.currentIcon.fontAwesomeIcon.id = icon.id
-
-  // FIXME: Hardcoded switch (potential solution: save brands property let it overwrite?)
-  if (icon.isBrand()) {
-    iconStore.currentIcon.fontAwesomeIcon.style = 'brands'
-    iconStore.currentIcon.fontAwesomeIcon.family = 'classic'
-  } else {
-    iconStore.currentIcon.fontAwesomeIcon.style = 'solid'
-    iconStore.currentIcon.fontAwesomeIcon.family = 'classic'
-  }
+  iconStore.currentIcon.fontAwesomeIcon = iconTypetoFontAwesomeIcon(icon)
 }
 
 function iconTypetoFontAwesomeIcon(iconType: FontAwesomeIconType): FontAwesomeIcon {
   const id = iconType.id
   const label = iconType.label
   const unicode = iconType.unicode
+  const isBrandsIcon = iconType.isBrand()
+
+  // Icons have the previously selected style and family, selecting an icon does not change this
+  const style = iconStore.currentIcon.fontAwesomeIcon.style
   const family = iconStore.currentIcon.fontAwesomeIcon.family
 
-  // FIXME: Hardcoded switch
-  const style = iconType.isBrand() ? 'brands' : 'classic'
-
-  return { id, label, unicode, style, family }
+  return { id, label, unicode, isBrandsIcon, style, family }
 }
 
 async function queryIcons(query: string) {

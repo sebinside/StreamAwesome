@@ -1,14 +1,12 @@
+import {
+  BrandsKeyword,
+  type FontAwesomeFamily,
+  type FontAwesomeStyle,
+  type FontFamilySuffix,
+  type FontWeight
+} from './fontAwesomeConstants'
+import type { FontAwesomeIcon } from './fontAwesomeIcon'
 import { fontAwesomeVersionInfo } from './versions'
-
-export const FontAwesomeFamilyKeys = ['classic', 'sharp', 'duotone']
-export const FontAwesomeStyleKeys = ['solid', 'regular', 'light', 'thin', 'brands']
-export const FontFamilySuffixKeys = ['Free', 'Pro', 'Duotone', 'Sharp', 'Brands']
-const brandsKeyword = 'brands'
-
-export type FontAwesomeFamily = (typeof FontAwesomeFamilyKeys)[number]
-export type FontAwesomeStyle = (typeof FontAwesomeStyleKeys)[number]
-export type FontFamilySuffix = (typeof FontFamilySuffixKeys)[number]
-export type FontWeight = 100 | 300 | 400 | 900
 
 export class FontAwesomeIconType {
   constructor(
@@ -31,21 +29,21 @@ export class FontAwesomeIconType {
 
   public isBrand(): boolean {
     return (
-      this.styles.free.some((entry) => entry.style === brandsKeyword) ||
-      this.styles.pro.some((entry) => entry.style === brandsKeyword)
+      this.styles.free.some((entry) => entry.style === BrandsKeyword) ||
+      this.styles.pro.some((entry) => entry.style === BrandsKeyword)
     )
   }
 
   static isBrandIcon(style: FontAwesomeStyle): boolean {
-    return style === brandsKeyword
+    return style === BrandsKeyword
   }
 
-  static getFontFamilySuffix(family: FontAwesomeFamily, style: FontAwesomeStyle): FontFamilySuffix {
-    if (style === brandsKeyword) {
+  static getFontFamilySuffix(icon: FontAwesomeIcon): FontFamilySuffix {
+    if (icon.isBrandsIcon || icon.style === BrandsKeyword) {
       return 'Brands'
     }
 
-    switch (family) {
+    switch (icon.family) {
       case 'classic':
         return fontAwesomeVersionInfo.fontLicense
       case 'duotone':
