@@ -11,6 +11,7 @@ export const useIconsStore = defineStore('icons', () => {
       id: 'gear',
       family: 'classic',
       label: 'Gear',
+      isBrandsIcon: false,
       style: 'solid',
       unicode: 'f013'
     }
