@@ -17,7 +17,6 @@ const props = defineProps({
   }
 })
 
-// TODO: Replace copy pase by encapsulated object in template
 const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
   return key !== BrandsKeyword
