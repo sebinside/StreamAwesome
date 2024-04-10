@@ -3,7 +3,6 @@ import InputGroup from '@/components/browser/InputGroup.vue'
 import Icon from '@/components/utils/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
-import { BrandsKeyword } from '@/model/fontAwesomeConstants'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'

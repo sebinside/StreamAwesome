@@ -72,6 +72,22 @@ export class FontAwesomeIconType {
     }
   }
 
+  static calculateIconClassDescription(icon: FontAwesomeIcon): String {
+    let styleAndFamily = `fa-${icon.style}`
+
+    if (icon.isBrandsIcon) {
+      styleAndFamily = 'fa-brands'
+    } else if (icon.family === 'sharp') {
+      styleAndFamily = `fa-sharp ${styleAndFamily}`
+    } else if (icon.family === 'duotone') {
+      styleAndFamily = 'fa-duotone'
+    }
+
+    const id = `fa-${icon.id}`
+
+    return `${styleAndFamily} ${id}`
+  }
+
   static createFallBackIcon(): FontAwesomeIconType {
     const fallBackQuestionMarkIcon = new FontAwesomeIconType('question', 'Question', '3f', {
       free: [{ family: 'classic', style: 'solid' }],
