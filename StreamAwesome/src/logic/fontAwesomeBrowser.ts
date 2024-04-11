@@ -10,7 +10,7 @@ export class FontAwesomeBrowser {
 
   public async getAvailableIcons(
     searchTerm: string,
-    quantity: number = 30
+    quantity: number = 42
   ): Promise<Array<FontAwesomeIconType>> {
     const response = await fetch(this.fontAwesomeAPIEndpoint, {
       method: 'POST',
