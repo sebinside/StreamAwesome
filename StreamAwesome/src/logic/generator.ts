@@ -1,5 +1,7 @@
 import type { CustomIcon } from '@/model/customIcon'
-import { FontAwesomeIcon, type FontFamilySuffix, type FontWeight } from '@/model/fontAwesomeIcon'
+import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeConstants'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 import chroma from 'chroma-js'
 import namer from 'color-namer'
 
@@ -9,10 +11,7 @@ export default class IconGenerator {
   private defaultCanvasSize = 256
   private readonly canvas: HTMLCanvasElement
 
-  public constructor(
-    private readonly fontFamilyBase: string,
-    canvas?: HTMLCanvasElement
-  ) {
+  public constructor(canvas?: HTMLCanvasElement) {
     if (canvas) {
       this.canvas = canvas
     } else {
@@ -48,8 +47,8 @@ export default class IconGenerator {
 
   private generateIconName(icon: CustomIcon): string {
     const colorName = namer(icon.foregroundColor, { pick: ['html'] }).html[0].name
-    const iconName = icon.label.toLowerCase().replace(/\s/g, '')
-    const fontAwesomeStyle = FontAwesomeIcon.getFontAwesomeStyle(icon.fontWeight)
+    const iconName = icon.fontAwesomeIcon.label.toLowerCase().replace(/\s/g, '')
+    const fontAwesomeStyle = icon.fontAwesomeIcon.style
 
     return `${iconName}-${colorName}-${fontAwesomeStyle}`
   }
@@ -61,9 +60,11 @@ export default class IconGenerator {
 
   private drawIcon(icon: CustomIcon): void {
     const centerOfCanvas = this.canvas.width / 2
-    const iconCode = this.calculateIcon(icon.unicode)
+    const iconCode = this.calculateIcon(icon.fontAwesomeIcon.unicode)
+    const fontWeight = FontAwesomeIconType.getFontWeightOfStyle(icon.fontAwesomeIcon.style)
+    const fontFamilySuffix = FontAwesomeIconType.getFontFamilySuffix(icon.fontAwesomeIcon)
 
-    this.setupFont(icon.unicode, icon.fontSize, icon.fontWeight, icon.fontAwesomeFontFamilySuffix)
+    this.setupFont(icon.fontAwesomeIcon.unicode, icon.fontSize, fontWeight, fontFamilySuffix)
 
     this.renderingContext.fillStyle = icon.foregroundColor
     this.renderingContext.fillText(iconCode, centerOfCanvas, centerOfCanvas)
@@ -84,7 +85,7 @@ export default class IconGenerator {
     this.renderingContext.font = this.createFontString(
       fontSize,
       fontWeight,
-      this.fontFamilyBase,
+      fontAwesomeVersionInfo.fontFamilyBase,
       font
     )
 
@@ -102,7 +103,7 @@ export default class IconGenerator {
     this.renderingContext.font = this.createFontString(
       normalizedFontSize,
       fontWeight,
-      this.fontFamilyBase,
+      fontAwesomeVersionInfo.fontFamilyBase,
       font
     )
   }

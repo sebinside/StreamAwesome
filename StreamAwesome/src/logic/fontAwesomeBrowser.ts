@@ -1,4 +1,5 @@
-import { FontAwesomeIcon, type FontAwesomeFamilyStyle } from '@/model/fontAwesomeIcon'
+import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeConstants'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 
 export class FontAwesomeBrowser {
   public constructor(private readonly fontVersion: string) {}
@@ -9,8 +10,8 @@ export class FontAwesomeBrowser {
 
   public async getAvailableIcons(
     searchTerm: string,
-    quantity: number = 30
-  ): Promise<Array<FontAwesomeIcon>> {
+    quantity: number = 42
+  ): Promise<Array<FontAwesomeIconType>> {
     const response = await fetch(this.fontAwesomeAPIEndpoint, {
       method: 'POST',
       headers: {
@@ -26,24 +27,21 @@ export class FontAwesomeBrowser {
     return icons
   }
 
-  private entryToFontAwesomeIcon(entry: any): FontAwesomeIcon {
+  private entryToFontAwesomeIcon(entry: any): FontAwesomeIconType {
     const id: string = entry.id
     const label: string = entry.label
     const unicode: string = entry.unicode
-    const familyStyles: { free: FontAwesomeFamilyStyle[]; pro: FontAwesomeFamilyStyle[] } =
-      entry.familyStylesByLicense
+    const familyStyles: {
+      free: { family: FontAwesomeFamily; style: FontAwesomeStyle }[]
+      pro: { family: FontAwesomeFamily; style: FontAwesomeStyle }[]
+    } = entry.familyStylesByLicense
 
     if (id == null || label == null || unicode == null || familyStyles == null) {
       console.error(`Could not convert result entry "${id}" to FontAwesomeIcon`)
 
-      const fallBackQuestionMarkIcon = new FontAwesomeIcon('question', 'Question', '3f', {
-        free: [{ family: 'classic', style: 'solid' }],
-        pro: [{ family: 'classic', style: 'solid' }]
-      })
-
-      return fallBackQuestionMarkIcon
+      return FontAwesomeIconType.createFallBackIcon()
     }
 
-    return new FontAwesomeIcon(id, label, unicode, familyStyles)
+    return new FontAwesomeIconType(id, label, unicode, familyStyles)
   }
 }

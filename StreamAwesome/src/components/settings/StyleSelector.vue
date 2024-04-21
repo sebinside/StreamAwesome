@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import type { CustomIcon } from '@/model/customIcon'
-import { FontAwesomeFamilyKeys, FontAwesomeStyleKeys } from '@/model/fontAwesomeIcon'
-import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import {
+  BrandsKeyword,
+  FontAwesomeFamilyKeys,
+  FontAwesomeStyleKeys,
+  type FontAwesomeStyle
+} from '@/model/fontAwesomeConstants'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 
 const props = defineProps({
   icon: {
@@ -10,11 +17,32 @@ const props = defineProps({
   }
 })
 
-// TODO: Replace copy pase by encapsulated object in template
 const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
-  return key !== 'brands'
+  return key !== BrandsKeyword
 })
+
+function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon {
+  if (props.icon === undefined) {
+    const fallBackIcon = FontAwesomeIconType.createFallBackIcon()
+    return {
+      id: fallBackIcon.id,
+      label: fallBackIcon.label,
+      unicode: fallBackIcon.unicode,
+      isBrandsIcon: fallBackIcon.isBrand(),
+      family: fontAwesomeVersionInfo.fontLicense,
+      style: style
+    }
+  } else {
+    const id = props.icon.fontAwesomeIcon.id
+    const label = props.icon.fontAwesomeIcon.label
+    const unicode = props.icon.fontAwesomeIcon.unicode
+    const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
+    const family = props.icon.fontAwesomeIcon.family
+
+    return { id, label, unicode, isBrandsIcon, family, style }
+  }
+}
 
 defineEmits(['updateStyle', 'updateFamily'])
 </script>
@@ -32,12 +60,7 @@ defineEmits(['updateStyle', 'updateFamily'])
         :value="family"
         class="peer hidden"
         @change="$emit('updateFamily', family)"
-        :checked="
-          family ===
-          FontAwesomeIcon.getFontFamily(
-            props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense
-          )
-        "
+        :checked="family === props.icon?.fontAwesomeIcon.family"
       />
       <label
         :for="family"
@@ -64,7 +87,7 @@ defineEmits(['updateStyle', 'updateFamily'])
         :value="style"
         class="peer hidden"
         @change="$emit('updateStyle', style)"
-        :checked="style === FontAwesomeIcon.getFontAwesomeStyle(props.icon?.fontWeight || 900)"
+        :checked="style === props.icon?.fontAwesomeIcon.style"
       />
       <label
         :for="style"
@@ -75,12 +98,7 @@ defineEmits(['updateStyle', 'updateFamily'])
         class="cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
       >
         <Icon
-          :iconUnicode="props.icon?.unicode || '3f'"
-          :isBrandIcon="props.icon?.fontAwesomeFontFamilySuffix === 'Brands'"
-          :fontWeight="FontAwesomeIcon.getFontWeight(style)"
-          :fontFamilySuffix="
-            props.icon?.fontAwesomeFontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense
-          "
+          :fontAwesomeIcon="createFontAwesomeIconDisplay(style)"
           :title="style[0].toUpperCase() + style.slice(1)"
         />
       </label>

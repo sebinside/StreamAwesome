@@ -1,51 +1,15 @@
 <script setup lang="ts">
-import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import { computed, type ComputedRef } from 'vue'
-import { useIconsStore } from '@/stores/icons'
-import type { FontWeight, FontFamilySuffix } from '@/model/fontAwesomeIcon'
-
-const iconStore = useIconsStore()
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 
 const props = defineProps({
-  iconUnicode: {
+  fontAwesomeIcon: {
     required: true,
-    type: String
-  },
-  isBrandIcon: {
-    required: false,
-    type: Boolean
-  },
-  fontWeight: {
-    required: false,
-    type: Object as () => FontWeight
-  },
-  fontFamilySuffix: {
-    required: false,
-    type: Object as () => FontFamilySuffix
+    type: Object as () => FontAwesomeIcon
   }
-})
-
-const unicodeString: ComputedRef<string> = computed(() => {
-  return String.fromCharCode(parseInt(props.iconUnicode, 16))
-})
-const cssFontString: ComputedRef<string> = computed(() => {
-  return `"${FontAwesomeIcon.fontVersionInfo.fontFamilyBase} ${
-    props.isBrandIcon
-      ? 'Brands'
-      : props.fontFamilySuffix || FontAwesomeIcon.fontVersionInfo.fontLicense
-  }"`
-})
-const cssFontWeight: ComputedRef<FontWeight> = computed(() => {
-  return props.fontWeight || iconStore.currentIcon.fontWeight
 })
 </script>
 
 <template>
-  <span>{{ unicodeString }}</span>
+  <i :class="FontAwesomeIconType.calculateIconClassDescription(props.fontAwesomeIcon)"></i>
 </template>
-<style scoped>
-span {
-  font-family: v-bind('cssFontString');
-  font-weight: v-bind('cssFontWeight');
-}
-</style>

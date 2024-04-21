@@ -2,7 +2,7 @@
 import type { CustomIcon } from '@/model/customIcon'
 import ColorSelector from '@/components/settings/ColorSelector.vue'
 import StyleSelector from '@/components/settings/StyleSelector.vue'
-import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { type FontAwesomeFamily, type FontAwesomeStyle } from '@/model/fontAwesomeConstants'
 import chroma from 'chroma-js'
 import { reactive } from 'vue'
 const props = defineProps({
@@ -21,16 +21,12 @@ function updateColorValue(param: { key: 'h' | 's' | 'l'; value: number }) {
   currentIcon.backgroundColor = chroma(currentIcon.foregroundColor).darken(4.15).hex()
 }
 
-function updateStyle(style: string) {
-  currentIcon.fontWeight = FontAwesomeIcon.getFontWeight(style)
+function updateStyle(style: FontAwesomeStyle) {
+  currentIcon.fontAwesomeIcon.style = style
 }
 
-// FIXME: Dirty hack, needs refactoring of icon representation
-function updateFamily(family: string) {
-  currentIcon.fontAwesomeFontFamilySuffix = FontAwesomeIcon.getFontFamilySuffix({
-    family,
-    style: currentIcon.fontAwesomeFontFamilySuffix === 'Brands' ? 'brands' : 'solid'
-  })
+function updateFamily(family: FontAwesomeFamily) {
+  currentIcon.fontAwesomeIcon.family = family
 }
 
 defineEmits(['downloadIcon'])
@@ -48,7 +44,7 @@ defineEmits(['downloadIcon'])
       disabled
       id="iconSymbol"
       type="text"
-      v-model="currentIcon.unicode"
+      v-model="currentIcon.fontAwesomeIcon.unicode"
       class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
     />
   </div>

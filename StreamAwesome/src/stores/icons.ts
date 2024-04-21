@@ -6,11 +6,15 @@ export const useIconsStore = defineStore('icons', () => {
   const currentIcon: CustomIcon = reactive({
     backgroundColor: '#000023',
     foregroundColor: '#4680dd',
-    unicode: 'f013',
-    label: 'Gear',
     fontSize: 180,
-    fontAwesomeFontFamilySuffix: 'Pro',
-    fontWeight: 900
+    fontAwesomeIcon: {
+      id: 'gear',
+      family: 'classic',
+      label: 'Gear',
+      isBrandsIcon: false,
+      style: 'solid',
+      unicode: 'f013'
+    }
   })
 
   return { currentIcon }

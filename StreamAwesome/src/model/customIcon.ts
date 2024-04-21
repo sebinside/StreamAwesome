@@ -1,11 +1,8 @@
-import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeIcon'
+import type { FontAwesomeIcon } from './fontAwesomeIcon'
 
 export interface CustomIcon {
   backgroundColor: string
   foregroundColor: string
-  unicode: string
-  label: string
-  fontAwesomeFontFamilySuffix: FontFamilySuffix
   fontSize: number
-  fontWeight: FontWeight
+  fontAwesomeIcon: FontAwesomeIcon
 }
