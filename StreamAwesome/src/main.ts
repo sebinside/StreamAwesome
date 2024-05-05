@@ -1,6 +1,7 @@
 import './style.css'
 import '../fonts/fontawesome/css/all.min.css'
 import '../fonts/fontawesome/css/sharp-light.min.css'
+import '../fonts/fontawesome/css/sharp-thin.min.css'
 import '../fonts/fontawesome/css/sharp-regular.min.css'
 import '../fonts/fontawesome/css/sharp-solid.min.css'
 import '../fonts/fontawesome/css/regular.min.css'
