@@ -4,12 +4,17 @@ import type { CustomIcon } from '@/model/customIcon'
 
 export const useIconsStore = defineStore('icons', () => {
   const currentIcon: CustomIcon = reactive({
-    backgroundColor: '#0b1524',
-    foregroundColor: '#4982dd',
-    symbol: 'f013',
+    backgroundColor: '#000023',
+    foregroundColor: '#4680dd',
     fontSize: 180,
-    fontAwesomeFontFamilySuffix: 'Pro',
-    fontWeight: 900
+    fontAwesomeIcon: {
+      id: 'gear',
+      family: 'classic',
+      label: 'Gear',
+      isBrandsIcon: false,
+      style: 'solid',
+      unicode: 'f013'
+    }
   })
 
   return { currentIcon }

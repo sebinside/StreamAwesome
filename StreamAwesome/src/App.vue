@@ -5,7 +5,7 @@ import FontLoader from '@/components/utils/FontLoader.vue'
 
 <template>
   <FontLoader />
-  <div class="m-auto mt-10 max-w-4xl rounded-2xl bg-gray-800 p-4 text-white">
+  <main class="m-auto mt-0 max-w-4xl bg-gray-800 p-4 text-white md:mt-10 md:rounded-2xl">
     <RouterView />
-  </div>
+  </main>
 </template>

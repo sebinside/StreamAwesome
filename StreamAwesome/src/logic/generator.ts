@@ -1,6 +1,14 @@
 import type { CustomIcon } from '@/model/customIcon'
-import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeIcon'
+import {
+  BrandsKeyword,
+  DuotoneKeyword,
+  type FontFamilySuffix,
+  type FontWeight
+} from '@/model/fontAwesomeConstants'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 import chroma from 'chroma-js'
+import namer from 'color-namer'
 
 export default class IconGenerator {
   private renderingContext: CanvasRenderingContext2D
@@ -8,10 +16,7 @@ export default class IconGenerator {
   private defaultCanvasSize = 256
   private readonly canvas: HTMLCanvasElement
 
-  public constructor(
-    private readonly fontFamilyBase: string,
-    canvas?: HTMLCanvasElement
-  ) {
+  public constructor(canvas?: HTMLCanvasElement) {
     if (canvas) {
       this.canvas = canvas
     } else {
@@ -40,9 +45,24 @@ export default class IconGenerator {
 
     const imageData = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
     const linkElement = document.createElement('a')
-    linkElement.download = `stream-awesome-icon-${Math.round(Math.random() * 100000)}.png`
+    linkElement.download = `${this.generateIconName(icon)}.png`
     linkElement.href = imageData
     linkElement.click()
+  }
+
+  private generateIconName(icon: CustomIcon): string {
+    const colorName = namer(icon.foregroundColor, { pick: ['html'] }).html[0].name
+    const iconName = icon.fontAwesomeIcon.label.toLowerCase().replace(/\s/g, '')
+    const fontAwesomeFamily = icon.fontAwesomeIcon.family
+    const fontAwesomeStyle = icon.fontAwesomeIcon.style
+
+    if (icon.fontAwesomeIcon.isBrandsIcon) {
+      return `${iconName}-${colorName}-${BrandsKeyword}`
+    }
+    if (icon.fontAwesomeIcon.family === DuotoneKeyword) {
+      return `${iconName}-${colorName}-${fontAwesomeFamily}`
+    }
+    return `${iconName}-${colorName}-${fontAwesomeFamily}-${fontAwesomeStyle}`
   }
 
   private fillBackground(backgroundColor: string): void {
@@ -52,16 +72,31 @@ export default class IconGenerator {
 
   private drawIcon(icon: CustomIcon): void {
     const centerOfCanvas = this.canvas.width / 2
-    const iconCode = this.calculateIcon(icon.symbol)
+    const iconCode = this.calculateIcon(icon.fontAwesomeIcon.unicode)
+    const fontWeight = FontAwesomeIconType.getFontWeightOfStyle(icon.fontAwesomeIcon.style)
+    const fontFamilySuffix = FontAwesomeIconType.getFontFamilySuffix(icon.fontAwesomeIcon)
 
-    this.setupFont(icon.symbol, icon.fontSize, icon.fontWeight, icon.fontAwesomeFontFamilySuffix)
+    this.setupFont(icon.fontAwesomeIcon.unicode, icon.fontSize, fontWeight, fontFamilySuffix)
 
     this.renderingContext.fillStyle = icon.foregroundColor
     this.renderingContext.fillText(iconCode, centerOfCanvas, centerOfCanvas)
+
+    if (icon.fontAwesomeIcon.family === DuotoneKeyword && !icon.fontAwesomeIcon.isBrandsIcon) {
+      // This is a simple approach to duotone icons, which is not perfect
+      const secondaryColor = chroma(icon.foregroundColor).darken(1).hex()
+      this.renderingContext.fillStyle = secondaryColor
+
+      const secondaryIconCode = this.calculateSecondaryIcon(icon.fontAwesomeIcon.unicode)
+      this.renderingContext.fillText(secondaryIconCode, centerOfCanvas, centerOfCanvas)
+    }
   }
 
   private calculateIcon(iconUnicode: string): string {
     return String.fromCodePoint(parseInt(iconUnicode, 16) || 0)
+  }
+
+  private calculateSecondaryIcon(iconUnicode: string): string {
+    return String.fromCharCode(parseInt(iconUnicode, 16), parseInt(iconUnicode, 16))
   }
 
   private setupFont(
@@ -75,7 +110,7 @@ export default class IconGenerator {
     this.renderingContext.font = this.createFontString(
       fontSize,
       fontWeight,
-      this.fontFamilyBase,
+      fontAwesomeVersionInfo.fontFamilyBase,
       font
     )
 
@@ -93,7 +128,7 @@ export default class IconGenerator {
     this.renderingContext.font = this.createFontString(
       normalizedFontSize,
       fontWeight,
-      this.fontFamilyBase,
+      fontAwesomeVersionInfo.fontFamilyBase,
       font
     )
   }

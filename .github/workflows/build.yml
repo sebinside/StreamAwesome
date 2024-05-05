@@ -2,11 +2,13 @@ name: Build StreamAwesome
 
 on:
  workflow_dispatch:
+ push:
  pull_request:
   types: [opened, synchronize, reopened]
       
 jobs:
   build:
+    if: github.actor == 'sebinside' || github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️

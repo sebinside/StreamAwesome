@@ -1,29 +1,43 @@
 <script setup lang="ts">
 import InputGroup from '@/components/browser/InputGroup.vue'
-import Icon from '@/components/browser/IconDisplay.vue'
+import Icon from '@/components/utils/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
-import { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 import { useIconsStore } from '@/stores/icons'
 import { ref, type Ref } from 'vue'
 
-let availableIcons: Ref<FontAwesomeIcon[]> = ref([])
+let availableIcons: Ref<FontAwesomeIconType[]> = ref([])
 const iconStore = useIconsStore()
 
-function selectIcon(icon: FontAwesomeIcon) {
-  iconStore.currentIcon.symbol = icon.unicode
+function selectIcon(icon: FontAwesomeIconType) {
+  iconStore.currentIcon.fontAwesomeIcon = iconTypetoFontAwesomeIcon(icon)
+}
 
-  if (icon.isBrand()) {
-    iconStore.currentIcon.fontAwesomeFontFamilySuffix = 'Brands'
-  } else {
-    iconStore.currentIcon.fontAwesomeFontFamilySuffix = FontAwesomeIcon.fontVersionInfo.fontLicense
-  }
+function iconTypetoFontAwesomeIcon(iconType: FontAwesomeIconType): FontAwesomeIcon {
+  const id = iconType.id
+  const label = iconType.label
+  const unicode = iconType.unicode
+  const isBrandsIcon = iconType.isBrand()
+
+  // Icons have the previously selected style and family, selecting an icon does not change this
+  const style = iconStore.currentIcon.fontAwesomeIcon.style
+  const family = iconStore.currentIcon.fontAwesomeIcon.family
+
+  return { id, label, unicode, isBrandsIcon, style, family }
 }
 
 async function queryIcons(query: string) {
-  const fontAwesomeBrowser = new FontAwesomeBrowser(FontAwesomeIcon.fontVersionInfo.fontVersion)
+  const fontAwesomeBrowser = new FontAwesomeBrowser(fontAwesomeVersionInfo.fontVersion)
   let icons = await fontAwesomeBrowser.getAvailableIcons(query)
-  availableIcons.value = icons.filter((icon) => icon.isFree())
+
+  if (fontAwesomeVersionInfo.fontLicense === 'Free') {
+    availableIcons.value = icons.filter((icon) => icon.isFree())
+  } else {
+    availableIcons.value = icons
+  }
 }
 
 queryIcons('video')
@@ -35,8 +49,9 @@ queryIcons('video')
       v-for="icon of availableIcons"
       @click="selectIcon(icon)"
       :key="icon.id"
-      :icon="icon"
-      class="cursor-pointer rounded bg-slate-900 p-2 text-xl"
+      :title="icon.label"
+      :fontAwesomeIcon="iconTypetoFontAwesomeIcon(icon)"
+      class="cursor-pointer rounded bg-slate-900 p-2 text-xl hover:text-blue-500 focus:text-blue-500"
     ></Icon>
   </div>
 </template>
