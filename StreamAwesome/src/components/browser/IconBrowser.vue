@@ -33,7 +33,7 @@ async function queryIcons(query: string) {
   const fontAwesomeBrowser = new FontAwesomeBrowser(fontAwesomeVersionInfo.fontVersion)
   let icons = await fontAwesomeBrowser.getAvailableIcons(query)
 
-  if(fontAwesomeVersionInfo.fontLicense === 'Free') {
+  if (fontAwesomeVersionInfo.fontLicense === 'Free') {
     availableIcons.value = icons.filter((icon) => icon.isFree())
   } else {
     availableIcons.value = icons

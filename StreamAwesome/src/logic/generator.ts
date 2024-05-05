@@ -1,5 +1,10 @@
 import type { CustomIcon } from '@/model/customIcon'
-import type { FontFamilySuffix, FontWeight } from '@/model/fontAwesomeConstants'
+import {
+  BrandsKeyword,
+  DuotoneKeyword,
+  type FontFamilySuffix,
+  type FontWeight
+} from '@/model/fontAwesomeConstants'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import chroma from 'chroma-js'
@@ -48,9 +53,16 @@ export default class IconGenerator {
   private generateIconName(icon: CustomIcon): string {
     const colorName = namer(icon.foregroundColor, { pick: ['html'] }).html[0].name
     const iconName = icon.fontAwesomeIcon.label.toLowerCase().replace(/\s/g, '')
+    const fontAwesomeFamily = icon.fontAwesomeIcon.family
     const fontAwesomeStyle = icon.fontAwesomeIcon.style
 
-    return `${iconName}-${colorName}-${fontAwesomeStyle}`
+    if (icon.fontAwesomeIcon.isBrandsIcon) {
+      return `${iconName}-${colorName}-${BrandsKeyword}`
+    }
+    if (icon.fontAwesomeIcon.family === DuotoneKeyword) {
+      return `${iconName}-${colorName}-${fontAwesomeFamily}`
+    }
+    return `${iconName}-${colorName}-${fontAwesomeFamily}-${fontAwesomeStyle}`
   }
 
   private fillBackground(backgroundColor: string): void {
@@ -68,10 +80,23 @@ export default class IconGenerator {
 
     this.renderingContext.fillStyle = icon.foregroundColor
     this.renderingContext.fillText(iconCode, centerOfCanvas, centerOfCanvas)
+
+    if (icon.fontAwesomeIcon.family === DuotoneKeyword && !icon.fontAwesomeIcon.isBrandsIcon) {
+      // This is a simple approach to duotone icons, which is not perfect
+      const secondaryColor = chroma(icon.foregroundColor).darken(1).hex()
+      this.renderingContext.fillStyle = secondaryColor
+
+      const secondaryIconCode = this.calculateSecondaryIcon(icon.fontAwesomeIcon.unicode)
+      this.renderingContext.fillText(secondaryIconCode, centerOfCanvas, centerOfCanvas)
+    }
   }
 
   private calculateIcon(iconUnicode: string): string {
     return String.fromCodePoint(parseInt(iconUnicode, 16) || 0)
+  }
+
+  private calculateSecondaryIcon(iconUnicode: string): string {
+    return String.fromCharCode(parseInt(iconUnicode, 16), parseInt(iconUnicode, 16))
   }
 
   private setupFont(
