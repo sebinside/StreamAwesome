@@ -1,7 +1,8 @@
 <p align="center">
-  <img src = "streamawesome-logo.png"/>
+  <img src = "streamawesome-logo.png"/><br>
   <a href="https://skate702.de/StreamAwesome/">skate702.de/StreamAwesome</a>
 </p>
+<p>&nbsp;</p>
 
 ## Stream Awesome - Stream Deck Icon Generator using Font Awesome
 ### > Available online: https://skate702.de/StreamAwesome/
