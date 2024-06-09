@@ -63,60 +63,56 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
     />
   </div>
 
-  <div class="rounded-md shadow-sm" id="familySelector">
-    <span v-for="(family, index) in relevantFamilies" :key="family">
-      <input
-        type="radio"
-        name="iconFamily"
-        :id="family"
-        :value="family"
-        class="peer hidden"
-        @change="$emit('updateFamily', family)"
-        :checked="family === props.icon?.fontAwesomeIcon.family"
-      />
-      <label
-        :for="family"
-        :class="{
-          'rounded-s-lg': index === 0,
-          'rounded-e-lg': index === relevantFamilies.length - 1
-        }"
-        class="cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-lg text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
-      >
-        {{ family[0].toUpperCase() + family.slice(1) }}
-      </label>
-    </span>
-  </div>
-
-  <div class="rounded-md shadow-sm" id="styleSelector">
-    <span v-for="(style, index) in relevantStyles" :key="style">
-      <input
-        type="radio"
-        name="iconStyle"
-        :id="style"
-        :value="style"
-        class="peer hidden"
-        @change="$emit('updateStyle', style)"
-        :checked="style === props.icon?.fontAwesomeIcon.style"
-      />
-      <label
-        :for="style"
-        :class="{
-          'rounded-s-lg': index === 0,
-          'rounded-e-lg': index === relevantStyles.length - 1
-        }"
-        class="cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
-      >
-        <Icon
-          :fontAwesomeIcon="createFontAwesomeIconDisplay(style)"
-          :title="style[0].toUpperCase() + style.slice(1)"
+  <section>
+    <div class="flex rounded-md shadow-sm">
+      <div class="flex-1" v-for="(family, index) in relevantFamilies" :key="family">
+        <input
+          type="radio"
+          name="iconFamily"
+          :id="family"
+          :value="family"
+          class="peer hidden"
+          @change="$emit('updateFamily', family)"
+          :checked="family === props.icon?.fontAwesomeIcon.family"
         />
-      </label>
-    </span>
-  </div>
-</template>
+        <label
+          :for="family"
+          :class="{
+            'rounded-s-lg': index === 0,
+            'rounded-e-lg': index === relevantFamilies.length - 1
+          }"
+          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-lg text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+        >
+          {{ family[0].toUpperCase() + family.slice(1) }}
+        </label>
+      </div>
+    </div>
 
-<style scoped>
-#styleSelector {
-  max-width: 256px;
-}
-</style>
+    <div class="mt-4 flex rounded-md shadow-sm">
+      <div class="flex-1" v-for="(style, index) in relevantStyles" :key="style">
+        <input
+          type="radio"
+          name="iconStyle"
+          :id="style"
+          :value="style"
+          class="peer hidden"
+          @change="$emit('updateStyle', style)"
+          :checked="style === props.icon?.fontAwesomeIcon.style"
+        />
+        <label
+          :for="style"
+          :class="{
+            'rounded-s-lg': index === 0,
+            'rounded-e-lg': index === relevantStyles.length - 1
+          }"
+          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+        >
+          <Icon
+            :fontAwesomeIcon="createFontAwesomeIconDisplay(style)"
+            :title="style[0].toUpperCase() + style.slice(1)"
+          />
+        </label>
+      </div>
+    </div>
+  </section>
+</template>
