@@ -39,7 +39,7 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
     const unicode = props.icon.fontAwesomeIcon.unicode
     const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
     const family = props.icon.fontAwesomeIcon.family
-    
+
     return { id, label, unicode, isBrandsIcon, family, style }
   }
 }
@@ -50,7 +50,7 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
 <template>
   <div class="mt-5">
     <label for="iconSize" class="mb-[0.5] block text-sm font-medium text-gray-900 dark:text-white"
-    >Icon Size and Style:
+      >Icon Size and Style:
     </label>
     <input
       id="iconSize"
@@ -62,7 +62,7 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
     />
   </div>
-  
+
   <section>
     <div class="flex rounded-md shadow-sm">
       <div class="flex-1" v-for="(family, index) in relevantFamilies" :key="family">
@@ -87,8 +87,8 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
         </label>
       </div>
     </div>
-    
-    <div class="flex mt-4 rounded-md shadow-sm">
+
+    <div class="mt-4 flex rounded-md shadow-sm">
       <div class="flex-1" v-for="(style, index) in relevantStyles" :key="style">
         <input
           type="radio"
