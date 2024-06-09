@@ -81,7 +81,7 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
             'rounded-s-lg': index === 0,
             'rounded-e-lg': index === relevantFamilies.length - 1
           }"
-          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-lg text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-lg text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
         >
           {{ family[0].toUpperCase() + family.slice(1) }}
         </label>
@@ -105,7 +105,7 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
             'rounded-s-lg': index === 0,
             'rounded-e-lg': index === relevantStyles.length - 1
           }"
-          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
         >
           <Icon
             :fontAwesomeIcon="createFontAwesomeIconDisplay(style)"
