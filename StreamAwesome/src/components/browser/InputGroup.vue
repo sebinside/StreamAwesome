@@ -9,7 +9,7 @@ defineProps({
   },
   modelValue: {
     required: false,
-    default: 'video'
+    default: 'question'
   }
 })
 defineEmits(['update:modelValue'])
