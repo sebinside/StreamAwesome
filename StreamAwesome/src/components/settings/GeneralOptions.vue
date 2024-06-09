@@ -44,13 +44,25 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
   }
 }
 
-defineEmits(['updateStyle', 'updateFamily'])
+defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
 </script>
 
 <template>
-  <p for="iconSymbol" class="mb-3 mt-2 block text-sm font-medium text-gray-900 dark:text-white">
-    Family:
-  </p>
+  <div class="mt-5">
+    <label for="iconSize" class="mb-[0.5] block text-sm font-medium text-gray-900 dark:text-white"
+      >Icon Size and Style:
+    </label>
+    <input
+      id="iconSize"
+      type="range"
+      :value="props.icon?.fontSize ?? 180"
+      @input="(event) => $emit('updateSize', (event.target as HTMLInputElement).value)"
+      min="50"
+      max="250"
+      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
+    />
+  </div>
+
   <div class="rounded-md shadow-sm" id="familySelector">
     <span v-for="(family, index) in relevantFamilies" :key="family">
       <input
@@ -75,9 +87,6 @@ defineEmits(['updateStyle', 'updateFamily'])
     </span>
   </div>
 
-  <p for="iconSymbol" class="mb-3 mt-6 block text-sm font-medium text-gray-900 dark:text-white">
-    Style:
-  </p>
   <div class="rounded-md shadow-sm" id="styleSelector">
     <span v-for="(style, index) in relevantStyles" :key="style">
       <input

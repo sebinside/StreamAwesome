@@ -1,20 +1,21 @@
 <script setup lang="ts">
+import type { CustomIcon } from '@/model/customIcon'
 import chroma from 'chroma-js'
 import { ref, type Ref } from 'vue'
 
+// TODO: Replace color selector with actual legacy icon template
 const DEFAULT_HUE = 217
 const DEFAULT_SATURATION = 0.69
 const DEFAULT_LIGHTNESS = 0.57
 
 const props = defineProps({
-  colorHexString: {
-    type: String,
-    required: true
+  icon: {
+    type: Object as () => CustomIcon
   }
 })
 const emit = defineEmits(['input'])
 
-const color = chroma(props.colorHexString)
+const color = chroma(props.icon?.foregroundColor ?? '#000000')
 
 const currentHue: Ref<Number> = ref(color.hsl()[0])
 const currentSaturation: Ref<Number> = ref(color.hsl()[1])
