@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, ColorValue } from '@/model/customIcon'
 import ColorSelector from '@/components/settings/presets/ColorSelector.vue'
 import chroma from 'chroma-js'
 import { reactive } from 'vue'
@@ -12,7 +12,7 @@ const props = defineProps({
 // TODO: Add patterns selector and switch in the template
 const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
 
-function updateColorValue(param: { key: 'h' | 's' | 'l'; value: number }) {
+function updateColorValue(param: ColorValue) {
   if (!param.value) return
 
   const foregroundColor = chroma(currentIcon.foregroundColor)
