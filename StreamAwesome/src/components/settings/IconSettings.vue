@@ -3,7 +3,7 @@ import type { CustomIcon } from '@/model/customIcon'
 import PresetOptions from '@/components/settings/PresetOptions.vue'
 import GeneralOptions from '@/components/settings/GeneralOptions.vue'
 import DownloadButton from '@/components/settings/DownloadButton.vue'
-import { type FontAwesomeFamily, type FontAwesomeStyle } from '@/model/fontAwesomeConstants'
+import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeConstants'
 import { reactive } from 'vue'
 const props = defineProps({
   icon: {
@@ -14,16 +14,16 @@ const props = defineProps({
 const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
 
 // TODO: More refactoring required
-function updateStyle(style: FontAwesomeStyle) {
-  currentIcon.fontAwesomeIcon.style = style
+function updateSize(size: number) {
+  currentIcon.fontSize = size
 }
 
 function updateFamily(family: FontAwesomeFamily) {
   currentIcon.fontAwesomeIcon.family = family
 }
 
-function updateSize(size: number) {
-  currentIcon.fontSize = size
+function updateStyle(style: FontAwesomeStyle) {
+  currentIcon.fontAwesomeIcon.style = style
 }
 
 defineEmits(['downloadIcon'])
@@ -34,9 +34,9 @@ defineEmits(['downloadIcon'])
 
   <GeneralOptions
     :icon="icon"
-    @updateStyle="updateStyle"
-    @updateFamily="updateFamily"
     @updateSize="updateSize"
+    @updateFamily="updateFamily"
+    @updateStyle="updateStyle"
   />
 
   <DownloadButton @downloadIcon="$emit('downloadIcon')" />
