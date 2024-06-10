@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CustomIcon } from '@/model/customIcon'
 import chroma from 'chroma-js'
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 
 // TODO: Replace color selector with actual legacy icon template
 const DEFAULT_HUE = 217
@@ -17,11 +17,11 @@ const emit = defineEmits(['input'])
 
 const color = chroma(props.icon?.foregroundColor ?? '#000000')
 
-const currentHue: Ref<Number> = ref(color.hsl()[0])
-const currentSaturation: Ref<Number> = ref(color.hsl()[1])
-const currentLightness: Ref<Number> = ref(color.hsl()[2])
+const currentHue = ref(color.hsl()[0])
+const currentSaturation = ref(color.hsl()[1])
+const currentLightness = ref(color.hsl()[2])
 
-const settingsExpanded: Ref<boolean> = ref(false)
+const settingsExpanded = ref(false)
 
 const toggleSettings = () => {
   settingsExpanded.value = !settingsExpanded.value

@@ -4,12 +4,12 @@ import Icon from '@/components/utils/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
+import type { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import { useIconsStore } from '@/stores/icons'
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 
-let availableIcons: Ref<FontAwesomeIconType[]> = ref([])
+let availableIcons = ref<FontAwesomeIconType[]>([])
 const iconStore = useIconsStore()
 
 function selectIcon(icon: FontAwesomeIconType) {
