@@ -43,7 +43,9 @@ function createGenerator() {
   }
 }
 
-defineEmits(['downloadIcon'])
+defineEmits<{
+  downloadIcon: []
+}>()
 </script>
 
 <template>
