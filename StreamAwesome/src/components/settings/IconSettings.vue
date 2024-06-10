@@ -26,7 +26,9 @@ function updateStyle(style: FontAwesomeStyle) {
   currentIcon.fontAwesomeIcon.style = style
 }
 
-defineEmits(['downloadIcon'])
+defineEmits<{
+  downloadIcon: []
+}>()
 </script>
 
 <template>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-defineEmits(['downloadIcon'])
+defineEmits<{
+  downloadIcon: []
+}>()
 </script>
 
 <template>
