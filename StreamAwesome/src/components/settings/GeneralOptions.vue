@@ -46,8 +46,8 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
 }
 
 const emit = defineEmits<{
-  updateSize: [size: number],
-  updateFamily: [family: FontAwesomeFamily],
+  updateSize: [size: number]
+  updateFamily: [family: FontAwesomeFamily]
   updateStyle: [style: FontAwesomeStyle]
 }>()
 
@@ -66,7 +66,7 @@ function updateSize(event: Event) {
       id="iconSize"
       type="range"
       :value="props.icon?.fontSize ?? 180"
-      @input="event => updateSize(event)"
+      @input="(event) => updateSize(event)"
       min="50"
       max="250"
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"

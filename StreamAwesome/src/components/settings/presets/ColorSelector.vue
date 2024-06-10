@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, ColorValue } from '@/model/customIcon'
 import chroma from 'chroma-js'
 import { ref } from 'vue'
 
@@ -13,7 +13,6 @@ const props = defineProps({
     type: Object as () => CustomIcon
   }
 })
-const emit = defineEmits(['input'])
 
 const color = chroma(props.icon?.foregroundColor ?? '#000000')
 
@@ -27,10 +26,15 @@ const toggleSettings = () => {
   settingsExpanded.value = !settingsExpanded.value
 }
 
+const emit = defineEmits<{
+  input: [colorValue: ColorValue]
+}>()
+
 const resetColor = () => {
   currentHue.value = DEFAULT_HUE
   currentSaturation.value = DEFAULT_SATURATION
   currentLightness.value = DEFAULT_LIGHTNESS
+
   emit('input', { key: 'h', value: DEFAULT_HUE })
   emit('input', { key: 's', value: DEFAULT_SATURATION })
   emit('input', { key: 'l', value: DEFAULT_LIGHTNESS })
