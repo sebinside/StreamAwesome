@@ -6,3 +6,7 @@ export interface CustomIcon {
   fontSize: number
   fontAwesomeIcon: FontAwesomeIcon
 }
+export interface ColorValue {
+  key: 'h' | 's' | 'l'
+  value: number
+}

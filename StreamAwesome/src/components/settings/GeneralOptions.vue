@@ -4,6 +4,7 @@ import {
   BrandsKeyword,
   FontAwesomeFamilyKeys,
   FontAwesomeStyleKeys,
+  type FontAwesomeFamily,
   type FontAwesomeStyle
 } from '@/model/fontAwesomeConstants'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
@@ -44,7 +45,16 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
   }
 }
 
-defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
+const emit = defineEmits<{
+  updateSize: [size: number]
+  updateFamily: [family: FontAwesomeFamily]
+  updateStyle: [style: FontAwesomeStyle]
+}>()
+
+function updateSize(event: Event) {
+  const size = +(event.target as HTMLInputElement).value
+  emit('updateSize', size)
+}
 </script>
 
 <template>
@@ -56,7 +66,7 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
       id="iconSize"
       type="range"
       :value="props.icon?.fontSize ?? 180"
-      @input="(event) => $emit('updateSize', (event.target as HTMLInputElement).value)"
+      @input="(event) => updateSize(event)"
       min="50"
       max="250"
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
@@ -72,7 +82,7 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
           :id="family"
           :value="family"
           class="peer hidden"
-          @change="$emit('updateFamily', family)"
+          @input="$emit('updateFamily', family)"
           :checked="family === props.icon?.fontAwesomeIcon.family"
         />
         <label
@@ -96,7 +106,7 @@ defineEmits(['updateStyle', 'updateFamily', 'updateSize'])
           :id="style"
           :value="style"
           class="peer hidden"
-          @change="$emit('updateStyle', style)"
+          @input="$emit('updateStyle', style)"
           :checked="style === props.icon?.fontAwesomeIcon.style"
         />
         <label

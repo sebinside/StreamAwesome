@@ -43,7 +43,7 @@ async function queryIcons(query: string) {
 queryIcons('video')
 </script>
 <template>
-  <InputGroup label="Search:" inputId="iconBrowser" @input="queryIcons($event.target.value)" />
+  <InputGroup label="Search:" inputId="iconBrowser" @on-input="queryIcons" />
   <div class="mt-3 grid grid-cols-3 grid-rows-3 justify-items-stretch gap-2 text-center">
     <Icon
       v-for="icon of availableIcons"
