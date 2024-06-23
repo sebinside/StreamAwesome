@@ -2,12 +2,9 @@
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 
-const props = defineProps({
-  fontAwesomeIcon: {
-    required: true,
-    type: Object as () => FontAwesomeIcon
-  }
-})
+const props = defineProps<{
+  fontAwesomeIcon: FontAwesomeIcon
+}>()
 </script>
 
 <template>

@@ -2,11 +2,10 @@
 import type { CustomIcon } from '@/model/customIcon'
 import ElgatoClassic from '@/components/settings/presets/ElgatoClassic.vue'
 import { ref } from 'vue'
-defineProps({
-  icon: {
-    type: Object as () => CustomIcon
-  }
-})
+
+defineProps<{
+  icon: CustomIcon
+}>()
 
 // TODO: Move somewhere else in the refactoring of the model
 const availablePresets = ['Elgato Classic', 'Other']

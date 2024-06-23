@@ -3,11 +3,9 @@ import { reactive, ref } from 'vue'
 import chroma from 'chroma-js'
 import type { CustomIcon, ColorValue } from '@/model/customIcon'
 
-const props = defineProps({
-  icon: {
-    type: Object as () => CustomIcon
-  }
-})
+const props = defineProps<{
+  icon: CustomIcon
+}>()
 
 const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
 const color = chroma(props.icon?.foregroundColor ?? '#000000')

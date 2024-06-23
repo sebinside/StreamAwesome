@@ -3,12 +3,10 @@ import type { CustomIcon } from '@/model/customIcon'
 import PresetOptions from '@/components/settings/PresetOptions.vue'
 import GeneralOptions from '@/components/settings/GeneralOptions.vue'
 import DownloadButton from '@/components/settings/DownloadButton.vue'
-defineProps({
-  icon: {
-    type: Object as () => CustomIcon
-  }
-})
 
+defineProps<{
+  icon: CustomIcon
+}>()
 defineEmits<{
   downloadIcon: []
 }>()
