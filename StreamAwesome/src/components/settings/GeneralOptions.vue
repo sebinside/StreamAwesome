@@ -11,12 +11,15 @@ import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { fontAwesomeVersionInfo } from '@/model/versions'
+import { reactive } from 'vue'
 
 const props = defineProps({
   icon: {
     type: Object as () => CustomIcon
   }
 })
+
+const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
 
 const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
@@ -45,15 +48,17 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
   }
 }
 
-const emit = defineEmits<{
-  updateSize: [size: number]
-  updateFamily: [family: FontAwesomeFamily]
-  updateStyle: [style: FontAwesomeStyle]
-}>()
-
 function updateSize(event: Event) {
   const size = +(event.target as HTMLInputElement).value
-  emit('updateSize', size)
+  currentIcon.fontSize = size
+}
+
+function updateFamily(family: FontAwesomeFamily) {
+  currentIcon.fontAwesomeIcon.family = family
+}
+
+function updateStyle(style: FontAwesomeStyle) {
+  currentIcon.fontAwesomeIcon.style = style
 }
 </script>
 
@@ -82,7 +87,7 @@ function updateSize(event: Event) {
           :id="family"
           :value="family"
           class="peer hidden"
-          @input="$emit('updateFamily', family)"
+          @input="() => updateFamily(family)"
           :checked="family === props.icon?.fontAwesomeIcon.family"
         />
         <label
@@ -106,7 +111,7 @@ function updateSize(event: Event) {
           :id="style"
           :value="style"
           class="peer hidden"
-          @input="$emit('updateStyle', style)"
+          @input="() => updateStyle(style)"
           :checked="style === props.icon?.fontAwesomeIcon.style"
         />
         <label
