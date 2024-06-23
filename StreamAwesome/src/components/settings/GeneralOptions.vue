@@ -74,7 +74,7 @@ function updateStyle(style: FontAwesomeStyle) {
       @input="(event) => updateSize(event)"
       min="50"
       max="250"
-      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
+      class="mb-6 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
     />
   </div>
 

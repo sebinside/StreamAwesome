@@ -37,7 +37,7 @@ function updateColorValue(param: ColorValue) {
   />
 </template>
 
-<style>
+<style scoped>
 .selector {
   display: block;
   height: 1rem;
