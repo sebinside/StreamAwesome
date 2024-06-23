@@ -6,11 +6,9 @@ import { useFontsStatusStore } from '@/stores/fontStatus'
 
 const fontStatusStore = useFontsStatusStore()
 const iconCanvas = ref<HTMLCanvasElement | null>(null)
-const props = defineProps({
-  icon: {
-    type: Object as () => CustomIcon
-  }
-})
+const props = defineProps<{
+  icon: CustomIcon
+}>()
 
 onMounted(() => {
   waitForRequiredInitialization(createGenerator)
