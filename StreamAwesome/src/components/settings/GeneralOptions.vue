@@ -13,11 +13,9 @@ import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import { reactive } from 'vue'
 
-const props = defineProps({
-  icon: {
-    type: Object as () => CustomIcon
-  }
-})
+const props = defineProps<{
+  icon: CustomIcon
+}>()
 
 const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
 

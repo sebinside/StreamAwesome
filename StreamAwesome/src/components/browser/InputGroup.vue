@@ -1,13 +1,8 @@
 <script setup lang="ts">
-defineProps({
-  label: {
-    type: String
-  },
-  inputId: {
-    required: true,
-    type: String
-  }
-})
+defineProps<{
+  label: string
+  inputId: string
+}>()
 defineEmits<{
   onInput: [inputValue: string]
 }>()
