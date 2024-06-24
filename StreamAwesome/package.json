@@ -19,7 +19,7 @@
     "chroma-js": "^2.4.2",
     "color-namer": "^1.4.0",
     "pinia": "^2.1.7",
-    "vue": "^3.4.26",
+    "vue": "^3.4.30",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
