@@ -1,6 +1,6 @@
-export const FontAwesomeFamilyKeys = ['classic', 'sharp', 'duotone']
-export const FontAwesomeStyleKeys = ['solid', 'regular', 'light', 'thin', 'brands']
-export const FontFamilySuffixKeys = ['Free', 'Pro', 'Duotone', 'Sharp', 'Brands']
+export const FontAwesomeFamilyKeys = ['classic', 'sharp', 'duotone'] as const
+export const FontAwesomeStyleKeys = ['solid', 'regular', 'light', 'thin', 'brands'] as const
+export const FontFamilySuffixKeys = ['Free', 'Pro', 'Duotone', 'Sharp', 'Brands'] as const
 export const BrandsKeyword = 'brands'
 export const DuotoneKeyword = 'duotone'
 
