@@ -10,7 +10,6 @@ import {
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import { fontAwesomeVersionInfo } from '@/model/versions'
 import { reactive } from 'vue'
 
 const props = defineProps<{
@@ -32,7 +31,7 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
       label: fallBackIcon.label,
       unicode: fallBackIcon.unicode,
       isBrandsIcon: fallBackIcon.isBrand(),
-      family: fontAwesomeVersionInfo.fontLicense,
+      family: fallBackIcon.styles.free[0].family,
       style: style
     }
   } else {
