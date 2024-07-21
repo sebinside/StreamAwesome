@@ -28,4 +28,3 @@ function downloadIcon() {
     </div>
   </div>
 </template>
-@/logic/generator/iconGenerator
