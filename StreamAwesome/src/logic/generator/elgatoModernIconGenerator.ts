@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { CustomIcon } from '@/model/customIcon'
 import IconGenerator from '@/logic/generator/iconGenerator'
+import type { Color } from 'chroma-js'
 
 export default class ElgatoModernIconGenerator extends IconGenerator<'Elgato Modern'> {
-  generateIcon(icon: CustomIcon<'Elgato Modern'>): void {
+  protected getPrimaryIconColor(icon: CustomIcon<'Elgato Modern'>): Color {
     throw new Error('Method not implemented.')
   }
-  generatePresetIconName(icon: CustomIcon<'Elgato Modern'>): string {
+  protected drawBackground(icon: CustomIcon<'Elgato Modern'>): void {
     throw new Error('Method not implemented.')
   }
-  drawIcon(icon: CustomIcon<'Elgato Modern'>): void {
+  protected generatePresetIconName(icon: CustomIcon<'Elgato Modern'>): string {
     throw new Error('Method not implemented.')
   }
 }

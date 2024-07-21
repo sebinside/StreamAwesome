@@ -56,5 +56,3 @@ defineEmits<{
     @click="$emit('downloadIcon')"
   ></canvas>
 </template>
-@/logic/generator/generator
-@/logic/generator/iconGenerator
