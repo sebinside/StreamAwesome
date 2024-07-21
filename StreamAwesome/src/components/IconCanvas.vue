@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { CustomIcon } from '@/model/customIcon'
-import IconGenerator from '@/logic/generator'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { onMounted, ref, watch } from 'vue'
 import { useFontsStatusStore } from '@/stores/fontStatus'
+import { getMatchingGenerator } from '@/logic/generator/generators'
 
 const fontStatusStore = useFontsStatusStore()
 const iconCanvas = ref<HTMLCanvasElement | null>(null)
 const props = defineProps<{
-  icon: CustomIcon
+  icon: CustomIcon<FontAwesomePreset>
 }>()
 
 onMounted(() => {
@@ -30,7 +30,7 @@ function waitForRequiredInitialization(callback: () => void) {
 
 function createGenerator() {
   if (props.icon && iconCanvas.value) {
-    const iconGenerator = new IconGenerator(iconCanvas.value)
+    const iconGenerator = getMatchingGenerator(props.icon, iconCanvas.value)
     iconGenerator.generateIcon(props.icon)
 
     watch(props.icon, () => {
@@ -56,3 +56,5 @@ defineEmits<{
     @click="$emit('downloadIcon')"
   ></canvas>
 </template>
+@/logic/generator/generator
+@/logic/generator/iconGenerator

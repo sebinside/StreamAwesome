@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import PresetOptions from '@/components/settings/PresetOptions.vue'
 import GeneralOptions from '@/components/settings/GeneralOptions.vue'
 import DownloadButton from '@/components/settings/DownloadButton.vue'
 
 defineProps<{
-  icon: CustomIcon
+  icon: CustomIcon<FontAwesomePreset>
 }>()
 defineEmits<{
   downloadIcon: []

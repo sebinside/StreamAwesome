@@ -1,20 +1,18 @@
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import {
   BrandsKeyword,
   DuotoneKeyword,
   type FontFamilySuffix,
   type FontWeight
 } from '@/model/fontAwesomeConstants'
-import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import chroma from 'chroma-js'
-import namer from 'color-namer'
 
-export default class IconGenerator {
-  private renderingContext: CanvasRenderingContext2D
+export default abstract class IconGenerator<T extends FontAwesomePreset> {
+  protected renderingContext: CanvasRenderingContext2D
 
-  private defaultCanvasSize = 256
-  private readonly canvas: HTMLCanvasElement
+  protected defaultCanvasSize = 256
+  protected readonly canvas: HTMLCanvasElement
 
   public constructor(canvas?: HTMLCanvasElement) {
     if (canvas) {
@@ -33,73 +31,46 @@ export default class IconGenerator {
     }
   }
 
-  generateIcon(icon: CustomIcon) {
-    this.fillBackground(icon.backgroundColor)
-    this.drawIcon(icon)
-  }
+  abstract generateIcon(icon: CustomIcon<T>): void
+  abstract generatePresetIconName(icon: CustomIcon<T>): string
+  abstract drawIcon(icon: CustomIcon<T>): void
 
-  saveIcon(icon: CustomIcon) {
+  saveIcon(icon: CustomIcon<T>) {
     this.generateIcon(icon)
     this.applyWatermark()
     this.updateStats()
 
     const imageData = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
     const linkElement = document.createElement('a')
-    linkElement.download = `${this.generateIconName(icon)}.png`
+    linkElement.download = `${this.generateCustomIconName(icon)}.png`
     linkElement.href = imageData
     linkElement.click()
   }
 
-  private generateIconName(icon: CustomIcon): string {
-    const colorName = namer(icon.foregroundColor, { pick: ['html'] }).html[0].name
+  private generateCustomIconName(icon: CustomIcon<T>): string {
+    const customPresetName = this.generatePresetIconName(icon)
     const iconName = icon.fontAwesomeIcon.label.toLowerCase().replace(/\s/g, '')
     const fontAwesomeFamily = icon.fontAwesomeIcon.family
     const fontAwesomeStyle = icon.fontAwesomeIcon.style
 
     if (icon.fontAwesomeIcon.isBrandsIcon) {
-      return `${iconName}-${colorName}-${BrandsKeyword}`
+      return `${iconName}-${customPresetName}-${BrandsKeyword}`
     }
     if (icon.fontAwesomeIcon.family === DuotoneKeyword) {
-      return `${iconName}-${colorName}-${fontAwesomeFamily}`
+      return `${iconName}-${customPresetName}-${fontAwesomeFamily}`
     }
-    return `${iconName}-${colorName}-${fontAwesomeFamily}-${fontAwesomeStyle}`
+    return `${iconName}-${customPresetName}-${fontAwesomeFamily}-${fontAwesomeStyle}`
   }
 
-  private fillBackground(backgroundColor: string): void {
-    this.renderingContext.fillStyle = backgroundColor
-    this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
-  }
-
-  private drawIcon(icon: CustomIcon): void {
-    const centerOfCanvas = this.canvas.width / 2
-    const iconCode = this.calculateIcon(icon.fontAwesomeIcon.unicode)
-    const fontWeight = FontAwesomeIconType.getFontWeightOfStyle(icon.fontAwesomeIcon.style)
-    const fontFamilySuffix = FontAwesomeIconType.getFontFamilySuffix(icon.fontAwesomeIcon)
-
-    this.setupFont(icon.fontAwesomeIcon.unicode, icon.fontSize, fontWeight, fontFamilySuffix)
-
-    this.renderingContext.fillStyle = icon.foregroundColor
-    this.renderingContext.fillText(iconCode, centerOfCanvas, centerOfCanvas)
-
-    if (icon.fontAwesomeIcon.family === DuotoneKeyword && !icon.fontAwesomeIcon.isBrandsIcon) {
-      // This is a simple approach to duotone icons, which is not perfect
-      const secondaryColor = chroma(icon.foregroundColor).darken(1).hex()
-      this.renderingContext.fillStyle = secondaryColor
-
-      const secondaryIconCode = this.calculateSecondaryIcon(icon.fontAwesomeIcon.unicode)
-      this.renderingContext.fillText(secondaryIconCode, centerOfCanvas, centerOfCanvas)
-    }
-  }
-
-  private calculateIcon(iconUnicode: string): string {
+  protected calculateIcon(iconUnicode: string): string {
     return String.fromCodePoint(parseInt(iconUnicode, 16) || 0)
   }
 
-  private calculateSecondaryIcon(iconUnicode: string): string {
+  protected calculateSecondaryIcon(iconUnicode: string): string {
     return String.fromCharCode(parseInt(iconUnicode, 16), parseInt(iconUnicode, 16))
   }
 
-  private setupFont(
+  protected setupFont(
     iconUnicode: string,
     fontSize: number,
     fontWeight: FontWeight,

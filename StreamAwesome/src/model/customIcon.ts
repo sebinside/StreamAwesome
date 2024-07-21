@@ -1,4 +1,4 @@
-import type { FontAwesomeIcon } from './fontAwesomeIcon'
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 
 export const FontAwesomePresetKeys = [
   'Elgato Classic',
@@ -9,11 +9,12 @@ export const FontAwesomePresetKeys = [
 export type FontAwesomePreset = (typeof FontAwesomePresetKeys)[number]
 export type ColorSpace = 'rgb' | 'hsl' | 'lab' | 'lch' | 'lrgb'
 
-// TODO: Replace CustomIcon with NextGenCustomIcon
-export interface NextGenCustomIcon {
+export interface CustomIcon<T extends FontAwesomePreset> {
   fontSize: number
   fontAwesomeIcon: FontAwesomeIcon
-  presetSettings: ElgatoClassicPreset | ElgatoModernPreset | ElgatoNeoPreset | CustomPreset
+  presetSettings: (ElgatoClassicPreset | ElgatoModernPreset | ElgatoNeoPreset | CustomPreset) & {
+    preset: T
+  }
 }
 
 interface Preset {
@@ -46,15 +47,4 @@ interface CustomPreset extends Preset {
   preset: (typeof FontAwesomePresetKeys)[3]
   backgroundColor: string
   foregroundColor: string
-}
-
-export interface CustomIcon {
-  backgroundColor: string
-  foregroundColor: string
-  fontSize: number
-  fontAwesomeIcon: FontAwesomeIcon
-}
-export interface ColorValue {
-  key: 'h' | 's' | 'l'
-  value: number
 }

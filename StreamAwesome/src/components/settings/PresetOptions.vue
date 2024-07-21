@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import ElgatoClassic from '@/components/settings/presets/ElgatoClassic.vue'
 import OtherComponent from '@/components/settings/presets/OtherComponent.vue'
 import { ref, computed } from 'vue'
 import type { VNode, Component } from 'vue'
 
 defineProps<{
-  icon: CustomIcon
+  icon: CustomIcon<FontAwesomePreset>
 }>()
 
 // TODO: Move somewhere else in the refactoring of the model

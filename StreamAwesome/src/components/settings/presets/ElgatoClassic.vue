@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import chroma from 'chroma-js'
-import type { CustomIcon, ColorValue } from '@/model/customIcon'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 
 const props = defineProps<{
-  icon: CustomIcon
+  icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
-const color = chroma(props.icon?.foregroundColor ?? '#000000')
-const currentHue = ref(color.hsl()[0])
+const defaultHue = 217
 
-function updateColorValue(param: ColorValue) {
-  if (!param.value) return
+const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+currentIcon.presetSettings = {
+  preset: 'Elgato Classic',
+  hue: defaultHue
+}
 
-  const foregroundColor = chroma(currentIcon.foregroundColor)
-  currentIcon.foregroundColor = foregroundColor.set('hsl.' + param.key, param.value).hex()
-  currentIcon.backgroundColor = chroma(currentIcon.foregroundColor).darken(4.15).hex()
+const currentHue = ref(currentIcon.presetSettings.hue)
+function updateColorValue(hue: number) {
+  if (!hue) return
+  if (currentIcon.presetSettings.preset !== 'Elgato Classic') return
+  currentIcon.presetSettings.hue = hue
 }
 </script>
 
@@ -31,7 +33,7 @@ function updateColorValue(param: ColorValue) {
     min="0"
     class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
     v-model="currentHue"
-    @input="() => updateColorValue({ key: 'h', value: currentHue })"
+    @input="() => updateColorValue(currentHue)"
   />
 </template>
 

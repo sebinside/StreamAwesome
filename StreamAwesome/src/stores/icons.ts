@@ -3,9 +3,11 @@ import { defineStore } from 'pinia'
 import type { CustomIcon } from '@/model/customIcon'
 
 export const useIconsStore = defineStore('icons', () => {
-  const currentIcon: CustomIcon = reactive({
-    backgroundColor: '#000023',
-    foregroundColor: '#4680dd',
+  const currentIcon: CustomIcon<'Elgato Classic'> = reactive({
+    presetSettings: {
+      preset: 'Elgato Classic',
+      hue: 0
+    },
     fontSize: 180,
     fontAwesomeIcon: {
       id: 'gear',
