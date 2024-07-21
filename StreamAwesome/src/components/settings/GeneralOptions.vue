@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import {
   BrandsKeyword,
   FontAwesomeFamilyKeys,
@@ -13,10 +13,10 @@ import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { reactive } from 'vue'
 
 const props = defineProps<{
-  icon: CustomIcon
+  icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = reactive(props.icon ?? ({} as CustomIcon))
+const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
 
 const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {

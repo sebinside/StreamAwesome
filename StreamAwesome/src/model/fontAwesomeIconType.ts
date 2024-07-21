@@ -4,9 +4,9 @@ import {
   type FontAwesomeStyle,
   type FontFamilySuffix,
   type FontWeight
-} from './fontAwesomeConstants'
-import type { FontAwesomeIcon } from './fontAwesomeIcon'
-import { fontAwesomeVersionInfo } from './versions'
+} from '@/model/fontAwesomeConstants'
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 
 export class FontAwesomeIconType {
   constructor(

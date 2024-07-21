@@ -1,4 +1,4 @@
-import type { FontAwesomeFamily, FontAwesomeStyle } from './fontAwesomeConstants'
+import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeConstants'
 
 export interface FontAwesomeIcon {
   id: string
