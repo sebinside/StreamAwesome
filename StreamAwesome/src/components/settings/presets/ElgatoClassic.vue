@@ -6,20 +6,15 @@ const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const defaultHue = 217
-
 const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
 currentIcon.presetSettings = {
   preset: 'Elgato Classic',
-  hue: defaultHue
+  hue: 217
 }
+currentIcon.fontAwesomeIcon.style = 'solid'
+currentIcon.fontAwesomeIcon.family = 'classic'
 
 const currentHue = ref(currentIcon.presetSettings.hue)
-function updateColorValue(hue: number) {
-  if (!hue) return
-  if (currentIcon.presetSettings.preset !== 'Elgato Classic') return
-  currentIcon.presetSettings.hue = hue
-}
 </script>
 
 <template>
@@ -32,8 +27,7 @@ function updateColorValue(hue: number) {
     max="360"
     min="0"
     class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-    v-model="currentHue"
-    @input="() => updateColorValue(currentHue)"
+    v-model="(currentIcon as CustomIcon<'Elgato Classic'>).presetSettings.hue"
   />
 </template>
 

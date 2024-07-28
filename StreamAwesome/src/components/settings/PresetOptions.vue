@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import ElgatoClassic from '@/components/settings/presets/ElgatoClassic.vue'
-import OtherComponent from '@/components/settings/presets/OtherComponent.vue'
+import ElgatoModern from '@/components/settings/presets/ElgatoModern.vue'
+import ElgatoNeo from '@/components/settings/presets/ElgatoNeo.vue'
+import CustomPreset from '@/components/settings/presets/CustomPreset.vue'
 import { ref, computed } from 'vue'
 import type { VNode, Component } from 'vue'
 
@@ -9,11 +11,13 @@ defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-// TODO: Move somewhere else in the refactoring of the model
 const presets = {
   'Elgato Classic': ElgatoClassic,
-  Other: OtherComponent
+  'Elgato Modern': ElgatoModern,
+  'Elgato Neo': ElgatoNeo,
+  Custom: CustomPreset
 } satisfies Record<string, VNode | Component>
+
 const presetKeys = Object.keys(presets) as IconPreset[]
 type IconPreset = keyof typeof presets
 

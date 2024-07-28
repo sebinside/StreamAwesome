@@ -30,15 +30,19 @@ function waitForRequiredInitialization(callback: () => void) {
 
 function createGenerator() {
   if (props.icon && iconCanvas.value) {
-    const iconGenerator = getMatchingGenerator(props.icon, iconCanvas.value)
-    iconGenerator.generateIcon(props.icon)
+    triggerGenerator(props.icon, iconCanvas.value)
 
     watch(props.icon, () => {
-      if (props.icon) {
-        iconGenerator.generateIcon(props.icon)
+      if (props.icon && iconCanvas.value) {
+        triggerGenerator(props.icon, iconCanvas.value)
       }
     })
   }
+}
+
+function triggerGenerator(icon: CustomIcon<any>, canvas: HTMLCanvasElement) {
+  const iconGenerator = getMatchingGenerator(icon, canvas)
+  iconGenerator.generateIcon(icon)
 }
 
 defineEmits<{
