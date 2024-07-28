@@ -13,8 +13,7 @@ export default class ElgatoModernIconGenerator extends IconGenerator<'Elgato Mod
   }
   protected drawBackground(icon: CustomIcon<'Elgato Modern'>): void {
     const backgroundColor = icon.presetSettings.inverted ? this.whiteColor : this.blackColor
-    this.renderingContext.fillStyle = backgroundColor.hex()
-    this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    this.fillBackground(backgroundColor.hex())
   }
   protected generatePresetIconName(icon: CustomIcon<'Elgato Modern'>): string {
     const invertedPart = icon.presetSettings.inverted ? '-inverted' : ''

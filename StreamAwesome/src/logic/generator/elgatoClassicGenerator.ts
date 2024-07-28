@@ -1,6 +1,5 @@
 import type { CustomIcon } from '@/model/customIcon'
 import IconGenerator from '@/logic/generator/iconGenerator'
-import namer from 'color-namer'
 import chroma, { type Color } from 'chroma-js'
 
 export default class ElgatoClassicIconGenerator extends IconGenerator<'Elgato Classic'> {
@@ -9,7 +8,7 @@ export default class ElgatoClassicIconGenerator extends IconGenerator<'Elgato Cl
 
   protected generatePresetIconName(icon: CustomIcon<'Elgato Classic'>): string {
     const foregroundColor = this.calculateForegroundColor(icon).hex()
-    const colorName = namer(foregroundColor, { pick: ['html'] }).html[0].name
+    const colorName = this.getHTMLColorName(foregroundColor)
     return `elgato-classic-${colorName}`
   }
 
@@ -19,8 +18,7 @@ export default class ElgatoClassicIconGenerator extends IconGenerator<'Elgato Cl
 
   protected drawBackground(icon: CustomIcon<'Elgato Classic'>): void {
     const backgroundColor = this.calculateBackgroundColor(icon)
-    this.renderingContext.fillStyle = backgroundColor.hex()
-    this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
+    this.fillBackground(backgroundColor.hex())
   }
 
   private calculateForegroundColor(icon: CustomIcon<'Elgato Classic'>): Color {

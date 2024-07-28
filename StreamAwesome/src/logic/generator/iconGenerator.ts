@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import chroma, { type Color } from 'chroma-js'
+import namer from 'color-namer'
 
 export default abstract class IconGenerator<T extends FontAwesomePreset> {
   protected renderingContext: CanvasRenderingContext2D
@@ -39,6 +40,15 @@ export default abstract class IconGenerator<T extends FontAwesomePreset> {
   protected getSecondaryIconColor(icon: CustomIcon<T>): Color {
     // This is a simple approach to duotone icons, which is not perfect
     return this.getPrimaryIconColor(icon).darken(1)
+  }
+
+  protected fillBackground(backgroundColor: string) {
+    this.renderingContext.fillStyle = backgroundColor
+    this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
+  }
+
+  protected getHTMLColorName(color: string) {
+    return namer(color, { pick: ['html'] }).html[0].name
   }
 
   protected drawIcon(icon: CustomIcon<T>): void {
