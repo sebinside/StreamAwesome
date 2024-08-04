@@ -14,6 +14,7 @@ document.fonts.onloadingdone = () => fontStatusStore.setFontsLoaded()
   <i class="fa-sharp fa-regular fa-glasses"></i>
   <i class="fa-sharp fa-light fa-glasses"></i>
   <i class="fa-sharp fa-thin fa-glasses"></i>
+  <i class="fa-sharp fa-duotone fa-glasses"></i>
   <i class="fa-brands fa-font-awesome"></i>
 </template>
 

@@ -28,5 +28,5 @@ jobs:
       - name: Install and Build 🔧
         working-directory: StreamAwesome
         run: |
-          npm install
-          npm run build
+          yarn install
+          yarn run build

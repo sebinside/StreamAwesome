@@ -4,9 +4,9 @@ import {
   type FontAwesomeStyle,
   type FontFamilySuffix,
   type FontWeight
-} from './fontAwesomeConstants'
-import type { FontAwesomeIcon } from './fontAwesomeIcon'
-import { fontAwesomeVersionInfo } from './versions'
+} from '@/model/fontAwesomeConstants'
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 
 export class FontAwesomeIconType {
   constructor(
@@ -50,6 +50,8 @@ export class FontAwesomeIconType {
         return 'Duotone'
       case 'sharp':
         return 'Sharp'
+      case 'sharp-duotone':
+        return 'Sharp Duotone'
       default:
         return fontAwesomeVersionInfo.fontLicense
     }
@@ -81,6 +83,8 @@ export class FontAwesomeIconType {
       styleAndFamily = `fa-sharp ${styleAndFamily}`
     } else if (icon.family === 'duotone') {
       styleAndFamily = 'fa-duotone'
+    } else if (icon.family === 'sharp-duotone') {
+      styleAndFamily = 'fa-sharp-duotone'
     }
 
     const id = `fa-${icon.id}`

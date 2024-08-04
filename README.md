@@ -1,7 +1,13 @@
+<p align="center">
+  <a href="https://skate702.de/StreamAwesome/"><img src = "streamawesome-logo.png"/></a><br>
+  <a href="https://skate702.de/StreamAwesome/">skate702.de/StreamAwesome</a>
+</p>
+<p>&nbsp;</p>
+
 ## Stream Awesome - Stream Deck Icon Generator using Font Awesome
 ### > Available online: https://skate702.de/StreamAwesome/
 
-Generate awesome looking Stream Deck icons like [these](https://www.instagram.com/p/CKPCM_YF16a/). Close to the [Elgato original](https://www.elgato.com/stream-deck) and of course awesome because of [Font Awesome](https://fontawesome.com/).
+Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https://www.elgato.com/stream-deck) and awesome because of [Font Awesome](https://fontawesome.com/).
 
 ![image](preview.png)
 
