@@ -38,7 +38,12 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
   }
 
   private generateTopLeftGradient(startColor: Color, stopColor: Color): CanvasGradient {
-    const gradient = this.renderingContext.createLinearGradient(0, 0, this.canvas.width, this.canvas.height)
+    const gradient = this.renderingContext.createLinearGradient(
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    )
     gradient.addColorStop(0, startColor.hex())
     gradient.addColorStop(1, stopColor.hex())
 
@@ -46,7 +51,12 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
   }
 
   private generateBottomLeftGradient(startColor: Color, stopColor: Color): CanvasGradient {
-    const gradient = this.renderingContext.createLinearGradient(0, this.canvas.width, this.canvas.width, 0)
+    const gradient = this.renderingContext.createLinearGradient(
+      0,
+      this.canvas.width,
+      this.canvas.width,
+      0
+    )
     gradient.addColorStop(0, startColor.hex())
     gradient.addColorStop(1, stopColor.hex())
 

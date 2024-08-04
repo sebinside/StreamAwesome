@@ -7,7 +7,9 @@ export const FontAwesomePresetKeys = [
   'Custom'
 ] as const
 export type FontAwesomePreset = (typeof FontAwesomePresetKeys)[number]
-export type ColorSpace = 'rgb' | 'hsl' | 'lab' | 'lch' | 'lrgb'
+
+export const ColorSpaceKeys = ['rgb', 'hsl', 'lab', 'lch', 'lrgb'] as const
+export type ColorSpace = (typeof ColorSpaceKeys)[number]
 
 export interface CustomIcon<T extends FontAwesomePreset> {
   fontSize: number
@@ -36,7 +38,7 @@ interface ElgatoNeoPreset extends Preset {
   invertDirection: boolean
   symbolOnly: boolean
   hueStart: number
-  hueStop: number
+  hueShift: number
   saturation: number
   translation: number
   lightness: number
