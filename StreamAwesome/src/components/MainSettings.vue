@@ -2,13 +2,13 @@
 import IconBrowser from '@/components/browser/IconBrowser.vue'
 import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
-import IconGenerator from '@/logic/generator'
+import { getMatchingGenerator } from '@/logic/generator/generators'
 import { useIconsStore } from '@/stores/icons'
 
 const iconStore = useIconsStore()
 
 function downloadIcon() {
-  const iconGenerator = new IconGenerator()
+  const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
   iconGenerator.saveIcon(iconStore.currentIcon)
 }
 </script>

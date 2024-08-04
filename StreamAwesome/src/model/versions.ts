@@ -1,7 +1,6 @@
-export const streamAwesomeVersionInfo = '2.0.0'
+export const streamAwesomeVersionInfo = '3.0.0'
 
 export type fontLicense = 'Free' | 'Pro'
-
 export const fontAwesomeVersionInfo: {
   readonly fontFamilyBase: string
   readonly fontVersion: string

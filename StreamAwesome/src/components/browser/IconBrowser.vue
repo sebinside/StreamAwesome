@@ -4,12 +4,12 @@ import Icon from '@/components/utils/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
+import type { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import { useIconsStore } from '@/stores/icons'
-import { ref, type Ref } from 'vue'
+import { ref } from 'vue'
 
-let availableIcons: Ref<FontAwesomeIconType[]> = ref([])
+let availableIcons = ref<FontAwesomeIconType[]>([])
 const iconStore = useIconsStore()
 
 function selectIcon(icon: FontAwesomeIconType) {
@@ -43,7 +43,7 @@ async function queryIcons(query: string) {
 queryIcons('video')
 </script>
 <template>
-  <InputGroup label="Search:" inputId="iconBrowser" @input="queryIcons($event.target.value)" />
+  <InputGroup label="Search:" inputId="iconBrowser" @on-input="queryIcons" />
   <div class="mt-3 grid grid-cols-3 grid-rows-3 justify-items-stretch gap-2 text-center">
     <Icon
       v-for="icon of availableIcons"
