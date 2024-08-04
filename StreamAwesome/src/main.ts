@@ -38,7 +38,8 @@ async function loadFontAwesomeStyles() {
       '../fonts/fontawesome/css/sharp-light.min.css',
       '../fonts/fontawesome/css/sharp-thin.min.css',
       '../fonts/fontawesome/css/sharp-regular.min.css',
-      '../fonts/fontawesome/css/sharp-solid.min.css'
+      '../fonts/fontawesome/css/sharp-solid.min.css',
+      '../fonts/fontawesome/css/sharp-duotone-solid.min.css'
     ]
 
     for (const style of proStyles) {

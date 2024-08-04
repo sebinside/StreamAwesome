@@ -2,6 +2,7 @@
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import {
   BrandsKeyword,
+  DuotoneKeyword,
   FontAwesomeFamilyKeys,
   FontAwesomeStyleKeys,
   type FontAwesomeFamily,
@@ -23,7 +24,7 @@ const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
   return key !== BrandsKeyword
 })
 
-function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon {
+function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwesomeIcon {
   if (props.icon === undefined) {
     const fallBackIcon = FontAwesomeIconType.createFallBackIcon()
     return {
@@ -40,6 +41,28 @@ function createFontAwesomeIconDisplay(style: FontAwesomeStyle): FontAwesomeIcon 
     const unicode = props.icon.fontAwesomeIcon.unicode
     const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
     const family = props.icon.fontAwesomeIcon.family
+
+    return { id, label, unicode, isBrandsIcon, family, style }
+  }
+}
+
+function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): FontAwesomeIcon {
+  if (props.icon === undefined) {
+    const fallBackIcon = FontAwesomeIconType.createFallBackIcon()
+    return {
+      id: fallBackIcon.id,
+      label: fallBackIcon.label,
+      unicode: fallBackIcon.unicode,
+      isBrandsIcon: fallBackIcon.isBrand(),
+      family: family,
+      style: fallBackIcon.styles.free[0].style
+    }
+  } else {
+    const id = props.icon.fontAwesomeIcon.id
+    const label = props.icon.fontAwesomeIcon.label
+    const unicode = props.icon.fontAwesomeIcon.unicode
+    const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
+    const style = props.icon.fontAwesomeIcon.style
 
     return { id, label, unicode, isBrandsIcon, family, style }
   }
@@ -76,7 +99,8 @@ function updateStyle(style: FontAwesomeStyle) {
   </div>
 
   <section>
-    <div class="flex rounded-md shadow-sm">
+    <label class="block text-sm font-medium text-gray-900 dark:text-white">Font Family: </label>
+    <div class="mt-1 flex rounded-md shadow-sm">
       <div class="flex-1" v-for="(family, index) in relevantFamilies" :key="family">
         <input
           type="radio"
@@ -93,37 +117,45 @@ function updateStyle(style: FontAwesomeStyle) {
             'rounded-s-lg': index === 0,
             'rounded-e-lg': index === relevantFamilies.length - 1
           }"
-          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-lg text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
         >
-          {{ family[0].toUpperCase() + family.slice(1) }}
+          <Icon
+            :fontAwesomeIcon="createFontAwesomeIconDisplayFromFamily(family)"
+            :title="family[0].toUpperCase() + family.slice(1)"
+          />
         </label>
       </div>
     </div>
 
-    <div class="mt-4 flex rounded-md shadow-sm">
-      <div class="flex-1" v-for="(style, index) in relevantStyles" :key="style">
-        <input
-          type="radio"
-          name="iconStyle"
-          :id="style"
-          :value="style"
-          class="peer hidden"
-          @input="() => updateStyle(style)"
-          :checked="style === props.icon?.fontAwesomeIcon.style"
-        />
-        <label
-          :for="style"
-          :class="{
-            'rounded-s-lg': index === 0,
-            'rounded-e-lg': index === relevantStyles.length - 1
-          }"
-          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
-        >
-          <Icon
-            :fontAwesomeIcon="createFontAwesomeIconDisplay(style)"
-            :title="style[0].toUpperCase() + style.slice(1)"
+    <div v-if="!icon.fontAwesomeIcon.family.includes(DuotoneKeyword)">
+      <label class="mt-3 block text-sm font-medium text-gray-900 dark:text-white"
+        >Font Style:
+      </label>
+      <div class="mt-1 flex rounded-md shadow-sm">
+        <div class="flex-1" v-for="(style, index) in relevantStyles" :key="style">
+          <input
+            type="radio"
+            name="iconStyle"
+            :id="style"
+            :value="style"
+            class="peer hidden"
+            @input="() => updateStyle(style)"
+            :checked="style === props.icon?.fontAwesomeIcon.style"
           />
-        </label>
+          <label
+            :for="style"
+            :class="{
+              'rounded-s-lg': index === 0,
+              'rounded-e-lg': index === relevantStyles.length - 1
+            }"
+            class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+          >
+            <Icon
+              :fontAwesomeIcon="createFontAwesomeIconDisplayFromStyle(style)"
+              :title="style[0].toUpperCase() + style.slice(1)"
+            />
+          </label>
+        </div>
       </div>
     </div>
   </section>

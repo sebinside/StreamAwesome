@@ -7,7 +7,7 @@ export const fontAwesomeVersionInfo: {
   fontLicense: fontLicense
 } = {
   fontFamilyBase: 'Font Awesome 6',
-  fontVersion: '6.5.2',
+  fontVersion: '6.6.0',
   fontLicense: 'Pro'
 }
 
