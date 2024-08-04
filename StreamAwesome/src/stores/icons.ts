@@ -3,10 +3,17 @@ import { defineStore } from 'pinia'
 import type { CustomIcon } from '@/model/customIcon'
 
 export const useIconsStore = defineStore('icons', () => {
-  const currentIcon: CustomIcon<'Classic'> = reactive({
+  const currentIcon: CustomIcon<'Neo'> = reactive({
     presetSettings: {
-      preset: 'Classic',
-      hue: 0
+      preset: 'Neo',
+      colorSpace: 'lch',
+      hueStart: 300,
+      hueShift: 60,
+      lightness: 0.6,
+      invertDirection: false,
+      saturation: 0.8,
+      symbolOnly: false,
+      translation: 0.5
     },
     fontSize: 180,
     fontAwesomeIcon: {

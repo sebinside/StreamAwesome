@@ -21,7 +21,7 @@ const presets = {
 const presetKeys = Object.keys(presets) as IconPreset[]
 type IconPreset = keyof typeof presets
 
-const selectedPreset = ref<IconPreset>('Classic')
+const selectedPreset = ref<IconPreset>('Neo')
 const selectedPresetComponent = computed(() => {
   return presets[selectedPreset.value]
 })
