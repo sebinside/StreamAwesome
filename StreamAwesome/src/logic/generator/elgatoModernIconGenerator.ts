@@ -17,6 +17,6 @@ export default class ElgatoModernIconGenerator extends IconGenerator<'Elgato Mod
   }
   protected generatePresetIconName(icon: CustomIcon<'Elgato Modern'>): string {
     const invertedPart = icon.presetSettings.inverted ? '-inverted' : ''
-    return `elgato-modern${invertedPart}`
+    return `modern${invertedPart}`
   }
 }

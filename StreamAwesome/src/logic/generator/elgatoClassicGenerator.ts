@@ -9,7 +9,7 @@ export default class ElgatoClassicIconGenerator extends IconGenerator<'Elgato Cl
   protected generatePresetIconName(icon: CustomIcon<'Elgato Classic'>): string {
     const foregroundColor = this.calculateForegroundColor(icon).hex()
     const colorName = this.getHTMLColorName(foregroundColor)
-    return `elgato-classic-${colorName}`
+    return `classic-${colorName}`
   }
 
   protected getPrimaryIconColor(icon: CustomIcon<'Elgato Classic'>): Color {
