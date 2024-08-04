@@ -13,7 +13,7 @@ export const useIconsStore = defineStore('icons', () => {
       invertDirection: false,
       saturation: 0.8,
       symbolOnly: false,
-      translation: 0.5
+      translation: 0
     },
     fontSize: 180,
     fontAwesomeIcon: {

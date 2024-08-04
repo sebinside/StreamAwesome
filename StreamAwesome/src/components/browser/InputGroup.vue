@@ -15,7 +15,7 @@ defineEmits<{
     </label>
     <input
       type="text"
-      value="question"
+      value="video"
       tabindex="1"
       :id="inputId"
       @input="(event) => $emit('onInput', (event.target as HTMLInputElement).value)"

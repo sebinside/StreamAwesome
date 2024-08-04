@@ -58,6 +58,5 @@ input[type='color'] {
   cursor: pointer;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 </style>
