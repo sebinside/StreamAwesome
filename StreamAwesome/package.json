@@ -50,6 +50,9 @@
     "vitest": "^1.6.0",
     "vue-tsc": "^2.0.26"
   },
+  "resolutions": {
+    "rollup": "npm:@rollup/wasm-node"
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,vue}": [
       "npm run lint",
