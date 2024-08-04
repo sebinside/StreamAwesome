@@ -7,7 +7,7 @@
 ## Stream Awesome - Stream Deck Icon Generator using Font Awesome
 ### > Available online: https://skate702.de/StreamAwesome/
 
-Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https://www.elgato.com/stream-deck) and of course awesome because of [Font Awesome](https://fontawesome.com/).
+Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https://www.elgato.com/stream-deck) and awesome because of [Font Awesome](https://fontawesome.com/).
 
 ![image](preview.png)
 
