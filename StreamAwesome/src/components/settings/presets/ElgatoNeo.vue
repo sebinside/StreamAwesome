@@ -42,7 +42,7 @@ const toggleSettings = () => {
     min="0"
     max="360"
     class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-    v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueStart"
+    v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueStart"
     @input="currentHue = (currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueStart"
   />
 

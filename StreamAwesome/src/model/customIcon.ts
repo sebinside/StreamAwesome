@@ -1,5 +1,6 @@
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 
+// TODO: Simplify names
 export const FontAwesomePresetKeys = [
   'Elgato Classic',
   'Elgato Modern',

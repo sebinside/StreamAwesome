@@ -20,7 +20,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     if (!icon.presetSettings.symbolOnly) {
       return chroma('white').hex()
     }
-    return this.calculateGradient(icon, 0)
+    return this.calculateGradient(icon, this.calculateColors(icon))
   }
 
   protected getSecondaryFillStyle(
@@ -30,45 +30,42 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
       return super.getSecondaryFillStyle(icon)
     }
 
-    return this.calculateGradient(icon, 1)
+    const colors = this.calculateColors(icon)
+    return this.calculateGradient(icon, {
+      start: colors.start.darken(1),
+      stop: colors.stop.darken(1)
+    })
   }
 
   protected drawBackground(icon: CustomIcon<'Elgato Neo'>): void {
     if (!icon.presetSettings.symbolOnly) {
-      this.renderingContext.fillStyle = this.calculateGradient(icon, 0)
+      this.renderingContext.fillStyle = this.calculateGradient(icon, this.calculateColors(icon))
     } else {
       this.renderingContext.fillStyle = 'black'
     }
     this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
   }
-
-  // FIXME: Find better way to darken the gradient
-  private calculateGradient(icon: CustomIcon<'Elgato Neo'>, darken: number): CanvasGradient {
-    const startColor = this.calculateColor(icon.presetSettings.hueStart, icon).darken(darken)
-
-    // FIXME: Find a better way to do this
-    const stopHue =
-      (parseInt(icon.presetSettings.hueStart as unknown as string) +
-        parseInt(icon.presetSettings.hueShift as unknown as string)) %
-      360
-
-    const stopColor = this.calculateColor(stopHue, icon).darken(darken)
+  private calculateGradient(
+    icon: CustomIcon<'Elgato Neo'>,
+    colors: { start: Color; stop: Color }
+  ): CanvasGradient {
     const colorSpace = icon.presetSettings.colorSpace
 
     const firstInBetween = chroma.mix(
-      startColor,
-      stopColor,
-      this.calculateTranslate(0.33, icon),
-      colorSpace
-    )
-    const secondInBetween = chroma.mix(
-      startColor,
-      stopColor,
-      this.calculateTranslate(0.66, icon),
+      colors.start,
+      colors.stop,
+      this.calculateTranslate(this.calculateTranslate(0.33, icon), icon),
       colorSpace
     )
 
-    const colorStops = [startColor, firstInBetween, secondInBetween, stopColor]
+    const secondInBetween = chroma.mix(
+      colors.start,
+      colors.stop,
+      this.calculateTranslate(this.calculateTranslate(0.66, icon), icon),
+      colorSpace
+    )
+
+    const colorStops = [colors.start, firstInBetween, secondInBetween, colors.stop]
     const gradient = icon.presetSettings.invertDirection
       ? this.generateBottomLeftGradient()
       : this.generateTopLeftGradient()
@@ -81,12 +78,18 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     return gradient
   }
 
+  private calculateColors(icon: CustomIcon<'Elgato Neo'>): { start: Color; stop: Color } {
+    const startColor = this.calculateColor(icon.presetSettings.hueStart, icon)
+
+    const stopHue = (icon.presetSettings.hueStart + icon.presetSettings.hueShift) % 360
+
+    const stopColor = this.calculateColor(stopHue, icon)
+
+    return { start: startColor, stop: stopColor }
+  }
+
   private calculateTranslate(value: number, icon: CustomIcon<'Elgato Neo'>): number {
-    // FIXME: Find a better way to do this
-    return Math.max(
-      0.01,
-      Math.min(0.99, value + parseFloat(icon.presetSettings.translation as unknown as string))
-    )
+    return Math.max(0.01, Math.min(0.99, value + icon.presetSettings.translation))
   }
 
   private generateTopLeftGradient(): CanvasGradient {
