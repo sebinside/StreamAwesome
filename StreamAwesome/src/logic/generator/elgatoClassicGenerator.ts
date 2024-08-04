@@ -6,14 +6,16 @@ export default class ElgatoClassicIconGenerator extends IconGenerator<'Elgato Cl
   private readonly colorSaturation = 0.69
   private readonly colorLightness = 0.57
 
+  protected getIconFillStyle(
+    icon: CustomIcon<'Elgato Classic'>
+  ): string | CanvasGradient | CanvasPattern {
+    return this.calculateForegroundColor(icon).hex()
+  }
+
   protected generatePresetIconName(icon: CustomIcon<'Elgato Classic'>): string {
     const foregroundColor = this.calculateForegroundColor(icon).hex()
     const colorName = this.getHTMLColorName(foregroundColor)
     return `classic-${colorName}`
-  }
-
-  protected getPrimaryIconColor(icon: CustomIcon<'Elgato Classic'>): Color {
-    return this.calculateForegroundColor(icon)
   }
 
   protected drawBackground(icon: CustomIcon<'Elgato Classic'>): void {

@@ -8,9 +8,12 @@ export default class ElgatoModernIconGenerator extends IconGenerator<'Elgato Mod
   private readonly whiteColor = chroma('#FFFFFF')
   private readonly blackColor = chroma('#000000')
 
-  protected getPrimaryIconColor(icon: CustomIcon<'Elgato Modern'>): Color {
-    return icon.presetSettings.inverted ? this.blackColor : this.whiteColor
+  protected getIconFillStyle(
+    icon: CustomIcon<'Elgato Modern'>
+  ): string | CanvasGradient | CanvasPattern {
+    return icon.presetSettings.inverted ? this.blackColor.hex() : this.whiteColor.hex()
   }
+
   protected drawBackground(icon: CustomIcon<'Elgato Modern'>): void {
     const backgroundColor = icon.presetSettings.inverted ? this.whiteColor : this.blackColor
     this.fillBackground(backgroundColor.hex())

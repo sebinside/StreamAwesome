@@ -11,7 +11,7 @@ const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>)
 currentIcon.presetSettings = {
   preset: 'Elgato Neo',
   colorSpace: 'lch',
-  hueStart: 220,
+  hueStart: 300,
   hueShift: 60,
   lightness: 0.6,
   invertDirection: false,
@@ -93,7 +93,7 @@ const toggleSettings = () => {
       min="0"
       max="180"
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
-      v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueShift"
+      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueShift"
     />
 
     <label for="hueShift" class="block text-sm font-medium text-gray-900 dark:text-white"
@@ -106,7 +106,7 @@ const toggleSettings = () => {
       max="0.5"
       step="0.01"
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
-      v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.translation"
+      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.translation"
     />
 
     <label
@@ -121,7 +121,7 @@ const toggleSettings = () => {
       min="0.05"
       step="0.01"
       class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.saturation"
+      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.saturation"
     />
 
     <label
@@ -136,7 +136,7 @@ const toggleSettings = () => {
       min="0.05"
       step="0.01"
       class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.lightness"
+      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.lightness"
     />
 
     <label

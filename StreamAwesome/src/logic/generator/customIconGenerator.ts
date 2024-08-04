@@ -5,8 +5,8 @@ import type { Color } from 'chroma-js'
 import chroma from 'chroma-js'
 
 export default class CustomIconGenerator extends IconGenerator<'Custom'> {
-  protected getPrimaryIconColor(icon: CustomIcon<'Custom'>): Color {
-    return chroma(icon.presetSettings.foregroundColor)
+  protected getIconFillStyle(icon: CustomIcon<'Custom'>): string | CanvasGradient | CanvasPattern {
+    return chroma(icon.presetSettings.foregroundColor).hex()
   }
 
   protected drawBackground(icon: CustomIcon<'Custom'>): void {

@@ -27,7 +27,7 @@ const currentHue = ref(currentIcon.presetSettings.hue)
     max="360"
     min="0"
     class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-    v-model="(currentIcon as CustomIcon<'Elgato Classic'>).presetSettings.hue"
+    v-model.number="(currentIcon as CustomIcon<'Elgato Classic'>).presetSettings.hue"
   />
 </template>
 
