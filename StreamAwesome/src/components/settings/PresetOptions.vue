@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
-import ElgatoClassic from '@/components/settings/presets/ElgatoClassic.vue'
-import ElgatoModern from '@/components/settings/presets/ElgatoModern.vue'
-import ElgatoNeo from '@/components/settings/presets/ElgatoNeo.vue'
+import ClassicPreset from '@/components/settings/presets/ClassicPreset.vue'
+import ModernPreset from '@/components/settings/presets/ModernPreset.vue'
+import NeoPreset from '@/components/settings/presets/NeoPreset.vue'
 import CustomPreset from '@/components/settings/presets/CustomPreset.vue'
 import { ref, computed } from 'vue'
 import type { VNode, Component } from 'vue'
@@ -12,16 +12,16 @@ defineProps<{
 }>()
 
 const presets = {
-  'Elgato Classic': ElgatoClassic,
-  'Elgato Modern': ElgatoModern,
-  'Elgato Neo': ElgatoNeo,
+  Classic: ClassicPreset,
+  Modern: ModernPreset,
+  Neo: NeoPreset,
   Custom: CustomPreset
 } satisfies Record<string, VNode | Component>
 
 const presetKeys = Object.keys(presets) as IconPreset[]
 type IconPreset = keyof typeof presets
 
-const selectedPreset = ref<IconPreset>('Elgato Classic')
+const selectedPreset = ref<IconPreset>('Classic')
 const selectedPresetComponent = computed(() => {
   return presets[selectedPreset.value]
 })

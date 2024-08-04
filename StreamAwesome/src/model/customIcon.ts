@@ -1,12 +1,6 @@
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 
-// TODO: Simplify names
-export const FontAwesomePresetKeys = [
-  'Elgato Classic',
-  'Elgato Modern',
-  'Elgato Neo',
-  'Custom'
-] as const
+export const FontAwesomePresetKeys = ['Classic', 'Modern', 'Neo', 'Custom'] as const
 export type FontAwesomePreset = (typeof FontAwesomePresetKeys)[number]
 
 export const ColorSpaceKeys = ['rgb', 'hsl', 'lab', 'lch', 'lrgb'] as const
@@ -15,7 +9,7 @@ export type ColorSpace = (typeof ColorSpaceKeys)[number]
 export interface CustomIcon<T extends FontAwesomePreset> {
   fontSize: number
   fontAwesomeIcon: FontAwesomeIcon
-  presetSettings: (ElgatoClassicPreset | ElgatoModernPreset | ElgatoNeoPreset | CustomPreset) & {
+  presetSettings: (ClassicPreset | ModernPreset | NeoPreset | CustomPreset) & {
     preset: T
   }
 }
@@ -24,17 +18,17 @@ interface Preset {
   preset: FontAwesomePreset
 }
 
-interface ElgatoClassicPreset extends Preset {
+interface ClassicPreset extends Preset {
   preset: (typeof FontAwesomePresetKeys)[0]
   hue: number
 }
 
-interface ElgatoModernPreset extends Preset {
+interface ModernPreset extends Preset {
   preset: (typeof FontAwesomePresetKeys)[1]
   inverted: boolean
 }
 
-interface ElgatoNeoPreset extends Preset {
+interface NeoPreset extends Preset {
   preset: (typeof FontAwesomePresetKeys)[2]
   invertDirection: boolean
   symbolOnly: boolean

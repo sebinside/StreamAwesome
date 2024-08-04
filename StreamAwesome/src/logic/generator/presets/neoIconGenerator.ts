@@ -3,8 +3,8 @@ import IconGenerator from '@/logic/generator/iconGenerator'
 import type { Color } from 'chroma-js'
 import chroma from 'chroma-js'
 
-export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> {
-  protected generatePresetIconName(icon: CustomIcon<'Elgato Neo'>): string {
+export default class NeoIconGenerator extends IconGenerator<'Neo'> {
+  protected generatePresetIconName(icon: CustomIcon<'Neo'>): string {
     const startColor = this.calculateColor(icon.presetSettings.hueStart, icon)
     const foregroundColorName = this.getHTMLColorName(startColor.hex())
 
@@ -14,9 +14,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     return `neo-${foregroundColorName}${invertedPart}${symbolPart}`
   }
 
-  protected getIconFillStyle(
-    icon: CustomIcon<'Elgato Neo'>
-  ): string | CanvasGradient | CanvasPattern {
+  protected getIconFillStyle(icon: CustomIcon<'Neo'>): string | CanvasGradient | CanvasPattern {
     if (!icon.presetSettings.symbolOnly) {
       return chroma('white').hex()
     }
@@ -24,7 +22,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
   }
 
   protected getSecondaryFillStyle(
-    icon: CustomIcon<'Elgato Neo'>
+    icon: CustomIcon<'Neo'>
   ): string | CanvasGradient | CanvasPattern {
     if (!icon.presetSettings.symbolOnly) {
       return super.getSecondaryFillStyle(icon)
@@ -37,7 +35,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     })
   }
 
-  protected drawBackground(icon: CustomIcon<'Elgato Neo'>): void {
+  protected drawBackground(icon: CustomIcon<'Neo'>): void {
     if (!icon.presetSettings.symbolOnly) {
       this.renderingContext.fillStyle = this.calculateGradient(icon, this.calculateColors(icon))
     } else {
@@ -46,7 +44,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
   }
   private calculateGradient(
-    icon: CustomIcon<'Elgato Neo'>,
+    icon: CustomIcon<'Neo'>,
     colors: { start: Color; stop: Color }
   ): CanvasGradient {
     const colorSpace = icon.presetSettings.colorSpace
@@ -78,7 +76,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     return gradient
   }
 
-  private calculateColors(icon: CustomIcon<'Elgato Neo'>): { start: Color; stop: Color } {
+  private calculateColors(icon: CustomIcon<'Neo'>): { start: Color; stop: Color } {
     const startColor = this.calculateColor(icon.presetSettings.hueStart, icon)
 
     const stopHue = (icon.presetSettings.hueStart + icon.presetSettings.hueShift) % 360
@@ -88,7 +86,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     return { start: startColor, stop: stopColor }
   }
 
-  private calculateTranslate(value: number, icon: CustomIcon<'Elgato Neo'>): number {
+  private calculateTranslate(value: number, icon: CustomIcon<'Neo'>): number {
     return Math.max(0.01, Math.min(0.99, value + icon.presetSettings.translation))
   }
 
@@ -112,7 +110,7 @@ export default class ElgatoNeoIconGenerator extends IconGenerator<'Elgato Neo'> 
     return gradient
   }
 
-  private calculateColor(hue: number, icon: CustomIcon<'Elgato Neo'>): Color {
+  private calculateColor(hue: number, icon: CustomIcon<'Neo'>): Color {
     return chroma.hsl(hue, icon.presetSettings.saturation, icon.presetSettings.lightness)
   }
 }

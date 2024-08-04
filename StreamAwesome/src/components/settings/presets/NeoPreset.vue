@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
 currentIcon.presetSettings = {
-  preset: 'Elgato Neo',
+  preset: 'Neo',
   colorSpace: 'lch',
   hueStart: 300,
   hueShift: 60,
@@ -22,11 +22,9 @@ currentIcon.presetSettings = {
 currentIcon.fontAwesomeIcon.style = 'solid'
 currentIcon.fontAwesomeIcon.family = 'classic'
 
-// FIXME: Fix this hack
 const currentHue = ref(currentIcon.presetSettings.hueStart)
 
 const settingsExpanded = ref(false)
-
 const toggleSettings = () => {
   settingsExpanded.value = !settingsExpanded.value
 }
@@ -42,15 +40,15 @@ const toggleSettings = () => {
     min="0"
     max="360"
     class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-    v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueStart"
-    @input="currentHue = (currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueStart"
+    v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
+    @input="currentHue = (currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
   />
 
   <label class="mt-3 inline-flex cursor-pointer items-center">
     <input
       type="checkbox"
       class="peer sr-only"
-      v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.invertDirection"
+      v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.invertDirection"
     />
     <div
       class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
@@ -64,7 +62,7 @@ const toggleSettings = () => {
     <input
       type="checkbox"
       class="peer sr-only"
-      v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.symbolOnly"
+      v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.symbolOnly"
     />
     <div
       class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
@@ -93,7 +91,7 @@ const toggleSettings = () => {
       min="0"
       max="180"
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
-      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.hueShift"
+      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueShift"
     />
 
     <label for="hueShift" class="block text-sm font-medium text-gray-900 dark:text-white"
@@ -106,7 +104,7 @@ const toggleSettings = () => {
       max="0.5"
       step="0.01"
       class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
-      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.translation"
+      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.translation"
     />
 
     <label
@@ -121,7 +119,7 @@ const toggleSettings = () => {
       min="0.05"
       step="0.01"
       class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.saturation"
+      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.saturation"
     />
 
     <label
@@ -136,7 +134,7 @@ const toggleSettings = () => {
       min="0.05"
       step="0.01"
       class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-      v-model.number="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.lightness"
+      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.lightness"
     />
 
     <label
@@ -146,7 +144,7 @@ const toggleSettings = () => {
     >
     <select
       id="presetselector"
-      v-model="(currentIcon as CustomIcon<'Elgato Neo'>).presetSettings.colorSpace"
+      v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.colorSpace"
       class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
     >
       <option v-for="colorSpace in ColorSpaceKeys" :value="colorSpace" :key="colorSpace">
