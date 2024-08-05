@@ -69,10 +69,12 @@ export default abstract class IconGenerator<T extends FontAwesomePreset> {
       icon.fontAwesomeIcon.family.includes(DuotoneKeyword) &&
       !icon.fontAwesomeIcon.isBrandsIcon
     ) {
-      this.renderingContext.fillStyle = this.getSecondaryFillStyle(icon)
+      this.renderingContext.fillStyle = this.getIconFillStyle(icon)
 
+      this.renderingContext.globalAlpha = icon.fontAwesomeIcon.duotoneAlpha
       const secondaryIconCode = this.calculateSecondaryIcon(icon.fontAwesomeIcon.unicode)
       this.renderingContext.fillText(secondaryIconCode, centerOfCanvas, centerOfCanvas)
+      this.renderingContext.globalAlpha = 1
     }
 
     this.renderingContext.fillStyle = this.getIconFillStyle(icon)
