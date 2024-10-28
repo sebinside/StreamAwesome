@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, useTemplateRef, watch } from 'vue'
 import { useFontsStatusStore } from '@/stores/fontStatus'
 import { getMatchingGenerator } from '@/logic/generator/generators'
 
 const fontStatusStore = useFontsStatusStore()
-const iconCanvas = ref<HTMLCanvasElement | null>(null)
+const iconCanvas = useTemplateRef('iconCanvas')
 const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
