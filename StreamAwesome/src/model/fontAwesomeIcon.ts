@@ -7,4 +7,5 @@ export interface FontAwesomeIcon {
   isBrandsIcon: boolean /* Only storing the brands information in the icon's style voids other styling information */
   style: FontAwesomeStyle
   family: FontAwesomeFamily
+  duotoneAlpha: number
 }
