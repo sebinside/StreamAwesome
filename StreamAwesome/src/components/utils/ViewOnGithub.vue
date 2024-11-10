@@ -22,8 +22,8 @@
 }
 
 .github-button {
-  width: 12em;
-  height: 2.5em;
+  width: 12rem;
+  height: 2.5rem;
   margin: 0;
   line-height: 1;
   display: flex;
@@ -32,7 +32,7 @@
 }
 
 .fa-github {
-  font-size: 1.5em;
-  margin-right: 0.3em;
+  font-size: 1.7rem;
+  margin-right: 0.5rem;
 }
 </style>
