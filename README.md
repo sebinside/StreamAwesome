@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://skate702.de/StreamAwesome/"><img src = "streamawesome-logo.png"/></a><br>
-  <a href="https://skate702.de/StreamAwesome/">skate702.de/StreamAwesome</a>
+  <a href="https://skate702.de/StreamAwesome/">🔗 Available Online</a>
 </p>
 <p>&nbsp;</p>
 
