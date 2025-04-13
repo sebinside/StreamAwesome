@@ -5,7 +5,12 @@
 <p>&nbsp;</p>
 
 ## Stream Awesome - Stream Deck Icon Generator using Font Awesome
-### > Available online: https://skate702.de/StreamAwesome/
+
+
+[![Build](https://img.shields.io/github/actions/workflow/status/sebinside/StreamAwesome/build.yml)](https://github.com/sebinside/StreamAwesome/actions)
+[![Release](https://img.shields.io/github/v/release/sebinside/StreamAwesome)](https://github.com/sebinside/StreamAwesome/releases)
+[![Available Online](https://img.shields.io/badge/Available-Online-teal)](https://skate702.de/StreamAwesome/)
+
 
 Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https://www.elgato.com/stream-deck) and awesome because of [Font Awesome](https://fontawesome.com/).
 
