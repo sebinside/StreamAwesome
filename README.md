@@ -1,6 +1,6 @@
 <p align="center">
-  <h3 align="center"><a href="https://skate702.de/StreamAwesome/"><img src = "streamawesome-logo.png"/></a><br>
-  <a href="https://skate702.de/StreamAwesome/">🔗 Available Online</a></h3>
+  <h3 align="center"><a href="https://streamawesome.app"><img src = "streamawesome-logo.png"/></a><br>
+  <a href="https://streamawesome.app">🔗 Available Online</a></h3>
 </p>
 <p>&nbsp;</p>
 
@@ -9,7 +9,7 @@
 
 [![Build](https://img.shields.io/github/actions/workflow/status/sebinside/StreamAwesome/build.yml)](https://github.com/sebinside/StreamAwesome/actions)
 [![Release](https://img.shields.io/github/v/release/sebinside/StreamAwesome)](https://github.com/sebinside/StreamAwesome/releases)
-[![Available Online](https://img.shields.io/badge/Available-Online-teal)](https://skate702.de/StreamAwesome/)
+[![Available Online](https://img.shields.io/badge/Available-Online-teal)](https://streamawesome.app)
 
 
 Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https://www.elgato.com/stream-deck) and awesome because of [Font Awesome](https://fontawesome.com/).
