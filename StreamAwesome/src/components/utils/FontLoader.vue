@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { useFontsStatusStore } from '@/stores/fontStatus'
+import { onMounted } from 'vue'
+
 const fontStatusStore = useFontsStatusStore()
-document.fonts.onloadingdone = () => fontStatusStore.setFontsLoaded()
+
+onMounted(async () => {
+    fontStatusStore.setFontsLoaded()
+})
 </script>
 
 <template>
