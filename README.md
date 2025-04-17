@@ -9,6 +9,7 @@
 
 [![Build](https://img.shields.io/github/actions/workflow/status/sebinside/StreamAwesome/build.yml)](https://github.com/sebinside/StreamAwesome/actions)
 [![Release](https://img.shields.io/github/v/release/sebinside/StreamAwesome)](https://github.com/sebinside/StreamAwesome/releases)
+[![Font Awesome](https://img.shields.io/badge/Font%20Awesome-v6.6.0-orange)](https://fontawesome.com)
 [![Available Online](https://img.shields.io/badge/Available-Online-teal)](https://streamawesome.app)
 
 
