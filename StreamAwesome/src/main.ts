@@ -33,10 +33,14 @@ async function loadFontAwesomeStyles() {
   import('../fonts/fontawesome/css/brands.min.css')
 
   if (fontAwesomeVersionInfo.fontLicense === 'Pro') {
-    import('../fonts/fontawesome/css/sharp-light.min.css')
-    import('../fonts/fontawesome/css/sharp-thin.min.css')
-    import('../fonts/fontawesome/css/sharp-regular.min.css')
-    import('../fonts/fontawesome/css/sharp-solid.min.css')
-    import('../fonts/fontawesome/css/sharp-duotone-solid.min.css')
+    const proStyles = [
+      '../fonts/fontawesome/css/sharp-light.min.css',
+      '../fonts/fontawesome/css/sharp-thin.min.css',
+      '../fonts/fontawesome/css/sharp-regular.min.css',
+      '../fonts/fontawesome/css/sharp-solid.min.css',
+      '../fonts/fontawesome/css/sharp-duotone-solid.min.css'
+    ];
+
+    await Promise.all(proStyles.map(style => import(style)));
   }
 }
