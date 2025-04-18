@@ -113,6 +113,7 @@ function updateStyle(style: FontAwesomeStyle) {
         />
         <label
           :for="family"
+          :title="family[0].toUpperCase() + family.slice(1)"
           :class="{
             'rounded-s-lg': index === 0,
             'rounded-e-lg': index === relevantFamilies.length - 1
@@ -121,7 +122,6 @@ function updateStyle(style: FontAwesomeStyle) {
         >
           <Icon
             :fontAwesomeIcon="createFontAwesomeIconDisplayFromFamily(family)"
-            :title="family[0].toUpperCase() + family.slice(1)"
           />
         </label>
       </div>
@@ -144,6 +144,7 @@ function updateStyle(style: FontAwesomeStyle) {
           />
           <label
             :for="style"
+            :title="style[0].toUpperCase() + style.slice(1)"
             :class="{
               'rounded-s-lg': index === 0,
               'rounded-e-lg': index === relevantStyles.length - 1
@@ -152,7 +153,6 @@ function updateStyle(style: FontAwesomeStyle) {
           >
             <Icon
               :fontAwesomeIcon="createFontAwesomeIconDisplayFromStyle(style)"
-              :title="style[0].toUpperCase() + style.slice(1)"
             />
           </label>
         </div>
