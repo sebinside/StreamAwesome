@@ -1,0 +1,16 @@
+name: Change base branch of PR
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+    branches:
+      - main
+
+jobs:
+  change-base:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Change base
+        run: gh pr edit ${{ github.event.pull_request.number }} --repo ${{ github.repository }} --base develop
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
