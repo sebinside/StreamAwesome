@@ -28,10 +28,18 @@ interface ModernPreset extends Preset {
   inverted: boolean
 }
 
+export const NeoStyleKeys = [
+  'White Icon',
+  'Black Icon',
+  'Black Background',
+  'Dark Background'
+] as const
+export type NeoStyle = (typeof NeoStyleKeys)[number]
+
 interface NeoPreset extends Preset {
   preset: (typeof FontAwesomePresetKeys)[2]
   invertDirection: boolean
-  symbolOnly: boolean
+  neoStyle: NeoStyle
   hueStart: number
   hueShift: number
   saturation: number

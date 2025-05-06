@@ -9,14 +9,18 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
     const foregroundColorName = this.getHTMLColorName(startColor.hex())
 
     const invertedPart = icon.presetSettings.invertDirection ? '-inverted' : ''
-    const symbolPart = icon.presetSettings.symbolOnly ? '-symbol' : ''
+    const neoStylePart = '-' + icon.presetSettings.neoStyle.replace(' ', '-').toLowerCase()
 
-    return `neo-${foregroundColorName}${invertedPart}${symbolPart}`
+    return `neo-${foregroundColorName}${neoStylePart}${invertedPart}`
   }
 
   protected getIconFillStyle(icon: CustomIcon<'Neo'>): string | CanvasGradient | CanvasPattern {
-    if (!icon.presetSettings.symbolOnly) {
+    const style = icon.presetSettings.neoStyle
+    if (style === 'White Icon' || style === 'Dark Background') {
       return chroma('white').hex()
+    }
+    if (style === 'Black Icon') {
+      return chroma('black').hex()
     }
     return this.calculateGradient(icon, this.calculateColors(icon))
   }
@@ -24,7 +28,7 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
   protected getSecondaryFillStyle(
     icon: CustomIcon<'Neo'>
   ): string | CanvasGradient | CanvasPattern {
-    if (!icon.presetSettings.symbolOnly) {
+    if (icon.presetSettings.neoStyle !== 'Black Background') {
       return super.getSecondaryFillStyle(icon)
     }
 
@@ -36,7 +40,13 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
   }
 
   protected drawBackground(icon: CustomIcon<'Neo'>): void {
-    if (!icon.presetSettings.symbolOnly) {
+    if (icon.presetSettings.neoStyle === 'Dark Background') {
+      const colors = this.calculateColors(icon)
+      this.renderingContext.fillStyle = this.calculateGradient(icon, {
+        start: colors.start.darken(2.5).desaturate(2),
+        stop: colors.stop.darken(2.5).desaturate(2)
+      })
+    } else if (icon.presetSettings.neoStyle !== 'Black Background') {
       this.renderingContext.fillStyle = this.calculateGradient(icon, this.calculateColors(icon))
     } else {
       this.renderingContext.fillStyle = 'black'
