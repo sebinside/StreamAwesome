@@ -8,6 +8,7 @@ on:
 
 env:
   FONTAWESOME_VERSION: "6.6.0"
+  TOKEN: ${{ secrets.TOKEN }}
 
 jobs:
   build:
@@ -17,7 +18,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Clone Font Awesome Overwrites ✌️
-        if: ${{ secrets.TOKEN }}
+        if: ${{ env.TOKEN != '' }}
         uses: actions/checkout@v3
         with:
           repository: sebinside/StreamAwesome-Overwrites
@@ -27,7 +28,7 @@ jobs:
           token: ${{ secrets.TOKEN }}
 
       - name: Download FontAwesome 📦
-        if: ${{ !secrets.TOKEN }}
+        if: ${{ env.TOKEN == '' }}
         run: |
           mkdir -p StreamAwesome/fonts/fontawesome
           wget https://use.fontawesome.com/releases/v${{ env.FONTAWESOME_VERSION }}/fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web.zip -O fontawesome.zip
