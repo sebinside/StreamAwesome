@@ -16,22 +16,7 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Clone Font Awesome Overwrites ✌️
-        env: 
-          repoToken: ${{ secrets.TOKEN }}
-        if: ${{ env.repoToken != '' }}
-        uses: actions/checkout@v4
-        with:
-          repository: sebinside/StreamAwesome-Overwrites
-          persist-credentials: false
-          path: StreamAwesome/fonts
-          ref: 'main'
-          token: ${{ secrets.TOKEN }}
-
       - name: Download FontAwesome 📦
-        env: 
-          repoToken: ${{ secrets.TOKEN }}
-        if: ${{ env.repoToken == '' }}
         run: |
           mkdir -p StreamAwesome/fonts/fontawesome
           wget https://use.fontawesome.com/releases/v${{ env.FONTAWESOME_VERSION }}/fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web.zip -O fontawesome.zip
