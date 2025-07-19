@@ -20,7 +20,7 @@ jobs:
         env: 
           repoToken: ${{ secrets.TOKEN }}
         if: ${{ env.repoToken != '' }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: sebinside/StreamAwesome-Overwrites
           persist-credentials: false
