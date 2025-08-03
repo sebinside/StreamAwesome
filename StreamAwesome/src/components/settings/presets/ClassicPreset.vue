@@ -26,7 +26,7 @@ const currentHue = ref(currentIcon.presetSettings.hue)
     id="hueSelector"
     max="360"
     min="0"
-    class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
     v-model.number="(currentIcon as CustomIcon<'Classic'>).presetSettings.hue"
   />
 </template>

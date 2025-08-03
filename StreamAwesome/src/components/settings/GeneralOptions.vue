@@ -94,7 +94,7 @@ function updateStyle(style: FontAwesomeStyle) {
       @input="(event) => updateSize(event)"
       min="50"
       max="250"
-      class="mb-6 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
+      class="mb-6 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
     />
   </div>
 
@@ -117,7 +117,7 @@ function updateStyle(style: FontAwesomeStyle) {
             'rounded-s-lg': index === 0,
             'rounded-e-lg': index === relevantFamilies.length - 1
           }"
-          class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+          class="block cursor-pointer border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 select-none peer-checked:border-blue-600 peer-checked:text-blue-600 hover:bg-gray-100 hover:text-gray-600 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
         >
           <Icon
             :fontAwesomeIcon="createFontAwesomeIconDisplayFromFamily(family)"
@@ -148,7 +148,7 @@ function updateStyle(style: FontAwesomeStyle) {
               'rounded-s-lg': index === 0,
               'rounded-e-lg': index === relevantStyles.length - 1
             }"
-            class="block cursor-pointer select-none border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 hover:bg-gray-100 hover:text-gray-600 focus:z-10 peer-checked:border-blue-600 peer-checked:text-blue-600 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:peer-checked:text-blue-500"
+            class="block cursor-pointer border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 select-none peer-checked:border-blue-600 peer-checked:text-blue-600 hover:bg-gray-100 hover:text-gray-600 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
           >
             <Icon
               :fontAwesomeIcon="createFontAwesomeIconDisplayFromStyle(style)"

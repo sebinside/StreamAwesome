@@ -18,7 +18,7 @@ function downloadIcon() {
     <div class="mr-0 grid md:mr-7">
       <IconCanvas
         :icon="iconStore.currentIcon"
-        class="mb-5 mt-5 place-self-center md:place-self-auto"
+        class="mt-5 mb-5 place-self-center md:place-self-auto"
         @download-icon="downloadIcon"
       />
       <IconSettings :icon="iconStore.currentIcon" @download-icon="downloadIcon" />

@@ -23,10 +23,12 @@ export class FontAwesomeBrowser {
     })
 
     const json = await response.json()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const icons = json.data.search.map((entry: any) => this.entryToFontAwesomeIcon(entry))
     return icons
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private entryToFontAwesomeIcon(entry: any): FontAwesomeIconType {
     const id: string = entry.id
     const label: string = entry.label

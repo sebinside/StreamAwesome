@@ -5,27 +5,29 @@ on:
  push:
  pull_request:
   types: [opened, synchronize, reopened]
-      
+
+env:
+  FONTAWESOME_VERSION: "6.6.0"
+
 jobs:
   build:
-    if: github.actor == 'sebinside' || github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Clone Font Awesome Overwrites ✌️
-        uses: actions/checkout@v3
-        with:
-          repository: sebinside/StreamAwesome-Overwrites
-          persist-credentials: false
-          path: StreamAwesome/fonts
-          ref: 'main'
-          token: ${{ secrets.TOKEN }}
+      - name: Download FontAwesome 📦
+        run: |
+          mkdir -p StreamAwesome/fonts/fontawesome
+          wget https://use.fontawesome.com/releases/v${{ env.FONTAWESOME_VERSION }}/fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web.zip -O fontawesome.zip
+          unzip fontawesome.zip
+          cp -r fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web/css StreamAwesome/fonts/fontawesome/
+          cp -r fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web/webfonts StreamAwesome/fonts/fontawesome/
+          rm -rf fontawesome.zip fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web
       
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "22"
 
       - name: Install and Build 🔧
         working-directory: StreamAwesome
