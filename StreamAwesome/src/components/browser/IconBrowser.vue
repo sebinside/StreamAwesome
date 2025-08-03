@@ -9,7 +9,7 @@ import { fontAwesomeVersionInfo } from '@/model/versions'
 import { useIconsStore } from '@/stores/icons'
 import { ref } from 'vue'
 
-let availableIcons = ref<FontAwesomeIconType[]>([])
+const availableIcons = ref<FontAwesomeIconType[]>([])
 const iconStore = useIconsStore()
 
 function selectIcon(icon: FontAwesomeIconType) {
@@ -31,7 +31,7 @@ function iconTypetoFontAwesomeIcon(iconType: FontAwesomeIconType): FontAwesomeIc
 
 async function queryIcons(query: string) {
   const fontAwesomeBrowser = new FontAwesomeBrowser(fontAwesomeVersionInfo.fontVersion)
-  let icons = await fontAwesomeBrowser.getAvailableIcons(query)
+  const icons = await fontAwesomeBrowser.getAvailableIcons(query)
 
   if (fontAwesomeVersionInfo.fontLicense === 'Free') {
     availableIcons.value = icons.filter((icon) => icon.isFree())

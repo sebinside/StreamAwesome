@@ -74,7 +74,7 @@ export class FontAwesomeIconType {
     }
   }
 
-  static calculateIconClassDescription(icon: FontAwesomeIcon): String {
+  static calculateIconClassDescription(icon: FontAwesomeIcon): string {
     let styleAndFamily = `fa-${icon.style}`
 
     if (icon.isBrandsIcon) {

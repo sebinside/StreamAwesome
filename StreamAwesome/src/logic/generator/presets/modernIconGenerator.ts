@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { CustomIcon } from '@/model/customIcon'
 import IconGenerator from '@/logic/generator/iconGenerator'
 import chroma from 'chroma-js'
