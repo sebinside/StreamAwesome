@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useStorage } from '@vueuse/core'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon.ts'
 
 interface IconPreset {
@@ -20,10 +21,8 @@ const showSaveDialog = ref(false)
 const showLoadDialog = ref(false)
 const presetName = ref('')
 
-const savedPresets = computed(() => {
-  const presets = localStorage.getItem('iconPresets')
-  return presets ? JSON.parse(presets) as IconPreset[] : []
-})
+const savedPresets = useStorage<IconPreset[]>('iconPresets', [])
+const presetsList = computed(() => savedPresets.value)
 
 function savePreset() {
   if (!presetName.value.trim()) {
@@ -37,9 +36,7 @@ function savePreset() {
     createdAt: new Date().toISOString()
   }
 
-  const existingPresets = savedPresets.value
-  const updatedPresets = [...existingPresets, newPreset]
-  localStorage.setItem('iconPresets', JSON.stringify(updatedPresets))
+  savedPresets.value = [...savedPresets.value, newPreset]
 
   showSaveDialog.value = false
   presetName.value = ''
@@ -52,9 +49,7 @@ function loadPreset(preset: IconPreset) {
 
 function deletePreset(index: number) {
   if (confirm('Are you sure you want to delete this preset?')) {
-    const existingPresets = savedPresets.value
-    existingPresets.splice(index, 1)
-    localStorage.setItem('iconPresets', JSON.stringify(existingPresets))
+    savedPresets.value.splice(index, 1)
   }
 }
 
@@ -74,11 +69,11 @@ function openSaveDialog() {
     </button>
 
     <button
-        :disabled="savedPresets.length === 0"
+        :disabled="presetsList.length === 0"
         @click="showLoadDialog = true"
         class="w-full rounded bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed"
     >
-      Load Preset ({{ savedPresets.length }})
+      Load Preset ({{ presetsList.length }})
     </button>
 
     <div
@@ -121,7 +116,7 @@ function openSaveDialog() {
         <h3 class="mb-4 text-lg font-semibold">Load Icon Preset</h3>
         <div class="space-y-2">
           <div
-              v-for="(preset, index) in savedPresets"
+              v-for="(preset, index) in presetsList"
               :key="index"
               class="flex items-center justify-between rounded border p-3 border-gray-600"
           >
