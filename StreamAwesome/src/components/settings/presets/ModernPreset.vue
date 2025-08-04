@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 
 const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
-currentIcon.presetSettings = {
+const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+currentIcon.value.presetSettings = {
   preset: 'Modern',
   inverted: false
 }
-currentIcon.fontAwesomeIcon.style = 'thin'
-currentIcon.fontAwesomeIcon.family = 'sharp'
+currentIcon.value.fontAwesomeIcon.style = 'thin'
+currentIcon.value.fontAwesomeIcon.family = 'sharp'
 </script>
 
 <template>

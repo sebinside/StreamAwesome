@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { ColorSpaceKeys } from '@/model/customIcon'
 
@@ -7,8 +7,8 @@ const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
-currentIcon.presetSettings = {
+const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+currentIcon.value.presetSettings = {
   preset: 'Neo',
   colorSpace: 'lch',
   hueStart: 300,
@@ -19,10 +19,10 @@ currentIcon.presetSettings = {
   symbolOnly: false,
   translation: 0
 }
-currentIcon.fontAwesomeIcon.style = 'solid'
-currentIcon.fontAwesomeIcon.family = 'classic'
+currentIcon.value.fontAwesomeIcon.style = 'solid'
+currentIcon.value.fontAwesomeIcon.family = 'classic'
 
-const currentHue = ref(currentIcon.presetSettings.hueStart)
+const currentHue = ref(currentIcon.value.presetSettings.hueStart)
 
 const settingsExpanded = ref(false)
 const toggleSettings = () => {

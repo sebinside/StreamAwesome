@@ -1,9 +1,9 @@
-import { reactive } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import type { CustomIcon } from '@/model/customIcon'
 
 export const useIconsStore = defineStore('icons', () => {
-  const currentIcon: CustomIcon<'Neo'> = reactive({
+  const currentIcon = ref<CustomIcon<'Neo'>>({
     presetSettings: {
       preset: 'Neo',
       colorSpace: 'lch',
