@@ -11,13 +11,13 @@ import {
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import { reactive } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = reactive(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
 
 const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
 const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
@@ -70,15 +70,15 @@ function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): Font
 
 function updateSize(event: Event) {
   const size = +(event.target as HTMLInputElement).value
-  currentIcon.fontSize = size
+  currentIcon.value.fontSize = size
 }
 
 function updateFamily(family: FontAwesomeFamily) {
-  currentIcon.fontAwesomeIcon.family = family
+  currentIcon.value.fontAwesomeIcon.family = family
 }
 
 function updateStyle(style: FontAwesomeStyle) {
-  currentIcon.fontAwesomeIcon.style = style
+  currentIcon.value.fontAwesomeIcon.style = style
 }
 </script>
 
@@ -120,9 +120,7 @@ function updateStyle(style: FontAwesomeStyle) {
           }"
           class="block cursor-pointer border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 select-none peer-checked:border-blue-600 peer-checked:text-blue-600 hover:bg-gray-100 hover:text-gray-600 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
         >
-          <Icon
-            :fontAwesomeIcon="createFontAwesomeIconDisplayFromFamily(family)"
-          />
+          <Icon :fontAwesomeIcon="createFontAwesomeIconDisplayFromFamily(family)" />
         </label>
       </div>
     </div>
@@ -151,9 +149,7 @@ function updateStyle(style: FontAwesomeStyle) {
             }"
             class="block cursor-pointer border border-gray-200 bg-white px-4 py-2 text-center text-2xl text-gray-900 select-none peer-checked:border-blue-600 peer-checked:text-blue-600 hover:bg-gray-100 hover:text-gray-600 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
           >
-            <Icon
-              :fontAwesomeIcon="createFontAwesomeIconDisplayFromStyle(style)"
-            />
+            <Icon :fontAwesomeIcon="createFontAwesomeIconDisplayFromStyle(style)" />
           </label>
         </div>
       </div>
