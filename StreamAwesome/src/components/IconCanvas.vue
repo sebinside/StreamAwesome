@@ -40,6 +40,7 @@ function createGenerator() {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function triggerGenerator(icon: CustomIcon<any>, canvas: HTMLCanvasElement) {
   const iconGenerator = getMatchingGenerator(icon, canvas)
   iconGenerator.generateIcon(icon)

@@ -39,7 +39,7 @@ const toggleSettings = () => {
     id="hueSelector"
     min="0"
     max="360"
-    class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
     v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
     @input="currentHue = (currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
   />
@@ -51,7 +51,7 @@ const toggleSettings = () => {
       v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.invertDirection"
     />
     <div
-      class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
+      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
     ></div>
     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-white">Invert Direction</span>
   </label>
@@ -65,7 +65,7 @@ const toggleSettings = () => {
       v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.symbolOnly"
     />
     <div
-      class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-blue-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
+      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
     ></div>
     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-white">Symbol Only</span>
   </label>
@@ -90,7 +90,7 @@ const toggleSettings = () => {
       id="hueShift"
       min="0"
       max="180"
-      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
+      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
       v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueShift"
     />
 
@@ -103,7 +103,7 @@ const toggleSettings = () => {
       min="-0.5"
       max="0.5"
       step="0.01"
-      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:bg-gray-700"
+      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
       v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.translation"
     />
 
@@ -118,7 +118,7 @@ const toggleSettings = () => {
       max="1"
       min="0.05"
       step="0.01"
-      class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+      class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
       v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.saturation"
     />
 
@@ -133,13 +133,13 @@ const toggleSettings = () => {
       max="0.95"
       min="0.05"
       step="0.01"
-      class="selector focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+      class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
       v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.lightness"
     />
 
     <label
       for="colorSpaceSelector"
-      class="mb-2 mt-3 block text-sm font-medium text-gray-900 dark:text-white"
+      class="mt-3 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Select Color Space:</label
     >
     <select
