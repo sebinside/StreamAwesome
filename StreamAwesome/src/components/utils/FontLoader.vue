@@ -26,7 +26,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="absolute">
+  <div class="sr-only">
     <i class="fa-solid fa-glasses"></i>
     <i class="fa-regular fa-glasses"></i>
     <i class="fa-light fa-glasses"></i>
@@ -40,9 +40,3 @@ onMounted(async () => {
     <i class="fa-brands fa-font-awesome"></i>
   </div>
 </template>
-
-<style scoped>
-* {
-  visibility: hidden;
-}
-</style>
