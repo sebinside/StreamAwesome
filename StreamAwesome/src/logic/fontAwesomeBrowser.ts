@@ -1,6 +1,25 @@
 import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeConstants'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 
+type FontAwesomeFamilyStyle = {
+  family: FontAwesomeFamily
+  style: FontAwesomeStyle
+}
+type FontAwesomeIcon = {
+  id: string
+  label: string
+  unicode: string
+  familyStylesByLicense: {
+    free: FontAwesomeFamilyStyle[]
+    pro: FontAwesomeFamilyStyle[]
+  }
+}
+type FontAwesomeResponse = {
+  data: {
+    search: FontAwesomeIcon[]
+  }
+}
+
 export class FontAwesomeBrowser {
   public constructor(private readonly fontVersion: string) {}
 
@@ -11,7 +30,7 @@ export class FontAwesomeBrowser {
   public async getAvailableIcons(
     searchTerm: string,
     quantity: number = 39
-  ): Promise<Array<FontAwesomeIconType>> {
+  ): Promise<FontAwesomeIconType[]> {
     const response = await fetch(this.fontAwesomeAPIEndpoint, {
       method: 'POST',
       headers: {
@@ -21,29 +40,23 @@ export class FontAwesomeBrowser {
         query: `{ search(version: "${this.fontVersion}", query: "${searchTerm}", first: ${quantity}) {${this.searchDetails}} }`
       })
     })
+    const json = (await response.json()) as FontAwesomeResponse
 
-    const json = await response.json()
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const icons = json.data.search.map((entry: any) => this.entryToFontAwesomeIcon(entry))
-    return icons
+    const fontAwesomeIcons = json.data.search
+    return fontAwesomeIcons.map((fontAwesomeIcon) =>
+      this.fontAwesomeIconToIconType(fontAwesomeIcon)
+    )
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private entryToFontAwesomeIcon(entry: any): FontAwesomeIconType {
-    const id: string = entry.id
-    const label: string = entry.label
-    const unicode: string = entry.unicode
-    const familyStyles: {
-      free: { family: FontAwesomeFamily; style: FontAwesomeStyle }[]
-      pro: { family: FontAwesomeFamily; style: FontAwesomeStyle }[]
-    } = entry.familyStylesByLicense
+  private fontAwesomeIconToIconType(fontAwesomeIcon: FontAwesomeIcon): FontAwesomeIconType {
+    const { id, label, unicode, familyStylesByLicense } = fontAwesomeIcon
 
-    if (id == null || label == null || unicode == null || familyStyles == null) {
+    if (id == null || label == null || unicode == null || familyStylesByLicense == null) {
       console.error(`Could not convert result entry "${id}" to FontAwesomeIcon`)
 
       return FontAwesomeIconType.createFallBackIcon()
     }
 
-    return new FontAwesomeIconType(id, label, unicode, familyStyles)
+    return new FontAwesomeIconType(id, label, unicode, familyStylesByLicense)
   }
 }
