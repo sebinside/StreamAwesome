@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { useFontLoader } from '@/composables/useFontLoader.ts'
-
-useFontLoader()
+import { watchFontLoading } from './utils/watchFontLoading'
+watchFontLoading()
 </script>
 
 <template>

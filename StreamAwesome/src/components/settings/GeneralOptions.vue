@@ -5,13 +5,16 @@ import {
   DuotoneKeyword,
   FontAwesomeFamilyKeys,
   FontAwesomeStyleKeys,
+  FontAwesomeFreeFamilyKeys,
   type FontAwesomeFamily,
-  type FontAwesomeStyle
+  type FontAwesomeStyle,
+  FontAwesomeFreeStyleKeys
 } from '@/model/fontAwesomeConstants'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { ref } from 'vue'
+import { fontAwesomeVersionInfo } from '@/model/versions'
 
 const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
@@ -19,10 +22,16 @@ const props = defineProps<{
 
 const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
 
-const relevantFamilies = Object.values(FontAwesomeFamilyKeys)
-const relevantStyles = Object.values(FontAwesomeStyleKeys).filter((key) => {
-  return key !== BrandsKeyword
-})
+const relevantFamilies =
+  fontAwesomeVersionInfo.fontLicense === 'Pro'
+    ? Object.values(FontAwesomeFamilyKeys)
+    : Object.values(FontAwesomeFreeFamilyKeys)
+const relevantStyles =
+  fontAwesomeVersionInfo.fontLicense === 'Pro'
+    ? Object.values(FontAwesomeStyleKeys).filter((key) => {
+        return key !== BrandsKeyword
+      })
+    : Object.values(FontAwesomeFreeStyleKeys)
 
 function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwesomeIcon {
   if (props.icon === undefined) {
