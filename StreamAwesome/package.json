@@ -19,6 +19,7 @@
     "chroma-js": "^3.1.2",
     "color-namer": "^1.4.0",
     "pinia": "^3.0.3",
+    "valibot": "^1.1.0",
     "vue": "^3.5.17",
     "vue-router": "^4.4.0"
   },

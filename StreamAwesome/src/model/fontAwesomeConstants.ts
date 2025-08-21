@@ -11,7 +11,5 @@ export const FontFamilySuffixKeys = [
 export const BrandsKeyword = 'brands'
 export const DuotoneKeyword = 'duotone'
 
-export type FontAwesomeFamily = (typeof FontAwesomeFamilyKeys)[number]
-export type FontAwesomeStyle = (typeof FontAwesomeStyleKeys)[number]
 export type FontFamilySuffix = (typeof FontFamilySuffixKeys)[number]
 export type FontWeight = 100 | 300 | 400 | 900

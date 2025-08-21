@@ -1,24 +1,6 @@
-import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeConstants'
+import * as v from 'valibot'
+import { type FontAwesomeIcon, FontAwesomeIconsSchema } from '@/model/fontAwesomeApi.ts'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
-
-type FontAwesomeFamilyStyle = {
-  family: FontAwesomeFamily
-  style: FontAwesomeStyle
-}
-type FontAwesomeIcon = {
-  id: string
-  label: string
-  unicode: string
-  familyStylesByLicense: {
-    free: FontAwesomeFamilyStyle[]
-    pro: FontAwesomeFamilyStyle[]
-  }
-}
-type FontAwesomeResponse = {
-  data: {
-    search: FontAwesomeIcon[]
-  }
-}
 
 export class FontAwesomeBrowser {
   public constructor(private readonly fontVersion: string) {}
@@ -40,23 +22,22 @@ export class FontAwesomeBrowser {
         query: `{ search(version: "${this.fontVersion}", query: "${searchTerm}", first: ${quantity}) {${this.searchDetails}} }`
       })
     })
-    const json = (await response.json()) as FontAwesomeResponse
+    const fontAwesomeApiResponse = await response.json()
 
-    const fontAwesomeIcons = json.data.search
-    return fontAwesomeIcons.map((fontAwesomeIcon) =>
-      this.fontAwesomeIconToIconType(fontAwesomeIcon)
-    )
-  }
+    const result = v.safeParse(FontAwesomeIconsSchema, fontAwesomeApiResponse)
 
-  private fontAwesomeIconToIconType(fontAwesomeIcon: FontAwesomeIcon): FontAwesomeIconType {
-    const { id, label, unicode, familyStylesByLicense } = fontAwesomeIcon
-
-    if (id == null || label == null || unicode == null || familyStylesByLicense == null) {
-      console.error(`Could not convert result entry "${id}" to FontAwesomeIcon`)
-
-      return FontAwesomeIconType.createFallBackIcon()
+    if (!result.success) {
+      return [FontAwesomeIconType.createFallBackIcon()]
     }
 
-    return new FontAwesomeIconType(id, label, unicode, familyStylesByLicense)
+    const fontAwesomeIcons = result.output
+    return this.fontAwesomeIconsToIconTypes(fontAwesomeIcons)
+  }
+
+  private fontAwesomeIconsToIconTypes(fontAwesomeIcons: FontAwesomeIcon[]): FontAwesomeIconType[] {
+    return fontAwesomeIcons.map((fontAwesomeIcon) => {
+      const { id, label, unicode, familyStylesByLicense } = fontAwesomeIcon
+      return new FontAwesomeIconType(id, label, unicode, familyStylesByLicense)
+    })
   }
 }

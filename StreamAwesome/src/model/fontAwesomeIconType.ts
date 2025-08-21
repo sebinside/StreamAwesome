@@ -1,12 +1,7 @@
-import {
-  BrandsKeyword,
-  type FontAwesomeFamily,
-  type FontAwesomeStyle,
-  type FontFamilySuffix,
-  type FontWeight
-} from '@/model/fontAwesomeConstants'
+import { BrandsKeyword, type FontFamilySuffix, type FontWeight } from '@/model/fontAwesomeConstants'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { fontAwesomeVersionInfo } from '@/model/versions'
+import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeApi.ts'
 
 export class FontAwesomeIconType {
   constructor(
