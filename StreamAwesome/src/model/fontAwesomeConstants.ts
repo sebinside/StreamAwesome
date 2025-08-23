@@ -11,6 +11,10 @@ export const FontFamilySuffixKeys = [
 export const BrandsKeyword = 'brands'
 export const DuotoneKeyword = 'duotone'
 
+// FA Free only contains *some* regular icons, which is not reliable. Thus, they are also excluded.
+export const FontAwesomeFreeStyleKeys = FontAwesomeStyleKeys.slice(0, 1)
+export const FontAwesomeFreeFamilyKeys = FontAwesomeFamilyKeys.slice(0, 1)
+
 export type FontAwesomeFamily = (typeof FontAwesomeFamilyKeys)[number]
 export type FontAwesomeStyle = (typeof FontAwesomeStyleKeys)[number]
 export type FontFamilySuffix = (typeof FontFamilySuffixKeys)[number]

@@ -10,9 +10,7 @@ import { loadFontAwesomeStyles } from '@/utils/initFontAwesome'
   await loadFontAwesomeStyles()
 
   const app = createApp(App)
-
   app.use(createPinia())
   app.use(router)
-
   app.mount('#app')
 })()
