@@ -5,14 +5,14 @@ import { createPinia } from 'pinia'
 
 import App from '@/App.vue'
 import router from '@/router'
+
 import { loadFontAwesomeStyles } from '@/utils/initFontAwesome'
-;(async () => {
-  await loadFontAwesomeStyles()
 
-  const app = createApp(App)
+await loadFontAwesomeStyles()
 
-  app.use(createPinia())
-  app.use(router)
+const app = createApp(App)
 
-  app.mount('#app')
-})()
+app.use(createPinia())
+app.use(router)
+
+app.mount('#app')
