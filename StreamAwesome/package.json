@@ -16,6 +16,7 @@
     "tidy": "npm run lint && npm run format"
   },
   "dependencies": {
+    "@vueuse/core": "^13.7.0",
     "chroma-js": "^3.1.2",
     "color-namer": "^1.4.0",
     "pinia": "^3.0.3",
