@@ -11,22 +11,10 @@ const props = defineProps<{
 }>()
 
 onMounted(() => {
-  waitForRequiredInitialization(createGenerator)
-})
-
-function waitForRequiredInitialization(callback: () => void) {
   if (iconCanvas.value) {
-    if (fontStatusStore.fontsLoaded) {
-      callback()
-    } else {
-      fontStatusStore.$subscribe((_, state) => {
-        if (state.fontsLoaded) {
-          callback()
-        }
-      })
-    }
+    fontStatusStore.waitForFontsLoaded(createGenerator)
   }
-}
+})
 
 function createGenerator() {
   if (props.icon && iconCanvas.value) {

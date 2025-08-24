@@ -7,13 +7,19 @@ const props = defineProps<{
 }>()
 
 const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
-currentIcon.value.presetSettings = {
-  preset: 'Custom',
-  backgroundColor: '#111111',
-  foregroundColor: '#FFAB00'
+if (currentIcon.value.presetSettings.preset !== 'Custom') {
+  applyDefaultSettings()
 }
-currentIcon.value.fontAwesomeIcon.style = 'solid'
-currentIcon.value.fontAwesomeIcon.family = 'duotone'
+
+function applyDefaultSettings() {
+  currentIcon.value.presetSettings = {
+    preset: 'Custom',
+    backgroundColor: '#111111',
+    foregroundColor: '#FFAB00'
+  }
+  currentIcon.value.fontAwesomeIcon.style = 'solid'
+  currentIcon.value.fontAwesomeIcon.family = 'duotone'
+}
 </script>
 
 <template>
