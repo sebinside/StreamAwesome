@@ -15,6 +15,7 @@ function downloadIcon() {
   iconGenerator.saveIcon(iconStore.currentIcon)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function loadPreset(preset: CustomIcon<any>) {
   Object.assign(iconStore.currentIcon, preset)
 }
