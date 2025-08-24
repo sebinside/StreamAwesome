@@ -5,8 +5,7 @@ import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon.ts'
 
 interface IconPreset {
   name: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  settings: CustomIcon<any>
+  settings: CustomIcon<FontAwesomePreset>
   createdAt: string
 }
 
@@ -33,8 +32,7 @@ function savePreset() {
 
   const newPreset: IconPreset = {
     name: presetName.value.trim(),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    settings: JSON.parse(JSON.stringify(props.icon)) as CustomIcon<any>,
+    settings: JSON.parse(JSON.stringify(props.icon)) as CustomIcon<FontAwesomePreset>,
     createdAt: new Date().toISOString()
   }
 

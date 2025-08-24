@@ -5,7 +5,7 @@ import IconSettings from '@/components/settings/IconSettings.vue'
 import UserUserPresetManager from '@/components/utils/UserPresetManager.vue'
 import { getMatchingGenerator } from '@/logic/generator/generators'
 import { useIconsStore } from '@/stores/icons'
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { useMagicKeys, whenever } from '@vueuse/core'
 
 const iconStore = useIconsStore()
@@ -15,8 +15,7 @@ function downloadIcon() {
   iconGenerator.saveIcon(iconStore.currentIcon)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function loadPreset(preset: CustomIcon<any>) {
+function loadPreset(preset: CustomIcon<FontAwesomePreset>) {
   Object.assign(iconStore.currentIcon, preset)
 }
 
