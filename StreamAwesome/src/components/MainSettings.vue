@@ -11,6 +11,11 @@ function downloadIcon() {
   const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
   iconGenerator.saveIcon(iconStore.currentIcon)
 }
+
+function copyIconToClipboard() {
+  const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
+  iconGenerator.copyIconToClipboard(iconStore.currentIcon)
+}
 </script>
 
 <template>
@@ -21,7 +26,11 @@ function downloadIcon() {
         class="mt-5 mb-5 place-self-center md:place-self-auto"
         @download-icon="downloadIcon"
       />
-      <IconSettings :icon="iconStore.currentIcon" @download-icon="downloadIcon" />
+      <IconSettings
+        :icon="iconStore.currentIcon"
+        @download-icon="downloadIcon"
+        @copy-icon-to-clipboard="copyIconToClipboard"
+      />
     </div>
     <div class="flex-grow">
       <IconBrowser />
