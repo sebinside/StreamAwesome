@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppFooter from './components/utils/AppFooter.vue'
+import FontLoader from './components/utils/FontLoader.vue'
 import { watchFontLoading } from './utils/watchFontLoading'
 
 watchFontLoading()
@@ -10,4 +11,5 @@ watchFontLoading()
     <RouterView />
   </main>
   <AppFooter />
+  <FontLoader />
 </template>
