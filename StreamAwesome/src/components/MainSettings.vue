@@ -6,9 +6,10 @@ import { getMatchingGenerator } from '@/logic/generator/generators'
 import { URLHandler } from '@/logic/URLHandler'
 import { useIconsStore } from '@/stores/icons'
 import { useMagicKeys, whenever } from '@vueuse/core'
+import { useFontsStatusStore } from '@/stores/fontStatus'
 
 const iconStore = useIconsStore()
-URLHandler.initialize()
+URLHandler.initialize(() => useFontsStatusStore().waitForFontsLoaded(downloadIcon))
 
 function downloadIcon() {
   const iconGenerator = getMatchingGenerator(iconStore.currentIcon)

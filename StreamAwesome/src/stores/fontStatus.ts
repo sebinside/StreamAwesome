@@ -7,5 +7,17 @@ export const useFontsStatusStore = defineStore('fontStatus', () => {
     fontsLoaded.value = true
   }
 
-  return { fontsLoaded, setFontsLoaded }
+  function waitForFontsLoaded(callback: () => void) {
+    if (fontsLoaded.value) {
+      callback()
+    } else {
+      useFontsStatusStore().$subscribe((_, state) => {
+        if (state.fontsLoaded) {
+          callback()
+        }
+      })
+    }
+  }
+
+  return { fontsLoaded, setFontsLoaded, waitForFontsLoaded }
 })

@@ -6,12 +6,12 @@ import type { FontAwesomeFamily, FontAwesomeStyle } from '@/model/fontAwesomeCon
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 
 export class URLHandler {
-  public static initialize() {
-    URLHandler.readURLAndUpdateIcon()
+  public static initialize(triggerIconDownload: () => void) {
+    URLHandler.readURLAndUpdateIcon(triggerIconDownload)
     URLHandler.watchIconAndUpdateURL()
   }
 
-  private static readURLAndUpdateIcon() {
+  private static readURLAndUpdateIcon(triggerIconDownload: () => void) {
     const params = useUrlSearchParams('history')
     if (params.fontsize !== undefined) {
       console.log('Found URL parameters. Trying to parse input...')
@@ -21,6 +21,11 @@ export class URLHandler {
       if (icon !== null) {
         console.log('Successfully parsed icon from URL parameters.')
         useIconsStore().currentIcon = icon
+
+        if (params.download !== undefined) {
+          triggerIconDownload()
+          console.log('Triggered icon download from URL parameters.')
+        }
       } else {
         console.error('Failed to parse icon from URL parameters.')
       }
