@@ -4,8 +4,7 @@ import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
 import { getMatchingGenerator } from '@/logic/generator/generators'
 import { useIconsStore } from '@/stores/icons'
-import { useMagicKeys } from '@vueuse/core'
-import { watch } from 'vue'
+import { useMagicKeys, whenever } from '@vueuse/core'
 
 const iconStore = useIconsStore()
 
@@ -20,9 +19,7 @@ function copyIconToClipboard() {
 }
 
 const copyShortcut = useMagicKeys()['Ctrl+C']
-watch(copyShortcut, (keyDown) => {
-  if (keyDown) copyIconToClipboard()
-})
+whenever(copyShortcut, copyIconToClipboard)
 </script>
 
 <template>
