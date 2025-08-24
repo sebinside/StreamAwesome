@@ -3,10 +3,12 @@ import IconBrowser from '@/components/browser/IconBrowser.vue'
 import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
 import { getMatchingGenerator } from '@/logic/generator/generators'
+import { URLHandler } from '@/logic/URLHandler'
 import { useIconsStore } from '@/stores/icons'
 import { useMagicKeys, whenever } from '@vueuse/core'
 
 const iconStore = useIconsStore()
+URLHandler.initialize()
 
 function downloadIcon() {
   const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
