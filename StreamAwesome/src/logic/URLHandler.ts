@@ -92,7 +92,7 @@ export class URLHandler {
   }
 
   private static extractNumber(params: UrlParams, parameterName: string): number {
-    const parsedNumber = parseInt(params[parameterName] as string)
+    const parsedNumber = parseFloat(params[parameterName] as string)
     if (isNaN(parsedNumber)) {
       throw new Error(`${parameterName} in URL parameters is not a valid number.`)
     }
@@ -117,7 +117,45 @@ export class URLHandler {
 
   private static watchIconAndUpdateURL() {
     watch(useIconsStore().currentIcon, (newIcon) => {
-      console.log('Current icon updated:', newIcon)
+      const params = useUrlSearchParams('history')
+      URLHandler.clearURLParameters(params)
+      URLHandler.mapObjectToParams(newIcon, '', params)
     })
+  }
+
+  private static clearURLParameters(params: UrlParams) {
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        delete params[key]
+      }
+    }
+  }
+
+  private static mapObjectToParams(
+    obj: Record<string, unknown>,
+    prefix: string | null,
+    params: UrlParams
+  ) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        const value = obj[key]
+        if (typeof value === 'object' && value !== null) {
+          URLHandler.mapObjectToParams(
+            value as Record<string, unknown>,
+            URLHandler.joinPrefixKeys(prefix, key),
+            params
+          )
+        } else {
+          params[URLHandler.joinPrefixKeys(prefix, key)] = `${value}`.toLowerCase()
+        }
+      }
+    }
+  }
+
+  private static joinPrefixKeys(prefix: string | null, key: string): string {
+    return [prefix, key]
+      .filter(Boolean)
+      .map((s) => s.toLowerCase())
+      .join('.')
   }
 }
