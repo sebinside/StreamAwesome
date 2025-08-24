@@ -47,44 +47,44 @@ export class URLHandler {
       id: URLHandler.extractString(params, 'fontawesomeicon.id'),
       label: URLHandler.extractString(params, 'fontawesomeicon.label'),
       unicode: URLHandler.extractString(params, 'fontawesomeicon.unicode'),
-      isBrandsIcon: URLHandler.extractBoolean(params, 'fontawesomeicon.isBrandsIcon'),
+      isBrandsIcon: URLHandler.extractBoolean(params, 'fontawesomeicon.isbrandsicon'),
       style: URLHandler.extractString(params, 'fontawesomeicon.style') as FontAwesomeStyle,
       family: URLHandler.extractString(params, 'fontawesomeicon.family') as FontAwesomeFamily
     }
   }
 
   private static extractPreset(params: UrlParams): CustomIcon<FontAwesomePreset>['presetSettings'] {
-    const preset = URLHandler.extractString(params, 'preset')
+    const preset = URLHandler.extractString(params, 'presetsettings.preset')
     const typedPreset = (preset.charAt(0).toUpperCase() + preset.slice(1)) as FontAwesomePreset
 
     switch (typedPreset) {
       case 'Classic':
         return {
           preset: 'Classic',
-          hue: URLHandler.extractNumber(params, 'presetsetting.hue')
+          hue: URLHandler.extractNumber(params, 'presetsettings.hue')
         }
       case 'Modern':
         return {
           preset: 'Modern',
-          inverted: URLHandler.extractBoolean(params, 'presetsetting.inverted')
+          inverted: URLHandler.extractBoolean(params, 'presetsettings.inverted')
         }
       case 'Neo':
         return {
           preset: 'Neo',
-          invertDirection: URLHandler.extractBoolean(params, 'presetsetting.invertDirection'),
-          symbolOnly: URLHandler.extractBoolean(params, 'presetsetting.symbolOnly'),
-          hueStart: URLHandler.extractNumber(params, 'presetsetting.hueStart'),
-          hueShift: URLHandler.extractNumber(params, 'presetsetting.hueShift'),
-          saturation: URLHandler.extractNumber(params, 'presetsetting.saturation'),
-          translation: URLHandler.extractNumber(params, 'presetsetting.translation'),
-          lightness: URLHandler.extractNumber(params, 'presetsetting.lightness'),
-          colorSpace: URLHandler.extractString(params, 'presetsetting.colorSpace') as ColorSpace
+          invertDirection: URLHandler.extractBoolean(params, 'presetsettings.invertdirection'),
+          symbolOnly: URLHandler.extractBoolean(params, 'presetsettings.symbolonly'),
+          hueStart: URLHandler.extractNumber(params, 'presetsettings.huestart'),
+          hueShift: URLHandler.extractNumber(params, 'presetsettings.hueshift'),
+          saturation: URLHandler.extractNumber(params, 'presetsettings.saturation'),
+          translation: URLHandler.extractNumber(params, 'presetsettings.translation'),
+          lightness: URLHandler.extractNumber(params, 'presetsettings.lightness'),
+          colorSpace: URLHandler.extractString(params, 'presetsettings.colorspace') as ColorSpace
         }
       case 'Custom':
         return {
           preset: 'Custom',
-          backgroundColor: URLHandler.extractString(params, 'presetsetting.backgroundColor'),
-          foregroundColor: URLHandler.extractString(params, 'presetsetting.foregroundColor')
+          backgroundColor: URLHandler.extractString(params, 'presetsettings.backgroundcolor'),
+          foregroundColor: URLHandler.extractString(params, 'presetsettings.foregroundcolor')
         }
       default:
         throw new Error(`Unknown preset type: ${typedPreset}`)
@@ -112,7 +112,7 @@ export class URLHandler {
     if (value === undefined || value === null || Array.isArray(value)) {
       throw new Error(`${parameterName} in URL parameters is not a valid boolean.`)
     }
-    return Boolean(value)
+    return value.toLowerCase() === 'true'
   }
 
   private static watchIconAndUpdateURL() {
@@ -139,23 +139,15 @@ export class URLHandler {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         const value = obj[key]
+
+        const joinedKey = [prefix, key].filter(Boolean).join('.').toLowerCase()
+
         if (typeof value === 'object' && value !== null) {
-          URLHandler.mapObjectToParams(
-            value as Record<string, unknown>,
-            URLHandler.joinPrefixKeys(prefix, key),
-            params
-          )
+          URLHandler.mapObjectToParams(value as Record<string, unknown>, joinedKey, params)
         } else {
-          params[URLHandler.joinPrefixKeys(prefix, key)] = `${value}`.toLowerCase()
+          params[joinedKey] = `${value}`.toLowerCase()
         }
       }
     }
-  }
-
-  private static joinPrefixKeys(prefix: string | null, key: string): string {
-    return [prefix, key]
-      .filter(Boolean)
-      .map((s) => s.toLowerCase())
-      .join('.')
   }
 }

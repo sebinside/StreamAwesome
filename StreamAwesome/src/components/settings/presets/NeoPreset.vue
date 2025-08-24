@@ -8,21 +8,27 @@ const props = defineProps<{
 }>()
 
 const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
-currentIcon.value.presetSettings = {
-  preset: 'Neo',
-  colorSpace: 'lch',
-  hueStart: 300,
-  hueShift: 60,
-  lightness: 0.6,
-  invertDirection: false,
-  saturation: 0.8,
-  symbolOnly: false,
-  translation: 0
+if (currentIcon.value.presetSettings.preset !== 'Neo') {
+  applyDefaultSettings()
 }
-currentIcon.value.fontAwesomeIcon.style = 'solid'
-currentIcon.value.fontAwesomeIcon.family = 'classic'
 
-const currentHue = ref(currentIcon.value.presetSettings.hueStart)
+function applyDefaultSettings() {
+  currentIcon.value.presetSettings = {
+    preset: 'Neo',
+    colorSpace: 'lch',
+    hueStart: 300,
+    hueShift: 60,
+    lightness: 0.6,
+    invertDirection: false,
+    saturation: 0.8,
+    symbolOnly: false,
+    translation: 0
+  }
+  currentIcon.value.fontAwesomeIcon.style = 'solid'
+  currentIcon.value.fontAwesomeIcon.family = 'classic'
+}
+
+const currentHue = ref((currentIcon.value as CustomIcon<'Neo'>).presetSettings.hueStart)
 
 const settingsExpanded = ref(false)
 const toggleSettings = () => {
