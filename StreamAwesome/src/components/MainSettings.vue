@@ -6,6 +6,7 @@ import UserUserPresetManager from '@/components/utils/UserPresetManager.vue'
 import { getMatchingGenerator } from '@/logic/generator/generators'
 import { useIconsStore } from '@/stores/icons'
 import type { CustomIcon } from '@/model/customIcon'
+import { useMagicKeys, whenever } from '@vueuse/core'
 
 const iconStore = useIconsStore()
 
@@ -17,6 +18,14 @@ function downloadIcon() {
 function loadPreset(preset: CustomIcon<any>) {
   Object.assign(iconStore.currentIcon, preset)
 }
+
+function copyIconToClipboard() {
+  const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
+  iconGenerator.copyIconToClipboard(iconStore.currentIcon)
+}
+
+const copyShortcut = useMagicKeys()['Ctrl+C']
+whenever(copyShortcut, copyIconToClipboard)
 </script>
 
 <template>
@@ -33,7 +42,11 @@ function loadPreset(preset: CustomIcon<any>) {
             @load-preset="loadPreset"
         />
       </div>
-      <IconSettings :icon="iconStore.currentIcon" @download-icon="downloadIcon" />
+      <IconSettings
+        :icon="iconStore.currentIcon"
+        @download-icon="downloadIcon"
+        @copy-icon-to-clipboard="copyIconToClipboard"
+      />
     </div>
     <div class="flex-grow">
       <IconBrowser />
