@@ -1,7 +1,7 @@
-import { useFontsStatusStore } from '@/stores/fontStatus'
+import { useFontsStatusStore } from '@/stores/fontStatus.ts'
 import { onMounted } from 'vue'
 
-export function watchFontLoading() {
+export function useFontLoading() {
   // Cross-browser waiting for font loading is messed up, see: https://stackoverflow.com/questions/5680013/how-to-be-notified-once-a-web-font-has-loaded/77481922#77481922
   const waitForFontsLoaded = document.fonts?.ready.then(() => {
     return new Promise((resolve) => {

@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { useFontLoading } from '@/composables/useFontLoading.ts'
+
+useFontLoading()
+</script>
+
 <template>
   <!-- This is actually required to enforce all fonts to be loaded correctly, don't even try to remove it.-->
   <div class="sr-only">
