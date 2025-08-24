@@ -29,7 +29,7 @@ export class FontAwesomeBrowser {
 
   public async getAvailableIcons(
     searchTerm: string,
-    quantity: number = 39
+    quantity: number = 120 // 15 * 8 icons (desktop) and 20 * 6 icons (mobile)
   ): Promise<FontAwesomeIconType[]> {
     const response = await fetch(this.fontAwesomeAPIEndpoint, {
       method: 'POST',

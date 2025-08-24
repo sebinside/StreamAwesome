@@ -44,7 +44,9 @@ queryIcons('video')
 </script>
 <template>
   <InputGroup label="Search:" inputId="iconBrowser" @on-input="queryIcons" />
-  <div class="mt-3 grid grid-cols-3 grid-rows-3 justify-items-stretch gap-2 text-center">
+  <div
+    class="mt-3 grid grid-cols-6 grid-rows-3 justify-items-stretch gap-1 text-center sm:grid-cols-8"
+  >
     <Icon
       v-for="icon of availableIcons"
       @click="selectIcon(icon)"
