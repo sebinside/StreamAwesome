@@ -20,7 +20,6 @@ function downloadIcon() {
   <div class="flex flex-col md:flex-row">
     <div class="mr-0 grid md:mr-7">
       <IconCanvas
-        :icon="iconStore.currentIcon"
         class="mt-5 mb-5 place-self-center md:place-self-auto"
         @download-icon="downloadIcon"
       />

@@ -22,3 +22,9 @@ export function getMatchingGenerator<T extends FontAwesomePreset>(
       throw new Error('Preset not supported')
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function triggerGenerator(icon: CustomIcon<any>, canvas: HTMLCanvasElement) {
+  const iconGenerator = getMatchingGenerator(icon, canvas)
+  iconGenerator.generateIcon(icon)
+}
