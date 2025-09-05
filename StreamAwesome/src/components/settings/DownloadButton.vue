@@ -1,8 +1,15 @@
 <script setup lang="ts">
+import { useCopyIcon } from '@/composables/useCopyIcon.ts'
+import { useMagicKeys, whenever } from '@vueuse/core'
+
 defineEmits<{
   downloadIcon: []
-  copyIconToClipboard: []
 }>()
+
+const { copyIconToClipboard, iconIsCopiedToClipboard } = useCopyIcon()
+
+const copyShortcut = useMagicKeys()['Ctrl+C']
+whenever(copyShortcut, copyIconToClipboard)
 </script>
 
 <template>
@@ -17,9 +24,10 @@ defineEmits<{
     <button
       type="button"
       class="mb-2 w-full cursor-pointer rounded-r-lg bg-gradient-to-r from-blue-500 to-purple-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:to-pink-500 focus:ring-2 focus:ring-cyan-300 focus:outline-none dark:focus:ring-cyan-800"
-      @click="$emit('copyIconToClipboard')"
+      @click="copyIconToClipboard"
     >
-      <i class="fa-solid fa-copy"></i> Copy
+      <span v-if="!iconIsCopiedToClipboard"><i class="fa-solid fa-copy"></i> Copy</span>
+      <span v-else>Copied</span>
     </button>
   </div>
 </template>

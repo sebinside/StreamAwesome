@@ -5,7 +5,6 @@ import IconSettings from '@/components/settings/IconSettings.vue'
 import { getMatchingGenerator } from '@/logic/generator/generators'
 import { URLHandler } from '@/logic/URLHandler'
 import { useIconsStore } from '@/stores/icons'
-import { useMagicKeys, whenever } from '@vueuse/core'
 import { useFontsStatusStore } from '@/stores/fontStatus'
 
 const iconStore = useIconsStore()
@@ -15,14 +14,6 @@ function downloadIcon() {
   const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
   iconGenerator.saveIcon(iconStore.currentIcon)
 }
-
-function copyIconToClipboard() {
-  const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
-  iconGenerator.copyIconToClipboard(iconStore.currentIcon)
-}
-
-const copyShortcut = useMagicKeys()['Ctrl+C']
-whenever(copyShortcut, copyIconToClipboard)
 </script>
 
 <template>
@@ -33,11 +24,7 @@ whenever(copyShortcut, copyIconToClipboard)
         class="mt-5 mb-5 place-self-center md:place-self-auto"
         @download-icon="downloadIcon"
       />
-      <IconSettings
-        :icon="iconStore.currentIcon"
-        @download-icon="downloadIcon"
-        @copy-icon-to-clipboard="copyIconToClipboard"
-      />
+      <IconSettings :icon="iconStore.currentIcon" @download-icon="downloadIcon" />
     </div>
     <div class="flex-grow">
       <IconBrowser />
