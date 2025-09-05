@@ -8,8 +8,8 @@ defineEmits<{
 
 const { copyIconToClipboard, iconIsCopiedToClipboard } = useCopyIcon()
 
-const copyShortcut = useMagicKeys()['Ctrl+C']
-whenever(copyShortcut, copyIconToClipboard)
+const copyShortcutIsPressed = useMagicKeys()['Ctrl+C']
+whenever(copyShortcutIsPressed, copyIconToClipboard)
 </script>
 
 <template>
