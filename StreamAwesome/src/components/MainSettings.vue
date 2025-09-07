@@ -23,7 +23,7 @@ function downloadIcon() {
         class="mt-5 mb-5 place-self-center md:place-self-auto"
         @download-icon="downloadIcon"
       />
-      <IconSettings :icon="iconStore.currentIcon" @download-icon="downloadIcon" />
+      <IconSettings @download-icon="downloadIcon" />
     </div>
     <div class="flex-grow">
       <IconBrowser />
