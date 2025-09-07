@@ -19,8 +19,8 @@ Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https
 
 ## How to Install
 
-> ![TIP]
-> You don't need to install anything if you just want to use it, just head over to [streamawesome.app](https://streamawesome.app). Local installation is only needed if you want to contribute to this repository or run it offline.
+> [!TIP]
+> You don't need to install anything if you just want to use it; head over to [streamawesome.app](https://streamawesome.app). A local installation is only needed if you want to contribute to this repository or run it offline.
 
 1. Install [Node](https://nodejs.org) and npm
 2. Download or clone this repository, e.g. using `git clone https://github.com/sebinside/StreamAwesome.git`
