@@ -1,12 +1,12 @@
 import { useIconsStore } from '@/stores/icons'
 import { watch } from 'vue'
 import { useUrlSearchParams, type UrlParams } from '@vueuse/core'
-import { PersistenceHandler } from './persistence/PersitenceHandler'
+import { PersistenceHandler } from './persistence/PersistenceHandler'
 
-export class URLHandler {
+export class URLManager {
   public static initialize(triggerIconDownload: () => void) {
-    URLHandler.readURLAndUpdateIcon(triggerIconDownload)
-    URLHandler.watchIconAndUpdateURL()
+    URLManager.readURLAndUpdateIcon(triggerIconDownload)
+    URLManager.watchIconAndUpdateURL()
   }
 
   private static readURLAndUpdateIcon(triggerIconDownload: () => void) {
@@ -33,7 +33,7 @@ export class URLHandler {
   private static watchIconAndUpdateURL() {
     watch(useIconsStore().currentIcon, (newIcon) => {
       const params = useUrlSearchParams('history')
-      URLHandler.clearURLParameters(params)
+      URLManager.clearURLParameters(params)
       const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
 
       for (const key in persistentIcon) {

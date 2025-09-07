@@ -1,8 +1,3 @@
-export interface PersistentIcon {
-  version: string
-  [key: string]: unknown
-}
-
 export abstract class PersistentIconConverter {
   public abstract convertPersistentIconToIcon(
     record: Record<string, unknown>

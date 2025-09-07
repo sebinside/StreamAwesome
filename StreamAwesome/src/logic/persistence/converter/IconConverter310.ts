@@ -1,4 +1,4 @@
-import { PersistentIconConverter } from '../PersistentIconConverter'
+import { PersistentIconConverter } from './PersistentIconConverter'
 
 export class IconConverter310 extends PersistentIconConverter {
   public convertPersistentIconToIcon(

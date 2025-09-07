@@ -1,7 +1,7 @@
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { streamAwesomeVersionInfo } from '@/model/versions'
 import { IconConverter310 } from './converter/IconConverter310'
-import type { PersistentIcon } from './PersistentIconConverter'
+import type { PersistentIcon } from './PersistentIcon'
 
 export class PersistenceHandler {
   public static convertPersistentIconToIcon(
@@ -10,16 +10,18 @@ export class PersistenceHandler {
     if (record.version === undefined || typeof record.version !== 'string') {
       console.error('No appropriate version found in persistent icon.')
       return null
-    } else if (record.version !== streamAwesomeVersionInfo) {
+    }
+
+    if (record.version !== streamAwesomeVersionInfo) {
       console.error('Incompatible version found in persistent icon.')
       return null
-    } else {
-      // Future versions will either need a more sophisticated conversion or ditch the approach.
-      // Sophisticated conversion == verifying that the type actually matches + handling incremental changes between versions, e.g., by using recursion in calling the appropriate converters
-      return new IconConverter310().convertPersistentIconToIcon(
-        record
-      ) as CustomIcon<FontAwesomePreset> | null
     }
+
+    // Future versions will either need a more sophisticated conversion or ditch the approach.
+    // Sophisticated conversion == verifying that the type actually matches + handling incremental changes between versions, e.g., by using recursion in calling the appropriate converters
+    return new IconConverter310().convertPersistentIconToIcon(
+      record
+    ) as CustomIcon<FontAwesomePreset> | null
   }
 
   public static convertIconToPersistentIcon(icon: CustomIcon<FontAwesomePreset>): PersistentIcon {
