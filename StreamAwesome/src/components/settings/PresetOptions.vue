@@ -7,7 +7,7 @@ import CustomPreset from '@/components/settings/presets/CustomPreset.vue'
 import { ref, computed } from 'vue'
 import type { VNode, Component } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
@@ -21,7 +21,7 @@ const presets = {
 const presetKeys = Object.keys(presets) as IconPreset[]
 type IconPreset = keyof typeof presets
 
-const selectedPreset = ref<IconPreset>('Neo')
+const selectedPreset = ref<IconPreset>(props.icon.presetSettings.preset)
 const selectedPresetComponent = computed(() => {
   return presets[selectedPreset.value]
 })

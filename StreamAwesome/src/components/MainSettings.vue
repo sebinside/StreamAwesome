@@ -4,11 +4,13 @@ import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
 import UserUserPresetManager from '@/components/utils/UserPresetManager.vue'
 import { getMatchingGenerator } from '@/logic/generator/generators'
+import { URLHandler } from '@/logic/URLHandler'
 import { useIconsStore } from '@/stores/icons'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
-import { useMagicKeys, whenever } from '@vueuse/core'
+import { useFontsStatusStore } from '@/stores/fontStatus'
 
 const iconStore = useIconsStore()
+URLHandler.initialize(() => useFontsStatusStore().waitForFontsLoaded(downloadIcon))
 
 function downloadIcon() {
   const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
@@ -19,20 +21,12 @@ function loadPreset(preset: CustomIcon<FontAwesomePreset>) {
   Object.assign(iconStore.currentIcon, preset)
 }
 
-function copyIconToClipboard() {
-  const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
-  iconGenerator.copyIconToClipboard(iconStore.currentIcon)
-}
-
-const copyShortcut = useMagicKeys()['Ctrl+C']
-whenever(copyShortcut, copyIconToClipboard)
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row">
     <div class="mr-0 grid md:mr-7">
       <IconCanvas
-        :icon="iconStore.currentIcon"
         class="mt-5 mb-5 place-self-center md:place-self-auto"
         @download-icon="downloadIcon"
       />
@@ -42,11 +36,7 @@ whenever(copyShortcut, copyIconToClipboard)
             @load-preset="loadPreset"
         />
       </div>
-      <IconSettings
-        :icon="iconStore.currentIcon"
-        @download-icon="downloadIcon"
-        @copy-icon-to-clipboard="copyIconToClipboard"
-      />
+      <IconSettings :icon="iconStore.currentIcon" @download-icon="downloadIcon" />
     </div>
     <div class="flex-grow">
       <IconBrowser />

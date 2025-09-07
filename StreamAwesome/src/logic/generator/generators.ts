@@ -22,3 +22,8 @@ export function getMatchingGenerator<T extends FontAwesomePreset>(
       throw new Error('Preset not supported')
   }
 }
+
+export function triggerGenerator(icon: CustomIcon<FontAwesomePreset>, canvas: HTMLCanvasElement) {
+  const iconGenerator = getMatchingGenerator(icon, canvas)
+  iconGenerator.generateIcon(icon)
+}

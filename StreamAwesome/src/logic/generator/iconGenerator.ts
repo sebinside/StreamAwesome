@@ -100,17 +100,9 @@ export default abstract class IconGenerator<T extends FontAwesomePreset> {
     linkElement.click()
   }
 
-  copyIconToClipboard(icon: CustomIcon<T>) {
+  getIconAsBlob(icon: CustomIcon<T>) {
     this.prepareIconForExport(icon)
-
-    this.canvas.toBlob((blob) => {
-      if (blob) {
-        const item = new ClipboardItem({ 'image/png': blob })
-        navigator.clipboard
-          .write([item])
-          .catch((e) => console.error('Failed to copy icon to clipboard:', e))
-      }
-    }, 'image/png')
+    return new Promise<Blob>((resolve) => this.canvas.toBlob((blob) => resolve(blob!), 'image/png'))
   }
 
   private generateCustomIconName(icon: CustomIcon<T>): string {

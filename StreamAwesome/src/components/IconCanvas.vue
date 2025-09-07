@@ -1,53 +1,24 @@
 <script setup lang="ts">
-import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
-import { onMounted, useTemplateRef, watch } from 'vue'
+import { useTemplateRef, watchEffect } from 'vue'
 import { useFontsStatusStore } from '@/stores/fontStatus'
-import { getMatchingGenerator } from '@/logic/generator/generators'
-
-const fontStatusStore = useFontsStatusStore()
-const iconCanvas = useTemplateRef('iconCanvas')
-const props = defineProps<{
-  icon: CustomIcon<FontAwesomePreset>
-}>()
-
-onMounted(() => {
-  waitForRequiredInitialization(createGenerator)
-})
-
-function waitForRequiredInitialization(callback: () => void) {
-  if (iconCanvas.value) {
-    if (fontStatusStore.fontsLoaded) {
-      callback()
-    } else {
-      fontStatusStore.$subscribe((_, state) => {
-        if (state.fontsLoaded) {
-          callback()
-        }
-      })
-    }
-  }
-}
-
-function createGenerator() {
-  if (props.icon && iconCanvas.value) {
-    triggerGenerator(props.icon, iconCanvas.value)
-
-    watch(props.icon, () => {
-      if (props.icon && iconCanvas.value) {
-        triggerGenerator(props.icon, iconCanvas.value)
-      }
-    })
-  }
-}
-
-function triggerGenerator(icon: CustomIcon<FontAwesomePreset>, canvas: HTMLCanvasElement) {
-  const iconGenerator = getMatchingGenerator(icon, canvas)
-  iconGenerator.generateIcon(icon)
-}
+import { useIconsStore } from '@/stores/icons.ts'
+import { triggerGenerator } from '@/logic/generator/generators'
 
 defineEmits<{
   downloadIcon: []
 }>()
+
+const iconCanvas = useTemplateRef('iconCanvas')
+const fontStatusStore = useFontsStatusStore()
+const iconsStore = useIconsStore()
+
+watchEffect(() => {
+  const iconCanvasIsInitialized = iconCanvas.value != null && fontStatusStore.fontsLoaded
+
+  if (iconCanvasIsInitialized) {
+    triggerGenerator(iconsStore.currentIcon, iconCanvas.value)
+  }
+})
 </script>
 
 <template>

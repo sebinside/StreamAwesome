@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { CustomIcon } from '@/model/customIcon'
+import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 
 export const useIconsStore = defineStore('icons', () => {
-  const currentIcon = ref<CustomIcon<'Neo'>>({
+  const currentIcon = ref<CustomIcon<FontAwesomePreset>>({
     presetSettings: {
       preset: 'Neo',
       colorSpace: 'lch',
