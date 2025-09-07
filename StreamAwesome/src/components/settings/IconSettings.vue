@@ -9,7 +9,6 @@ defineProps<{
 }>()
 defineEmits<{
   downloadIcon: []
-  copyIconToClipboard: []
 }>()
 </script>
 
@@ -18,8 +17,5 @@ defineEmits<{
 
   <GeneralOptions :icon="icon" />
 
-  <DownloadButton
-    @downloadIcon="$emit('downloadIcon')"
-    @copyIconToClipboard="$emit('copyIconToClipboard')"
-  />
+  <DownloadButton @downloadIcon="$emit('downloadIcon')" />
 </template>
