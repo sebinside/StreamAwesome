@@ -23,8 +23,7 @@ export function getMatchingGenerator<T extends FontAwesomePreset>(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function triggerGenerator(icon: CustomIcon<any>, canvas: HTMLCanvasElement) {
+export function triggerGenerator(icon: CustomIcon<FontAwesomePreset>, canvas: HTMLCanvasElement) {
   const iconGenerator = getMatchingGenerator(icon, canvas)
   iconGenerator.generateIcon(icon)
 }
