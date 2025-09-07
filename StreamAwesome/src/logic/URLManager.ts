@@ -1,5 +1,5 @@
 import { useIconsStore } from '@/stores/icons'
-import { watch } from 'vue'
+import { watchThrottled } from '@vueuse/core'
 import { useUrlSearchParams, type UrlParams } from '@vueuse/core'
 import { PersistenceHandler } from './persistence/PersistenceHandler'
 
@@ -31,23 +31,30 @@ export class URLManager {
   }
 
   private static watchIconAndUpdateURL() {
-    watch(useIconsStore().currentIcon, (newIcon) => {
-      const params = useUrlSearchParams('history')
-      URLManager.clearURLParameters(params)
-      const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
+    watchThrottled(
+      useIconsStore().currentIcon,
+      (newIcon) => {
+        const params = useUrlSearchParams('history')
+        URLManager.clearURLParameters(params)
+        const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
 
-      for (const key in persistentIcon) {
-        if (persistentIcon.hasOwnProperty(key)) {
-          if (typeof persistentIcon[key] === 'string') {
-            params[key] = persistentIcon[key] as string
-          } else {
-            console.warn(`Unexpected type for key "${key}":`, persistentIcon[key])
-            params[key] = JSON.stringify(persistentIcon[key])
+        for (const key in persistentIcon) {
+          if (persistentIcon.hasOwnProperty(key)) {
+            if (typeof persistentIcon[key] === 'string') {
+              params[key] = persistentIcon[key] as string
+            } else {
+              console.warn(`Unexpected type for key "${key}":`, persistentIcon[key])
+              params[key] = JSON.stringify(persistentIcon[key])
+            }
           }
         }
-      }
-    })
+      },
+      { throttle: URLManager.urlUpdateThrottle, trailing: true }
+    )
   }
+
+  // Changing the URL too often might cause stability problems: https://issues.chromium.org/issues/40113103
+  private static urlUpdateThrottle = 100
 
   private static clearURLParameters(params: UrlParams) {
     for (const key in params) {
