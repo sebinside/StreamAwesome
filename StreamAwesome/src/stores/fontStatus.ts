@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, readonly } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useFontsStatusStore = defineStore('fontStatus', () => {
@@ -19,5 +19,9 @@ export const useFontsStatusStore = defineStore('fontStatus', () => {
     }
   }
 
-  return { fontsLoaded, setFontsLoaded, waitForFontsLoaded }
+  return {
+    fontsLoaded: readonly(fontsLoaded),
+    setFontsLoaded,
+    waitForFontsLoaded
+  }
 })
