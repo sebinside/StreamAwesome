@@ -1,5 +1,6 @@
 import { ref, readonly } from 'vue'
 import { defineStore } from 'pinia'
+import { whenever } from '@vueuse/core'
 
 export const useFontsStatusStore = defineStore('fontStatus', () => {
   const fontsLoaded = ref(false)
@@ -8,15 +9,7 @@ export const useFontsStatusStore = defineStore('fontStatus', () => {
   }
 
   function waitForFontsLoaded(callback: () => void) {
-    if (fontsLoaded.value) {
-      callback()
-    } else {
-      useFontsStatusStore().$subscribe((_, state) => {
-        if (state.fontsLoaded) {
-          callback()
-        }
-      })
-    }
+    whenever(fontsLoaded, callback, { once: true })
   }
 
   return {
