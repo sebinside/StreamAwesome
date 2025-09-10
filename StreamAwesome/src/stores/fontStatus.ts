@@ -9,7 +9,7 @@ export const useFontsStatusStore = defineStore('fontStatus', () => {
   }
 
   function waitForFontsLoaded(callback: () => void) {
-    whenever(fontsLoaded, callback, { once: true })
+    whenever(fontsLoaded, callback, { immediate: true, once: true })
   }
 
   return {
