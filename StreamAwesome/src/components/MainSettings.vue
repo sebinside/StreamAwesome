@@ -14,11 +14,8 @@ URLManager.initialize(() => useFontsStatusStore().waitForFontsLoaded(downloadIco
 <template>
   <div class="flex flex-col md:flex-row">
     <div class="mr-0 grid md:mr-7">
-      <IconCanvas
-        class="mt-5 mb-5 place-self-center md:place-self-auto"
-        @download-icon="downloadIcon"
-      />
-      <IconSettings @download-icon="downloadIcon" />
+      <IconCanvas class="mt-5 mb-5 place-self-center md:place-self-auto" />
+      <IconSettings />
     </div>
     <div class="flex-grow">
       <IconBrowser />
