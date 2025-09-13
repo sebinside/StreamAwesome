@@ -2,14 +2,15 @@ import { useIconsStore } from '@/stores/icons'
 import { watchThrottled } from '@vueuse/core'
 import { useUrlSearchParams, type UrlParams } from '@vueuse/core'
 import { PersistenceHandler } from './persistence/PersistenceHandler'
+import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
 export class URLManager {
-  public static initialize(triggerIconDownload: () => void) {
-    URLManager.readURLAndUpdateIcon(triggerIconDownload)
+  public static initialize() {
+    URLManager.readURLAndUpdateIcon()
     URLManager.watchIconAndUpdateURL()
   }
 
-  private static readURLAndUpdateIcon(triggerIconDownload: () => void) {
+  private static readURLAndUpdateIcon() {
     const params = useUrlSearchParams('history')
     if (params.version !== undefined) {
       console.log('Found URL parameters. Trying to parse input...')
@@ -21,7 +22,7 @@ export class URLManager {
         useIconsStore().currentIcon = icon
 
         if (params.download !== undefined) {
-          triggerIconDownload()
+          useDownloadIcon().downloadIcon()
           console.log('Triggered icon download from URL parameters.')
         }
       } else {

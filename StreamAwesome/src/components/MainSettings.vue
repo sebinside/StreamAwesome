@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import IconBrowser from '@/components/browser/IconBrowser.vue'
 import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
+import IconBrowser from '@/components/browser/IconBrowser.vue'
 import { URLManager } from '@/logic/URLManager'
-import { useFontsStatusStore } from '@/stores/fontStatus'
-import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
-const { downloadIcon } = useDownloadIcon()
-
-URLManager.initialize(() => useFontsStatusStore().waitForFontsLoaded(downloadIcon))
+URLManager.initialize()
 </script>
 
 <template>
