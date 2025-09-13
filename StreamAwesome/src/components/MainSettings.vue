@@ -2,18 +2,13 @@
 import IconBrowser from '@/components/browser/IconBrowser.vue'
 import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
-import { getMatchingGenerator } from '@/logic/generator/generators'
 import { URLManager } from '@/logic/URLManager'
-import { useIconsStore } from '@/stores/icons'
 import { useFontsStatusStore } from '@/stores/fontStatus'
+import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
-const iconStore = useIconsStore()
+const { downloadIcon } = useDownloadIcon()
+
 URLManager.initialize(() => useFontsStatusStore().waitForFontsLoaded(downloadIcon))
-
-function downloadIcon() {
-  const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
-  iconGenerator.saveIcon(iconStore.currentIcon)
-}
 </script>
 
 <template>
