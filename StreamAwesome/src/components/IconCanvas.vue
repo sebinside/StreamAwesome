@@ -3,10 +3,7 @@ import { useTemplateRef, watchEffect } from 'vue'
 import { useFontsStatusStore } from '@/stores/fontStatus'
 import { useIconsStore } from '@/stores/icons.ts'
 import { triggerGenerator } from '@/logic/generator/generators'
-
-defineEmits<{
-  downloadIcon: []
-}>()
+import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
 const iconCanvas = useTemplateRef('iconCanvas')
 const fontStatusStore = useFontsStatusStore()
@@ -19,6 +16,8 @@ watchEffect(() => {
     triggerGenerator(iconsStore.currentIcon, iconCanvas.value)
   }
 })
+
+const { downloadIcon } = useDownloadIcon()
 </script>
 
 <template>
@@ -28,6 +27,6 @@ watchEffect(() => {
     width="256"
     height="256"
     class="cursor-pointer rounded-3xl border border-cyan-500"
-    @click="$emit('downloadIcon')"
+    @click="downloadIcon"
   ></canvas>
 </template>
