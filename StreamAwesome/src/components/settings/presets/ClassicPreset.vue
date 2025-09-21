@@ -62,7 +62,7 @@ const currentHue = ref((currentIcon.value as CustomIcon<'Classic'>).presetSettin
   );
 }
 
-.selector::-webkit-slider-thumb{
+#hueSelector::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 12px;
   height: 12px;
@@ -73,16 +73,16 @@ const currentHue = ref((currentIcon.value as CustomIcon<'Classic'>).presetSettin
 }
 
 /* ---------- Firefox only ---------- */
-.selector::-moz-range-track{
+#hueSelector::-moz-range-track {
   height: 8px;
   background: transparent;
   border: none;
 }
-.selector::-moz-range-progress{
+#hueSelector::-moz-range-progress {
   height: 8px;
   background: transparent;
 }
-.selector::-moz-range-thumb{
+#hueSelector::-moz-range-thumb {
   width: 12px;
   height: 12px;
   border-radius: 9999px;
