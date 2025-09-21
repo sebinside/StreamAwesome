@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import PresetOptions from '@/components/settings/PresetOptions.vue'
 import GeneralOptions from '@/components/settings/GeneralOptions.vue'
 import DownloadButton from '@/components/settings/DownloadButton.vue'
+import { useIconsStore } from '@/stores/icons.ts'
 
-defineProps<{
-  icon: CustomIcon<FontAwesomePreset>
-}>()
-defineEmits<{
-  downloadIcon: []
-}>()
+const iconStore = useIconsStore()
 </script>
 
 <template>
-  <PresetOptions :icon="icon" />
+  <PresetOptions :icon="iconStore.currentIcon" />
 
-  <GeneralOptions :icon="icon" />
+  <GeneralOptions :icon="iconStore.currentIcon" />
 
-  <DownloadButton @downloadIcon="$emit('downloadIcon')" />
+  <DownloadButton />
 </template>

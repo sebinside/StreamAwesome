@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import IconBrowser from '@/components/browser/IconBrowser.vue'
 import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
 import UserUserPresetManager from '@/components/utils/UserPresetManager.vue'
+import IconBrowser from '@/components/browser/IconBrowser.vue'
+import { URLManager } from '@/logic/URLManager'
 import { getMatchingGenerator } from '@/logic/generator/generators'
 import { URLHandler } from '@/logic/URLHandler'
 import { useIconsStore } from '@/stores/icons'
@@ -10,7 +11,7 @@ import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { useFontsStatusStore } from '@/stores/fontStatus'
 
 const iconStore = useIconsStore()
-URLHandler.initialize(() => useFontsStatusStore().waitForFontsLoaded(downloadIcon))
+URLManager.initialize()
 
 function downloadIcon() {
   const iconGenerator = getMatchingGenerator(iconStore.currentIcon)
