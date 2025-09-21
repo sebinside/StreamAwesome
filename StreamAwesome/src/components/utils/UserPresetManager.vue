@@ -2,10 +2,12 @@
 import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon.ts'
+import { PersistenceHandler } from "@/logic/persistence/PersistenceHandler.ts";
+import type { PersistentIcon } from "@/logic/persistence/PersistentIcon.ts";
 
 interface IconPreset {
   name: string
-  settings: CustomIcon<FontAwesomePreset>
+  settings: PersistentIcon
   createdAt: string
 }
 
@@ -14,7 +16,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  loadPreset: [preset: CustomIcon<FontAwesomePreset>]
+  loadPreset: [preset: PersistentIcon]
 }>()
 
 const showSaveDialog = ref(false)
@@ -32,7 +34,7 @@ function savePreset() {
 
   const newPreset: IconPreset = {
     name: presetName.value.trim(),
-    settings: JSON.parse(JSON.stringify(props.icon)) as CustomIcon<FontAwesomePreset>,
+    settings: PersistenceHandler.convertIconToPersistentIcon(props.icon),
     createdAt: new Date().toISOString()
   }
 
