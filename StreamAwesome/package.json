@@ -19,6 +19,7 @@
     "@vueuse/core": "^13.7.0",
     "chroma-js": "^3.1.2",
     "color-namer": "^1.4.0",
+    "meta-png": "^1.0.6",
     "pinia": "^3.0.3",
     "vue": "^3.5.17",
     "vue-router": "^4.4.0"
