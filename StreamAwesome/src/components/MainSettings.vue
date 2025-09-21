@@ -16,7 +16,7 @@ function onDrop(files: File[] | null) {
   createIconFromMetadata(files)
 }
 
-useDropZone(dropZoneRef, {
+const { isOverDropZone } = useDropZone(dropZoneRef, {
   onDrop,
   dataTypes: ['image/png'],
   multiple: true,
@@ -46,8 +46,6 @@ async function createIconFromMetadata(files: File[] | null) {
   }
 
   console.log('Successfully parsed icon from dropped image.')
-
-  // The current approach to load the icon via the URL parameters shall only be a workaround until the UI is more reactive to icon changes.
   URLManager.writeURLParametersFromPersistentIcon(parsedMetadata)
   await nextTick()
   window.location.reload()
@@ -55,12 +53,24 @@ async function createIconFromMetadata(files: File[] | null) {
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row" ref="dropZoneRef">
-    <div class="mr-0 grid md:mr-7">
+  <div class="relative flex flex-col md:flex-row" ref="dropZoneRef">
+    <transition name="fade">
+      <div
+          v-if="isOverDropZone"
+          class="pointer-events-none absolute inset-0 z-50 grid place-items-center rounded-2xl bg-black/20 border-3 border-dashed border-white/50 scale-101"
+      >
+        <div class="rounded-2xl border-2 border-white/70 bg-white/90 px-6 py-4 text-center shadow-lg">
+          <p class="text-lg font-medium text-gray-800">Drop your PNG here</p>
+          <p class="text-xs text-gray-600 opacity-80">with embedded metadata</p>
+        </div>
+      </div>
+    </transition>
+
+    <div class="mr-0 grid md:mr-7" :class="{ 'pointer-events-none': isOverDropZone }">
       <IconCanvas class="mt-5 mb-5 place-self-center md:place-self-auto" />
       <IconSettings />
     </div>
-    <div class="flex-grow">
+    <div class="flex-grow" :class="{ 'pointer-events-none': isOverDropZone }">
       <IconBrowser />
     </div>
   </div>
