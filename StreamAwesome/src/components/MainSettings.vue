@@ -5,10 +5,8 @@ import UserUserPresetManager from '@/components/utils/UserPresetManager.vue'
 import IconBrowser from '@/components/browser/IconBrowser.vue'
 import { URLManager } from '@/logic/URLManager'
 import { getMatchingGenerator } from '@/logic/generator/generators'
-import { URLHandler } from '@/logic/URLHandler'
 import { useIconsStore } from '@/stores/icons'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
-import { useFontsStatusStore } from '@/stores/fontStatus'
 
 const iconStore = useIconsStore()
 URLManager.initialize()
