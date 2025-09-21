@@ -7,7 +7,7 @@ const { downloadIcon } = useDownloadIcon()
 const { copyIconToClipboard, iconIsCopiedToClipboard } = useCopyIcon()
 
 const copyShortcutIsPressed = useMagicKeys()['Ctrl+C']
-whenever(copyShortcutIsPressed, copyIconToClipboard)
+whenever(copyShortcutIsPressed!, copyIconToClipboard)
 </script>
 
 <template>

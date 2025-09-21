@@ -63,15 +63,14 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
       colorSpace
     )
 
-    const colorStops = [colors.start, firstInBetween, secondInBetween, colors.stop]
     const gradient = icon.presetSettings.invertDirection
       ? this.generateBottomLeftGradient()
       : this.generateTopLeftGradient()
 
-    gradient.addColorStop(0, colorStops[0].hex())
-    gradient.addColorStop(this.calculateTranslate(0.33, icon), colorStops[1].hex())
-    gradient.addColorStop(this.calculateTranslate(0.66, icon), colorStops[2].hex())
-    gradient.addColorStop(1, colorStops[3].hex())
+    gradient.addColorStop(0, colors.start.hex())
+    gradient.addColorStop(this.calculateTranslate(0.33, icon), firstInBetween.hex())
+    gradient.addColorStop(this.calculateTranslate(0.66, icon), secondInBetween.hex())
+    gradient.addColorStop(1, colors.stop.hex())
 
     return gradient
   }

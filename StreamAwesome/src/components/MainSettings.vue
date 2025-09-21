@@ -24,7 +24,7 @@ useDropZone(dropZoneRef, {
 })
 
 async function createIconFromMetadata(files: File[] | null) {
-  if (!files || files.length !== 1) {
+  if (!files || files.length !== 1 || !files[0]) {
     console.warn('Only one file can be processed at a time.')
     return
   }
