@@ -3,6 +3,8 @@ import { streamAwesomeVersionInfo } from '@/model/versions'
 import { IconConverter310 } from './converter/IconConverter310'
 import type { PersistentIcon } from './PersistentIcon'
 
+export const metaDataKeyword = 'StreamAwesomeIcon'
+
 export class PersistenceHandler {
   public static convertPersistentIconToIcon(
     record: Record<string, unknown>

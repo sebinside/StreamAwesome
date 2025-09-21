@@ -37,18 +37,9 @@ export class URLManager {
       (newIcon) => {
         const params = useUrlSearchParams('history')
         URLManager.clearURLParameters(params)
-        const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
 
-        for (const key in persistentIcon) {
-          if (persistentIcon.hasOwnProperty(key)) {
-            if (typeof persistentIcon[key] === 'string') {
-              params[key] = persistentIcon[key] as string
-            } else {
-              console.warn(`Unexpected type for key "${key}":`, persistentIcon[key])
-              params[key] = JSON.stringify(persistentIcon[key])
-            }
-          }
-        }
+        const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
+        URLManager.writeURLParametersFromPersistentIcon(persistentIcon)
       },
       { throttle: URLManager.urlUpdateThrottle, trailing: true }
     )
@@ -56,6 +47,20 @@ export class URLManager {
 
   // Changing the URL too often might cause stability problems: https://issues.chromium.org/issues/40113103
   private static urlUpdateThrottle = 100
+
+  public static writeURLParametersFromPersistentIcon(persistentIcon: Record<string, unknown>) {
+    const params = useUrlSearchParams('history')
+    for (const key in persistentIcon) {
+      if (persistentIcon.hasOwnProperty(key)) {
+        if (typeof persistentIcon[key] === 'string') {
+          params[key] = persistentIcon[key] as string
+        } else {
+          console.warn(`Unexpected type for key "${key}":`, persistentIcon[key])
+          params[key] = JSON.stringify(persistentIcon[key])
+        }
+      }
+    }
+  }
 
   private static clearURLParameters(params: UrlParams) {
     for (const key in params) {

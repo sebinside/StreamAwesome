@@ -9,6 +9,8 @@ import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/versions'
 import chroma from 'chroma-js'
 import namer from 'color-namer'
+import { addMetadata } from 'meta-png'
+import { metaDataKeyword, PersistenceHandler } from '../persistence/PersistenceHandler'
 
 export default abstract class IconGenerator<T extends FontAwesomePreset> {
   protected renderingContext: CanvasRenderingContext2D
@@ -93,11 +95,26 @@ export default abstract class IconGenerator<T extends FontAwesomePreset> {
   saveIcon(icon: CustomIcon<T>) {
     this.prepareIconForExport(icon)
 
-    const imageData = this.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    const dataURL = this.canvas.toDataURL('image/png')
+    const encodedData = this.dataURLToUint8(dataURL)
+    const metadata = PersistenceHandler.convertIconToPersistentIcon(icon)
+    const dataWithMetadata = addMetadata(encodedData, metaDataKeyword, JSON.stringify(metadata))
+
+    const blob = new Blob([dataWithMetadata] as BlobPart[], { type: 'image/octet-stream' })
+    const href = URL.createObjectURL(blob)
     const linkElement = document.createElement('a')
     linkElement.download = `${this.generateCustomIconName(icon)}.png`
-    linkElement.href = imageData
+    linkElement.href = href
     linkElement.click()
+    URL.revokeObjectURL(href)
+  }
+
+  dataURLToUint8(dataUrl: string): Uint8Array {
+    const [, base64] = dataUrl.split(',')
+    const bin = atob(base64)
+    const u8 = new Uint8Array(bin.length)
+    for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i)
+    return u8
   }
 
   getIconAsBlob(icon: CustomIcon<T>) {
