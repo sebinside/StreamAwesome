@@ -41,7 +41,7 @@ function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwe
       label: fallBackIcon.label,
       unicode: fallBackIcon.unicode,
       isBrandsIcon: fallBackIcon.isBrand(),
-      family: fallBackIcon.styles.free[0].family,
+      family: fallBackIcon.styles.free[0]!.family,
       style: style
     }
   } else {
@@ -64,7 +64,7 @@ function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): Font
       unicode: fallBackIcon.unicode,
       isBrandsIcon: fallBackIcon.isBrand(),
       family: family,
-      style: fallBackIcon.styles.free[0].style
+      style: fallBackIcon.styles.free[0]!.style
     }
   } else {
     const id = props.icon.fontAwesomeIcon.id
@@ -122,7 +122,7 @@ function updateStyle(style: FontAwesomeStyle) {
         />
         <label
           :for="family"
-          :title="family[0].toUpperCase() + family.slice(1)"
+          :title="family[0]!.toUpperCase() + family.slice(1)"
           :class="{
             'rounded-s-lg': index === 0,
             'rounded-e-lg': index === relevantFamilies.length - 1
@@ -151,7 +151,7 @@ function updateStyle(style: FontAwesomeStyle) {
           />
           <label
             :for="style"
-            :title="style[0].toUpperCase() + style.slice(1)"
+            :title="style[0]!.toUpperCase() + style.slice(1)"
             :class="{
               'rounded-s-lg': index === 0,
               'rounded-e-lg': index === relevantStyles.length - 1

@@ -2,14 +2,15 @@ import { useIconsStore } from '@/stores/icons'
 import { watchThrottled } from '@vueuse/core'
 import { useUrlSearchParams, type UrlParams } from '@vueuse/core'
 import { PersistenceHandler } from './persistence/PersistenceHandler'
+import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
 export class URLManager {
-  public static initialize(triggerIconDownload: () => void) {
-    URLManager.readURLAndUpdateIcon(triggerIconDownload)
+  public static initialize() {
+    URLManager.readURLAndUpdateIcon()
     URLManager.watchIconAndUpdateURL()
   }
 
-  private static readURLAndUpdateIcon(triggerIconDownload: () => void) {
+  private static readURLAndUpdateIcon() {
     const params = useUrlSearchParams('history')
     if (params.version !== undefined) {
       console.log('Found URL parameters. Trying to parse input...')
@@ -21,7 +22,7 @@ export class URLManager {
         useIconsStore().currentIcon = icon
 
         if (params.download !== undefined) {
-          triggerIconDownload()
+          useDownloadIcon().downloadIcon()
           console.log('Triggered icon download from URL parameters.')
         }
       } else {
@@ -36,18 +37,9 @@ export class URLManager {
       (newIcon) => {
         const params = useUrlSearchParams('history')
         URLManager.clearURLParameters(params)
-        const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
 
-        for (const key in persistentIcon) {
-          if (persistentIcon.hasOwnProperty(key)) {
-            if (typeof persistentIcon[key] === 'string') {
-              params[key] = persistentIcon[key] as string
-            } else {
-              console.warn(`Unexpected type for key "${key}":`, persistentIcon[key])
-              params[key] = JSON.stringify(persistentIcon[key])
-            }
-          }
-        }
+        const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
+        URLManager.writeURLParametersFromPersistentIcon(persistentIcon)
       },
       { throttle: URLManager.urlUpdateThrottle, trailing: true }
     )
@@ -55,6 +47,20 @@ export class URLManager {
 
   // Changing the URL too often might cause stability problems: https://issues.chromium.org/issues/40113103
   private static urlUpdateThrottle = 100
+
+  public static writeURLParametersFromPersistentIcon(persistentIcon: Record<string, unknown>) {
+    const params = useUrlSearchParams('history')
+    for (const key in persistentIcon) {
+      if (persistentIcon.hasOwnProperty(key)) {
+        if (typeof persistentIcon[key] === 'string') {
+          params[key] = persistentIcon[key] as string
+        } else {
+          console.warn(`Unexpected type for key "${key}":`, persistentIcon[key])
+          params[key] = JSON.stringify(persistentIcon[key])
+        }
+      }
+    }
+  }
 
   private static clearURLParameters(params: UrlParams) {
     for (const key in params) {

@@ -4,10 +4,6 @@ import GeneralOptions from '@/components/settings/GeneralOptions.vue'
 import DownloadButton from '@/components/settings/DownloadButton.vue'
 import { useIconsStore } from '@/stores/icons.ts'
 
-defineEmits<{
-  downloadIcon: []
-}>()
-
 const iconStore = useIconsStore()
 </script>
 
@@ -16,5 +12,5 @@ const iconStore = useIconsStore()
 
   <GeneralOptions :icon="iconStore.currentIcon" />
 
-  <DownloadButton @downloadIcon="$emit('downloadIcon')" />
+  <DownloadButton />
 </template>
