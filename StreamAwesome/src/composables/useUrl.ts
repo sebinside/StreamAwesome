@@ -1,7 +1,7 @@
 import { useIconsStore } from '@/stores/icons.ts'
 import { watchThrottled } from '@vueuse/core'
 import { useUrlSearchParams } from '@vueuse/core'
-import { PersistenceHandler } from '../logic/persistence/PersistenceHandler.ts'
+import { PersistenceHandler } from '@/logic/persistence/PersistenceHandler.ts'
 import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
 export function useUrl() {
