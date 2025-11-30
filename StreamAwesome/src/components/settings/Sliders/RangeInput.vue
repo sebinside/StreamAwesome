@@ -23,7 +23,7 @@ const showInput = ref(false)
       :step="props.step"
       class="selector h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
       v-model.number="value"
-      @input="(e) => emit('input', e)"
+      @input="(e) => emit('input', e as InputEvent)"
       @click.right="
         (e) => {
           showInput = !showInput
@@ -38,7 +38,7 @@ const showInput = ref(false)
       :max="props.max"
       class="w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
       v-model.number="value"
-      @input="(e) => emit('input', e)"
+      @input="(e) => emit('input', e as InputEvent)"
     />
   </div>
 </template>
