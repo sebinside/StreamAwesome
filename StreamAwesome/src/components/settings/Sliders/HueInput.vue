@@ -11,7 +11,7 @@ const currentHue = ref(hue)
 </template>
 
 <style scoped>
-.hueSelector >>> input[type='range'] {
+.hueSelector:deep(input[type='range']) {
   height: 1rem;
   background: linear-gradient(
     90deg,
@@ -23,8 +23,8 @@ const currentHue = ref(hue)
   );
 }
 
-.hueSelector >>> input[type='range']::-webkit-slider-thumb,
-.hueSelector >>> input[type='range']::-moz-range-thumb {
+.hueSelector:deep(input[type='range']::-webkit-slider-thumb),
+.hueSelector:deep(input[type='range']::-moz-range-thumb) {
   background-color: hsl(v-bind('currentHue'), 72%, 56%);
 }
 </style>

@@ -11,7 +11,7 @@ const currentSaturation = ref(saturation)
 </template>
 
 <style scoped>
-.saturationSelector >>> input[type='range'] {
+.saturationSelector:deep(input[type='range']) {
   height: 1rem;
   background: linear-gradient(
     90deg,

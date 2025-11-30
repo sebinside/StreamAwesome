@@ -13,7 +13,7 @@ const lightness = defineModel<number>()
 </template>
 
 <style scoped>
-.lightnessSelector >>> input[type='range'] {
+.lightnessSelector:deep(input[type='range']) {
   height: 1rem;
   background: linear-gradient(
     90deg,
