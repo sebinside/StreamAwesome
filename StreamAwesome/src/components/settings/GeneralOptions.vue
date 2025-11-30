@@ -15,6 +15,7 @@ import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { ref } from 'vue'
 import { fontAwesomeVersionInfo } from '@/model/versions'
+import RangeInput from './Sliders/RangeInput.vue'
 
 const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
@@ -96,14 +97,13 @@ function updateStyle(style: FontAwesomeStyle) {
     <label for="iconSize" class="mb-[0.5] block text-sm font-medium text-gray-900 dark:text-white"
       >Icon Size and Style:
     </label>
-    <input
+    <RangeInput
       id="iconSize"
-      type="range"
       :value="props.icon?.fontSize ?? 180"
       @input="(event) => updateSize(event)"
       min="50"
       max="250"
-      class="mb-6 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
+      class="my-3"
     />
   </div>
 
