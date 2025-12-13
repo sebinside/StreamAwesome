@@ -14,5 +14,9 @@
         "esbenp.prettier-vscode"
       ]
     }
-  }
+  },
+  "mounts": [
+    "source=${env:HOME}/.ssh,target=/home/node/.ssh,type=bind,readonly",
+    "source=${env:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
+  ]
 }
