@@ -1,4 +1,4 @@
-export const streamAwesomeVersionInfo = '3.2.2'
+export const streamAwesomeVersionInfo = '3.2.3'
 
 export type fontLicense = 'Free' | 'Pro'
 export const fontAwesomeVersionInfo: {
