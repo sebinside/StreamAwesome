@@ -4,7 +4,7 @@
     "dockerfile": "Dockerfile"
   },
   "forwardPorts": [5173],
-  "postCreateCommand": ".devcontainer/post-install.sh",
+  "postCreateCommand": ".devcontainer/setup-fontawesome-free.sh && .devcontainer/post-install.sh",
   "customizations": {
     "vscode": {
       "extensions": [
