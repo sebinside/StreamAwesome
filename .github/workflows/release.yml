@@ -25,11 +25,15 @@ jobs:
         with:
           node-version: "24"
 
-      - name: Install and Build 🔧
+      - name: Install Dependencies 🔧
         working-directory: StreamAwesome
-        run: |
-          npm install
-          npm run build
+        run: npm install
+
+      - name: Build for Latest 🔨
+        working-directory: StreamAwesome
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /latest/
 
       - name: Deploy to Latest 🚀
         uses: burnett01/rsync-deployments@4.1
@@ -40,6 +44,12 @@ jobs:
           remote_host: ${{ secrets.SERVER }}
           remote_user: ${{ secrets.USERNAME }}
           remote_key: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Build for Tagged Version 🔨
+        working-directory: StreamAwesome
+        run: npm run build
+        env:
+          VITE_BASE_PATH: /${{ github.ref_name }}/
 
       - name: Deploy to Tagged Version 🚀
         uses: burnett01/rsync-deployments@4.1
