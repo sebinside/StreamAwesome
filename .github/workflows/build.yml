@@ -17,17 +17,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download FontAwesome 📦
-        run: |
-          mkdir -p StreamAwesome/fonts/fontawesome
-          wget https://use.fontawesome.com/releases/v${{ env.FONTAWESOME_VERSION }}/fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web.zip -O fontawesome.zip
-          unzip fontawesome.zip
-          cp -r fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web/css StreamAwesome/fonts/fontawesome/
-          cp -r fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web/webfonts StreamAwesome/fonts/fontawesome/
-          rm -rf fontawesome.zip fontawesome-free-${{ env.FONTAWESOME_VERSION }}-web
+        run: .devcontainer/setup-fontawesome-free.sh
       
       - uses: actions/setup-node@v3
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Install and Build 🔧
         working-directory: StreamAwesome

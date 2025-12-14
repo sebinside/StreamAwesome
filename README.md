@@ -22,6 +22,14 @@ Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https
 > [!TIP]
 > You don't need to install anything if you just want to use it; head over to [streamawesome.app](https://streamawesome.app). A local installation is only needed if you want to contribute to this repository or run it offline.
 
+### Using Dev Container (Recommended)
+1. Install [Visual Studio Code](https://code.visualstudio.com/) and the [Dev Containers Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+2. Download or clone this repository, e.g. using `git clone https://github.com/sebinside/StreamAwesome.git`
+3. Open the repository folder in Visual Studio Code
+4. When prompted, reopen the folder in a container, where everything is already set up for you
+
+### Manual Installation
+
 1. Install [Node](https://nodejs.org) and npm
 2. Download or clone this repository, e.g. using `git clone https://github.com/sebinside/StreamAwesome.git`
 3. Download the **correct** version of [Font Awesome For The Web](https://fontawesome.com/download)
