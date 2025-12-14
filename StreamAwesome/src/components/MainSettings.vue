@@ -41,7 +41,8 @@ async function createIconFromMetadata(files: File[] | null) {
   const parsedMetadata = JSON.parse(metadata) as Record<string, unknown>
   const icon = PersistenceHandler.convertPersistentIconToIcon(parsedMetadata)
   if (!icon) {
-    console.warn('Failed to parse icon from dropped image')
+    console.warn('Failed to parse icon from dropped image. Trying to redirect...')
+    URLManager.tryRedirectToMatchingVersion(parsedMetadata)
     return
   }
 
