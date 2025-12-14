@@ -1,0 +1,22 @@
+{
+  "name": "StreamAwesome Frontend Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "forwardPorts": [5173],
+  "postCreateCommand": ".devcontainer/setup-fontawesome-free.sh && .devcontainer/post-install.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "Vue.volar",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "mounts": [
+    "source=${env:HOME}/.ssh,target=/home/node/.ssh,type=bind,readonly",
+    "source=${env:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
+  ]
+}
