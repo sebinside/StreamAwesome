@@ -1,10 +1,13 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    target-branch: "develop"
+    target-branch: "main"
     directory: "/StreamAwesome"
     schedule:
       interval: "weekly"
     commit-message:
       prefix: "Dependency"
-      
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: weekly
