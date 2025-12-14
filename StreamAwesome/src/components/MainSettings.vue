@@ -2,13 +2,11 @@
 import IconCanvas from '@/components/IconCanvas.vue'
 import IconSettings from '@/components/settings/IconSettings.vue'
 import IconBrowser from '@/components/browser/IconBrowser.vue'
-import { URLManager } from '@/logic/URLManager'
+import { useUrl } from '@/composables/useUrl.ts'
 import { useDropZone } from '@vueuse/core'
 import { nextTick, ref } from 'vue'
 import { getMetadata } from 'meta-png'
 import { metaDataKeyword, PersistenceHandler } from '@/logic/persistence/PersistenceHandler'
-
-URLManager.initialize()
 
 const dropZoneRef = ref<HTMLDivElement>()
 
@@ -22,6 +20,8 @@ useDropZone(dropZoneRef, {
   multiple: true,
   preventDefaultForUnhandled: false
 })
+
+const { writeURLParametersFromPersistentIcon } = useUrl()
 
 async function createIconFromMetadata(files: File[] | null) {
   if (!files || files.length !== 1 || !files[0]) {
@@ -48,7 +48,7 @@ async function createIconFromMetadata(files: File[] | null) {
   console.log('Successfully parsed icon from dropped image.')
 
   // The current approach to load the icon via the URL parameters shall only be a workaround until the UI is more reactive to icon changes.
-  URLManager.writeURLParametersFromPersistentIcon(parsedMetadata)
+  writeURLParametersFromPersistentIcon(parsedMetadata)
   await nextTick()
   window.location.reload()
 }
