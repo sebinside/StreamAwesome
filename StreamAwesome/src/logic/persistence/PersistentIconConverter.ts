@@ -1,6 +1,4 @@
-import { PersistentIconConverter } from './PersistentIconConverter'
-
-export class IconConverter310 extends PersistentIconConverter {
+export class PersistentIconConverter {
   public convertPersistentIconToIcon(
     record: Record<string, unknown>
   ): Record<string, unknown> | null {
@@ -65,5 +63,29 @@ export class IconConverter310 extends PersistentIconConverter {
       default:
         throw new Error(`Unknown preset type: ${typedPreset}`)
     }
+  }
+
+  private extractNumber(record: Record<string, unknown>, key: string): number {
+    const parsedNumber = parseFloat(record[key] as string)
+    if (isNaN(parsedNumber)) {
+      throw new Error(`${key} in URL parameters is not a valid number.`)
+    }
+    return parsedNumber
+  }
+
+  private extractString(record: Record<string, unknown>, key: string): string {
+    const value = record[key]
+    if (value === undefined || value === null || Array.isArray(value)) {
+      throw new Error(`${key} in URL parameters is not a valid string.`)
+    }
+    return value as string
+  }
+
+  private extractBoolean(record: Record<string, unknown>, key: string): boolean {
+    const value = record[key]
+    if (value === undefined || value === null || Array.isArray(value)) {
+      throw new Error(`${key} in URL parameters is not a valid boolean.`)
+    }
+    return (value as string).toLowerCase() === 'true'
   }
 }
