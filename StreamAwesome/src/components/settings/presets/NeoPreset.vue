@@ -2,6 +2,10 @@
 import { ref } from 'vue'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { ColorSpaceKeys } from '@/model/customIcon'
+import HuePicker from '../Sliders/HueInput.vue'
+import SaturationInput from '../Sliders/SaturationInput.vue'
+import LightnessInput from '../Sliders/LightnessInput.vue'
+import RangeInput from '../Sliders/RangeInput.vue'
 
 const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
@@ -28,7 +32,7 @@ function applyDefaultSettings() {
   currentIcon.value.fontAwesomeIcon.family = 'classic'
 }
 
-const currentHue = ref((currentIcon.value as CustomIcon<'Neo'>).presetSettings.hueStart)
+// const currentHue = ref((currentIcon.value as CustomIcon<'Neo'>).presetSettings.hueStart)
 
 const settingsExpanded = ref(false)
 const toggleSettings = () => {
@@ -37,17 +41,14 @@ const toggleSettings = () => {
 </script>
 
 <template>
-  <label for="hueSelector" class="block flex-grow text-sm font-medium text-gray-900 dark:text-white"
+  <label for="hueSelector" class="block grow text-sm font-medium text-gray-900 dark:text-white"
     >Hue Start:</label
   >
-  <input
-    type="range"
+  <HuePicker
     id="hueSelector"
+    v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
     min="0"
     max="360"
-    class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-    v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
-    @input="currentHue = (currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
   />
 
   <label class="mt-3 inline-flex cursor-pointer items-center">
@@ -57,7 +58,7 @@ const toggleSettings = () => {
       v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.invertDirection"
     />
     <div
-      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
+      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
     ></div>
     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-white">Invert Direction</span>
   </label>
@@ -71,7 +72,7 @@ const toggleSettings = () => {
       v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.symbolOnly"
     />
     <div
-      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
+      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
     ></div>
     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-white">Symbol Only</span>
   </label>
@@ -91,26 +92,24 @@ const toggleSettings = () => {
     <label for="hueShift" class="block text-sm font-medium text-gray-900 dark:text-white"
       >Hue Shift:</label
     >
-    <input
-      type="range"
+    <RangeInput
       id="hueShift"
       min="0"
       max="180"
-      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
-      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueShift"
+      v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueShift"
+      class="mt-2.5 mb-1.5"
     />
 
-    <label for="hueShift" class="block text-sm font-medium text-gray-900 dark:text-white"
+    <label for="translation" class="block text-sm font-medium text-gray-900 dark:text-white"
       >Translation:</label
     >
-    <input
-      type="range"
-      id="hueShift"
+    <RangeInput
+      id="translation"
       min="-0.5"
       max="0.5"
       step="0.01"
-      class="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
-      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.translation"
+      v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueShift"
+      class="mt-2.5 mb-3.5"
     />
 
     <label
@@ -118,29 +117,16 @@ const toggleSettings = () => {
       class="mt-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Saturation:</label
     >
-    <input
-      type="range"
-      id="saturationSelector"
-      max="1"
-      min="0.05"
-      step="0.01"
-      class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.saturation"
-    />
+    <SaturationInput v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.saturation" />
 
     <label
       for="lightnessSelector"
       class="mt-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Lightness:</label
     >
-    <input
-      type="range"
-      id="lightnessSelector"
-      max="0.95"
-      min="0.05"
-      step="0.01"
-      class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-      v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.lightness"
+    <LightnessInput
+      :hue="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
+      v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.lightness"
     />
 
     <label
@@ -159,63 +145,3 @@ const toggleSettings = () => {
     </select>
   </div>
 </template>
-
-<style scoped>
-.selector {
-  display: block;
-  height: 1rem;
-  width: 100%;
-  cursor: pointer;
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0.25rem;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-}
-
-#hueSelector {
-  background: linear-gradient(
-    90deg,
-    hsl(0, 72%, 56%) 0%,
-    hsl(60, 72%, 56%) 25%,
-    hsl(120, 72%, 56%) 33.3%,
-    hsl(240, 72%, 56%) 66.6%,
-    hsl(360, 72%, 56%) 100%
-  );
-}
-
-#saturationSelector {
-  background: linear-gradient(
-    90deg,
-    hsl(v-bind('currentHue'), 5%, 56%) 0%,
-    hsl(v-bind('currentHue'), 100%, 56%) 100%
-  );
-}
-
-#lightnessSelector {
-  background: linear-gradient(
-    90deg,
-    hsl(v-bind('currentHue'), 72%, 5%) 0%,
-    hsl(v-bind('currentHue'), 72%, 95%) 100%
-  );
-}
-
-input[type='range']::-webkit-slider-thumb,
-input[type='range']::-moz-range-thumb {
-  height: 2rem;
-  width: 1rem;
-  cursor: grab;
-  display: block;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  outline: 2px solid transparent;
-  border: none;
-  border-radius: 0.25rem;
-}
-
-input[type='range']#hueSelector::-webkit-slider-thumb,
-input[type='range']#hueSelector::-moz-range-thumb {
-  background-color: hsl(v-bind('currentHue'), 72%, 56%);
-}
-</style>
