@@ -4,10 +4,10 @@ updates:
     target-branch: "main"
     directory: "/StreamAwesome"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     commit-message:
       prefix: "Dependency"
   - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
-      interval: monthly
+      interval: "monthly"
