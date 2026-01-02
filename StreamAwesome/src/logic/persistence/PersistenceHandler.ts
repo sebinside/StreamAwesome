@@ -1,6 +1,6 @@
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
-import { streamAwesomeVersionInfo } from '@/model/versions'
 import { PersistentIconConverter } from './PersistentIconConverter'
+import { streamAwesomeVersion } from '@/version'
 
 export const metaDataKeyword = 'StreamAwesomeIcon'
 
@@ -18,7 +18,7 @@ export class PersistenceHandler {
       return null
     }
 
-    if (record.version !== streamAwesomeVersionInfo) {
+    if (record.version !== streamAwesomeVersion) {
       console.error('Incompatible version found in persistent icon.')
 
       return null
@@ -36,7 +36,7 @@ export class PersistenceHandler {
       {}
     )
     return {
-      version: streamAwesomeVersionInfo,
+      version: streamAwesomeVersion,
       ...flattenedIcon
     }
   }

@@ -6,7 +6,7 @@ import {
   type FontWeight
 } from '@/model/fontAwesomeConstants'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
-import { fontAwesomeVersionInfo } from '@/model/versions'
+import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
 import chroma from 'chroma-js'
 import namer from 'color-namer'
 import { addMetadata } from 'meta-png'
