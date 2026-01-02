@@ -1,4 +1,4 @@
-import { fontAwesomeVersionInfo, setFontAwesomeLicense } from '../model/versions'
+import { fontAwesomeVersionInfo, setFontAwesomeLicense } from '../model/fontAwesomeInfo'
 
 // Style file lists cannot be defined using named constants
 // See: https://vite.dev/guide/features.html#glob-import-caveats

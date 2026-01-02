@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { fontAwesomeVersionInfo } from '@/model/versions'
+import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
 </script>
 
 <template>
