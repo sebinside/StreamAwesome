@@ -13,7 +13,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "format": "prettier --write src/",
     "prepare": "cd ../ && husky ./StreamAwesome/.husky",
-    "tidy": "npm run lint && npm run format"
+    "tidy": "npm run lint && npm run format",
+    "render-version": "../.devcontainer/render-version.sh"
   },
   "dependencies": {
     "@vueuse/core": "^14.1.0",
