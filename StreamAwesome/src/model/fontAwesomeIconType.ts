@@ -6,7 +6,7 @@ import {
   type FontWeight
 } from '@/model/fontAwesomeConstants'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import { fontAwesomeVersionInfo } from '@/model/versions'
+import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
 
 export class FontAwesomeIconType {
   constructor(

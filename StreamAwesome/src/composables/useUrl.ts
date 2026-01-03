@@ -5,6 +5,7 @@ import { PersistenceHandler } from '@/logic/persistence/PersistenceHandler.ts'
 import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
 export function useUrl() {
+  const publicStreamAwesomeURLBase = 'https://streamawesome.app/'
   const params = useUrlSearchParams('history')
   const iconStore = useIconsStore()
   const { downloadIcon } = useDownloadIcon()
@@ -26,7 +27,8 @@ export function useUrl() {
           console.log('Triggered icon download from URL parameters.')
         }
       } else {
-        console.error('Failed to parse icon from URL parameters.')
+        console.error('Failed to parse icon from URL parameters. Trying to redirect...')
+        tryRedirectToMatchingVersion(params)
       }
     }
   }
@@ -69,7 +71,25 @@ export function useUrl() {
     }
   }
 
+  function tryRedirectToMatchingVersion(record: Record<string, unknown>) {
+    if (record.version === undefined || typeof record.version !== 'string') {
+      console.error('No version found in record for redirection.')
+      return
+    }
+
+    const versionPattern = /^\d+\.\d+\.\d+$/
+    if (!versionPattern.test(record.version)) {
+      console.error(`Invalid version format for redirection: ${record.version}`)
+      return
+    }
+
+    const targetURL = `${publicStreamAwesomeURLBase}v${record.version}/?${new URLSearchParams(record as Record<string, string>).toString()}`
+    console.log(`Redirecting to URL for version ${record.version}: ${targetURL}`)
+    window.location.href = targetURL
+  }
+
   return {
-    writeURLParametersFromPersistentIcon
+    writeURLParametersFromPersistentIcon,
+    tryRedirectToMatchingVersion
   }
 }

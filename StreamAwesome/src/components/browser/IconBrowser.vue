@@ -5,7 +5,7 @@ import Icon from '@/components/utils/IconDisplay.vue'
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import type { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
-import { fontAwesomeVersionInfo } from '@/model/versions'
+import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
 import { useIconsStore } from '@/stores/icons'
 import { ref } from 'vue'
 

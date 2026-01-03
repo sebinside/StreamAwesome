@@ -27,4 +27,5 @@ jobs:
         working-directory: StreamAwesome
         run: |
           npm install
+          npm run render-version
           npm run build

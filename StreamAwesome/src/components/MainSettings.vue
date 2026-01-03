@@ -21,7 +21,7 @@ useDropZone(dropZoneRef, {
   preventDefaultForUnhandled: false
 })
 
-const { writeURLParametersFromPersistentIcon } = useUrl()
+const { writeURLParametersFromPersistentIcon, tryRedirectToMatchingVersion } = useUrl()
 
 async function createIconFromMetadata(files: File[] | null) {
   if (!files || files.length !== 1 || !files[0]) {
@@ -41,7 +41,8 @@ async function createIconFromMetadata(files: File[] | null) {
   const parsedMetadata = JSON.parse(metadata) as Record<string, unknown>
   const icon = PersistenceHandler.convertPersistentIconToIcon(parsedMetadata)
   if (!icon) {
-    console.warn('Failed to parse icon from dropped image')
+    console.warn('Failed to parse icon from dropped image. Trying to redirect...')
+    tryRedirectToMatchingVersion(parsedMetadata)
     return
   }
 

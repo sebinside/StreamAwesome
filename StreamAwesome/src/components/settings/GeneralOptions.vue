@@ -14,7 +14,7 @@ import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { ref } from 'vue'
-import { fontAwesomeVersionInfo } from '@/model/versions'
+import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
 
 const props = defineProps<{
   icon: CustomIcon<FontAwesomePreset>
