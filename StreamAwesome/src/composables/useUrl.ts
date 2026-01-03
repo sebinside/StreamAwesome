@@ -13,23 +13,25 @@ export function useUrl() {
   readURLAndUpdateIcon()
 
   function readURLAndUpdateIcon() {
-    if (params.version !== undefined) {
-      console.log('Found URL parameters. Trying to parse input...')
+    if (params.version === undefined) {
+      return
+    }
 
-      const icon = PersistenceHandler.convertPersistentIconToIcon(params)
+    console.log('Found URL parameters. Trying to parse input...')
+    const icon = PersistenceHandler.convertPersistentIconToIcon(params)
 
-      if (icon !== null) {
-        console.log('Successfully parsed icon from URL parameters.')
-        iconStore.currentIcon = icon
+    if (icon === null) {
+      console.error('Failed to parse icon from URL parameters. Trying to redirect...')
+      tryRedirectToMatchingVersion(params)
+      return
+    }
 
-        if (params.download !== undefined) {
-          downloadIcon()
-          console.log('Triggered icon download from URL parameters.')
-        }
-      } else {
-        console.error('Failed to parse icon from URL parameters. Trying to redirect...')
-        tryRedirectToMatchingVersion(params)
-      }
+    console.log('Successfully parsed icon from URL parameters.')
+    iconStore.currentIcon = icon
+
+    if (params.download !== undefined) {
+      downloadIcon()
+      console.log('Triggered icon download from URL parameters.')
     }
   }
 
