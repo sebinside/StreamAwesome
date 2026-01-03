@@ -1,19 +1,18 @@
-import { useIconsStore } from '@/stores/icons'
+import { useIconsStore } from '@/stores/icons.ts'
 import { watchThrottled } from '@vueuse/core'
-import { useUrlSearchParams, type UrlParams } from '@vueuse/core'
-import { PersistenceHandler } from './persistence/PersistenceHandler'
+import { useUrlSearchParams } from '@vueuse/core'
+import { PersistenceHandler } from '@/logic/persistence/PersistenceHandler.ts'
 import { useDownloadIcon } from '@/composables/useDownloadIcon.ts'
 
-const publicStreamAwesomeURLBase = 'https://streamawesome.app/'
+export function useUrl() {
+  const publicStreamAwesomeURLBase = 'https://streamawesome.app/'
+  const params = useUrlSearchParams('history')
+  const iconStore = useIconsStore()
+  const { downloadIcon } = useDownloadIcon()
 
-export class URLManager {
-  public static initialize() {
-    URLManager.readURLAndUpdateIcon()
-    URLManager.watchIconAndUpdateURL()
-  }
+  readURLAndUpdateIcon()
 
-  private static readURLAndUpdateIcon() {
-    const params = useUrlSearchParams('history')
+  function readURLAndUpdateIcon() {
     if (params.version !== undefined) {
       console.log('Found URL parameters. Trying to parse input...')
 
@@ -21,38 +20,37 @@ export class URLManager {
 
       if (icon !== null) {
         console.log('Successfully parsed icon from URL parameters.')
-        useIconsStore().currentIcon = icon
+        iconStore.currentIcon = icon
 
         if (params.download !== undefined) {
-          useDownloadIcon().downloadIcon()
+          downloadIcon()
           console.log('Triggered icon download from URL parameters.')
         }
       } else {
         console.error('Failed to parse icon from URL parameters. Trying to redirect...')
-        URLManager.tryRedirectToMatchingVersion(params)
+        tryRedirectToMatchingVersion(params)
       }
     }
   }
 
-  private static watchIconAndUpdateURL() {
-    watchThrottled(
-      useIconsStore().currentIcon,
-      (newIcon) => {
-        const params = useUrlSearchParams('history')
-        URLManager.clearURLParameters(params)
-
-        const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
-        URLManager.writeURLParametersFromPersistentIcon(persistentIcon)
-      },
-      { throttle: URLManager.urlUpdateThrottle, trailing: true }
-    )
-  }
-
   // Changing the URL too often might cause stability problems: https://issues.chromium.org/issues/40113103
-  private static urlUpdateThrottle = 100
+  const urlUpdateThrottle = 100
 
-  public static writeURLParametersFromPersistentIcon(persistentIcon: Record<string, unknown>) {
-    const params = useUrlSearchParams('history')
+  watchThrottled(
+    iconStore.currentIcon,
+    (newIcon) => {
+      clearURLParameters()
+
+      const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
+      writeURLParametersFromPersistentIcon(persistentIcon)
+    },
+    {
+      throttle: urlUpdateThrottle,
+      trailing: true
+    }
+  )
+
+  function writeURLParametersFromPersistentIcon(persistentIcon: Record<string, unknown>) {
     for (const key in persistentIcon) {
       if (persistentIcon.hasOwnProperty(key)) {
         if (typeof persistentIcon[key] === 'string') {
@@ -65,7 +63,7 @@ export class URLManager {
     }
   }
 
-  private static clearURLParameters(params: UrlParams) {
+  function clearURLParameters() {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         delete params[key]
@@ -73,7 +71,7 @@ export class URLManager {
     }
   }
 
-  public static tryRedirectToMatchingVersion(record: Record<string, unknown>) {
+  function tryRedirectToMatchingVersion(record: Record<string, unknown>) {
     if (record.version === undefined || typeof record.version !== 'string') {
       console.error('No version found in record for redirection.')
       return
@@ -88,5 +86,10 @@ export class URLManager {
     const targetURL = `${publicStreamAwesomeURLBase}v${record.version}/?${new URLSearchParams(record as Record<string, string>).toString()}`
     console.log(`Redirecting to URL for version ${record.version}: ${targetURL}`)
     window.location.href = targetURL
+  }
+
+  return {
+    writeURLParametersFromPersistentIcon,
+    tryRedirectToMatchingVersion
   }
 }
