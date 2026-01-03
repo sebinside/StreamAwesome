@@ -1,3 +1,4 @@
+import { useRouter } from 'vue-router'
 import { useIconsStore } from '@/stores/icons.ts'
 import { watchThrottled } from '@vueuse/core'
 import { useUrlSearchParams } from '@vueuse/core'
@@ -38,11 +39,9 @@ export function useUrl() {
 
   watchThrottled(
     iconStore.currentIcon,
-    (newIcon) => {
-      clearURLParameters()
-
+    async (newIcon) => {
       const persistentIcon = PersistenceHandler.convertIconToPersistentIcon(newIcon)
-      writeURLParametersFromPersistentIcon(persistentIcon)
+      await writeURLParametersFromPersistentIcon(persistentIcon)
     },
     {
       throttle: urlUpdateThrottle,
@@ -50,25 +49,12 @@ export function useUrl() {
     }
   )
 
-  function writeURLParametersFromPersistentIcon(persistentIcon: Record<string, unknown>) {
-    for (const key in persistentIcon) {
-      if (persistentIcon.hasOwnProperty(key)) {
-        if (typeof persistentIcon[key] === 'string') {
-          params[key] = persistentIcon[key] as string
-        } else {
-          console.warn(`Unexpected type for key "${key}":`, persistentIcon[key])
-          params[key] = JSON.stringify(persistentIcon[key])
-        }
-      }
-    }
-  }
+  const router = useRouter()
 
-  function clearURLParameters() {
-    for (const key in params) {
-      if (params.hasOwnProperty(key)) {
-        delete params[key]
-      }
-    }
+  async function writeURLParametersFromPersistentIcon(persistentIcon: Record<string, unknown>) {
+    await router.replace({
+      query: persistentIcon as Record<string, string>
+    })
   }
 
   function tryRedirectToMatchingVersion(record: Record<string, unknown>) {
