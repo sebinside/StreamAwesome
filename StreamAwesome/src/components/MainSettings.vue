@@ -49,7 +49,7 @@ async function createIconFromMetadata(files: File[] | null) {
   console.log('Successfully parsed icon from dropped image.')
 
   // The current approach to load the icon via the URL parameters shall only be a workaround until the UI is more reactive to icon changes.
-  writeURLParametersFromPersistentIcon(parsedMetadata)
+  await writeURLParametersFromPersistentIcon(parsedMetadata)
   await nextTick()
   window.location.reload()
 }
