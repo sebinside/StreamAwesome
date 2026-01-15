@@ -34,6 +34,7 @@ const currentHue = ref((currentIcon.value as CustomIcon<'Classic'>).presetSettin
     min="0"
     class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
     v-model.number="(currentIcon as CustomIcon<'Classic'>).presetSettings.hue"
+    @input="currentHue = (currentIcon as CustomIcon<'Classic'>).presetSettings.hue"
   />
 </template>
 
@@ -61,22 +62,32 @@ const currentHue = ref((currentIcon.value as CustomIcon<'Classic'>).presetSettin
   );
 }
 
-input[type='range']::-webkit-slider-thumb,
-input[type='range']::-moz-range-thumb {
-  height: 2rem;
-  width: 1rem;
-  cursor: grab;
-  display: block;
-  appearance: none;
+#hueSelector::-webkit-slider-thumb {
   -webkit-appearance: none;
-  -moz-appearance: none;
-  outline: 2px solid transparent;
-  border: none;
-  border-radius: 0.25rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background-color: hsl(v-bind('currentHue'), 72%, 56%);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
 }
 
-input[type='range']#hueSelector::-webkit-slider-thumb,
-input[type='range']#hueSelector::-moz-range-thumb {
-  background-color: hsl(v-bind('currentHue'), 72%, 56%);
+/* ---------- Firefox only ---------- */
+#hueSelector::-moz-range-track {
+  height: 8px;
+  background: transparent;
+  border: none;
+}
+#hueSelector::-moz-range-progress {
+  height: 8px;
+  background: transparent;
+}
+#hueSelector::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: hsl(v-bind('currentHue'), 72%, 56%);
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
 }
 </style>
