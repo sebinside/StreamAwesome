@@ -42,6 +42,7 @@ function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwe
       unicode: fallBackIcon.unicode,
       isBrandsIcon: fallBackIcon.isBrand(),
       family: fallBackIcon.styles.free[0]!.family,
+      duotoneAlpha: 0.5,
       style: style
     }
   } else {
@@ -50,8 +51,8 @@ function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwe
     const unicode = props.icon.fontAwesomeIcon.unicode
     const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
     const family = props.icon.fontAwesomeIcon.family
-
-    return { id, label, unicode, isBrandsIcon, family, style }
+    const duotoneAlpha = props.icon.fontAwesomeIcon.duotoneAlpha
+    return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
   }
 }
 
@@ -64,6 +65,7 @@ function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): Font
       unicode: fallBackIcon.unicode,
       isBrandsIcon: fallBackIcon.isBrand(),
       family: family,
+      duotoneAlpha: 0.5,
       style: fallBackIcon.styles.free[0]!.style
     }
   } else {
@@ -72,8 +74,8 @@ function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): Font
     const unicode = props.icon.fontAwesomeIcon.unicode
     const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
     const style = props.icon.fontAwesomeIcon.style
-
-    return { id, label, unicode, isBrandsIcon, family, style }
+    const duotoneAlpha = props.icon.fontAwesomeIcon.duotoneAlpha
+    return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
   }
 }
 
@@ -89,6 +91,11 @@ function updateFamily(family: FontAwesomeFamily) {
 function updateStyle(style: FontAwesomeStyle) {
   currentIcon.value.fontAwesomeIcon.style = style
 }
+
+function updateAlpha(event: Event) {
+  const alpha = +(event.target as HTMLInputElement).value
+  currentIcon.value.fontAwesomeIcon.duotoneAlpha = alpha
+}
 </script>
 
 <template>
@@ -103,6 +110,24 @@ function updateStyle(style: FontAwesomeStyle) {
       @input="(event) => updateSize(event)"
       min="50"
       max="250"
+      class="mb-6 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
+    />
+  </div>
+
+  <div v-if="props.icon.fontAwesomeIcon.family.includes(DuotoneKeyword)">
+    <label
+      for="duotoneAlpha"
+      class="mb-[0.5] block text-sm font-medium text-gray-900 dark:text-white"
+      >Duotone Transparency:
+    </label>
+    <input
+      id="duotoneAlpha"
+      type="range"
+      :value="props.icon?.fontAwesomeIcon.duotoneAlpha ?? 0.5"
+      @input="(event) => updateAlpha(event)"
+      min="0"
+      max="1"
+      step="0.01"
       class="mb-6 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none dark:bg-gray-700"
     />
   </div>

@@ -22,7 +22,8 @@ export const useIconsStore = defineStore('icons', () => {
       label: 'Gear',
       isBrandsIcon: false,
       style: 'solid',
-      unicode: 'f013'
+      unicode: 'f013',
+      duotoneAlpha: 0.5
     }
   })
 
