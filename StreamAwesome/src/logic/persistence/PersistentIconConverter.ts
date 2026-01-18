@@ -23,7 +23,8 @@ export class PersistentIconConverter {
       unicode: this.extractString(record, 'fontawesomeicon.unicode'),
       isBrandsIcon: this.extractBoolean(record, 'fontawesomeicon.isbrandsicon'),
       style: this.extractString(record, 'fontawesomeicon.style'),
-      family: this.extractString(record, 'fontawesomeicon.family')
+      family: this.extractString(record, 'fontawesomeicon.family'),
+      duotoneAlpha: this.extractNumber(record, 'fontawesomeicon.duotonealpha')
     }
   }
 
