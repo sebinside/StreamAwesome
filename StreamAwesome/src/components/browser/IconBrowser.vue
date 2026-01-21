@@ -22,11 +22,12 @@ function iconTypetoFontAwesomeIcon(iconType: FontAwesomeIconType): FontAwesomeIc
   const unicode = iconType.unicode
   const isBrandsIcon = iconType.isBrand()
 
-  // Icons have the previously selected style and family, selecting an icon does not change this
+  // Icons have some previously selected properties, selecting an icon does not change this
   const style = iconStore.currentIcon.fontAwesomeIcon.style
   const family = iconStore.currentIcon.fontAwesomeIcon.family
+  const duotoneAlpha = iconStore.currentIcon.fontAwesomeIcon.duotoneAlpha
 
-  return { id, label, unicode, isBrandsIcon, style, family }
+  return { id, label, unicode, isBrandsIcon, style, family, duotoneAlpha }
 }
 
 async function queryIcons(query: string) {
