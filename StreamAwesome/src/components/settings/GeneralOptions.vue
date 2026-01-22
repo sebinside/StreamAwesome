@@ -42,15 +42,11 @@ function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwe
       duotoneAlpha: 0.5,
       style: style
     }
-  } else {
-    const id = currentIcon.value.fontAwesomeIcon.id
-    const label = currentIcon.value.fontAwesomeIcon.label
-    const unicode = currentIcon.value.fontAwesomeIcon.unicode
-    const isBrandsIcon = currentIcon.value.fontAwesomeIcon.isBrandsIcon
-    const family = currentIcon.value.fontAwesomeIcon.family
-    const duotoneAlpha = currentIcon.value.fontAwesomeIcon.duotoneAlpha
-    return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
   }
+
+  const { id, label, unicode, isBrandsIcon, family, duotoneAlpha } =
+    currentIcon.value.fontAwesomeIcon
+  return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
 }
 
 function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): FontAwesomeIcon {
@@ -65,15 +61,11 @@ function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): Font
       duotoneAlpha: 0.5,
       style: fallBackIcon.styles.free[0]!.style
     }
-  } else {
-    const id = currentIcon.value.fontAwesomeIcon.id
-    const label = currentIcon.value.fontAwesomeIcon.label
-    const unicode = currentIcon.value.fontAwesomeIcon.unicode
-    const isBrandsIcon = currentIcon.value.fontAwesomeIcon.isBrandsIcon
-    const style = currentIcon.value.fontAwesomeIcon.style
-    const duotoneAlpha = currentIcon.value.fontAwesomeIcon.duotoneAlpha
-    return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
   }
+
+  const { id, label, unicode, isBrandsIcon, style, duotoneAlpha } =
+    currentIcon.value.fontAwesomeIcon
+  return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
 }
 
 function updateSize(event: Event) {
