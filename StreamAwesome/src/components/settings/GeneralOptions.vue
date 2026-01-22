@@ -23,15 +23,11 @@ const props = defineProps<{
 const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
 
 const relevantFamilies =
-  fontAwesomeVersionInfo.fontLicense === 'Pro'
-    ? Object.values(FontAwesomeFamilyKeys)
-    : Object.values(FontAwesomeFreeFamilyKeys)
+  fontAwesomeVersionInfo.fontLicense === 'Pro' ? FontAwesomeFamilyKeys : FontAwesomeFreeFamilyKeys
 const relevantStyles =
   fontAwesomeVersionInfo.fontLicense === 'Pro'
-    ? Object.values(FontAwesomeStyleKeys).filter((key) => {
-        return key !== BrandsKeyword
-      })
-    : Object.values(FontAwesomeFreeStyleKeys)
+    ? FontAwesomeStyleKeys.filter((fontAwesomeStyleKey) => fontAwesomeStyleKey !== BrandsKeyword)
+    : FontAwesomeFreeStyleKeys
 
 function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwesomeIcon {
   if (props.icon === undefined) {
