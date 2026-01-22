@@ -10,7 +10,7 @@ const iconStore = useIconsStore()
 <template>
   <PresetOptions :icon="iconStore.currentIcon" />
 
-  <GeneralOptions :icon="iconStore.currentIcon" />
+  <GeneralOptions />
 
   <DownloadButton />
 </template>

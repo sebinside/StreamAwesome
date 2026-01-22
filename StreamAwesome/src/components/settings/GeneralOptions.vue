@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import {
   BrandsKeyword,
   DuotoneKeyword,
@@ -13,14 +12,12 @@ import {
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import Icon from '@/components/utils/IconDisplay.vue'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import { ref } from 'vue'
 import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
+import { useIconsStore } from '@/stores/icons.ts'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps<{
-  icon: CustomIcon<FontAwesomePreset>
-}>()
-
-const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+const iconStore = useIconsStore()
+const { currentIcon } = storeToRefs(iconStore)
 
 const relevantFamilies =
   fontAwesomeVersionInfo.fontLicense === 'Pro'
@@ -34,7 +31,7 @@ const relevantStyles =
     : Object.values(FontAwesomeFreeStyleKeys)
 
 function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwesomeIcon {
-  if (props.icon === undefined) {
+  if (currentIcon.value === undefined) {
     const fallBackIcon = FontAwesomeIconType.createFallBackIcon()
     return {
       id: fallBackIcon.id,
@@ -46,18 +43,18 @@ function createFontAwesomeIconDisplayFromStyle(style: FontAwesomeStyle): FontAwe
       style: style
     }
   } else {
-    const id = props.icon.fontAwesomeIcon.id
-    const label = props.icon.fontAwesomeIcon.label
-    const unicode = props.icon.fontAwesomeIcon.unicode
-    const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
-    const family = props.icon.fontAwesomeIcon.family
-    const duotoneAlpha = props.icon.fontAwesomeIcon.duotoneAlpha
+    const id = currentIcon.value.fontAwesomeIcon.id
+    const label = currentIcon.value.fontAwesomeIcon.label
+    const unicode = currentIcon.value.fontAwesomeIcon.unicode
+    const isBrandsIcon = currentIcon.value.fontAwesomeIcon.isBrandsIcon
+    const family = currentIcon.value.fontAwesomeIcon.family
+    const duotoneAlpha = currentIcon.value.fontAwesomeIcon.duotoneAlpha
     return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
   }
 }
 
 function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): FontAwesomeIcon {
-  if (props.icon === undefined) {
+  if (currentIcon.value === undefined) {
     const fallBackIcon = FontAwesomeIconType.createFallBackIcon()
     return {
       id: fallBackIcon.id,
@@ -69,12 +66,12 @@ function createFontAwesomeIconDisplayFromFamily(family: FontAwesomeFamily): Font
       style: fallBackIcon.styles.free[0]!.style
     }
   } else {
-    const id = props.icon.fontAwesomeIcon.id
-    const label = props.icon.fontAwesomeIcon.label
-    const unicode = props.icon.fontAwesomeIcon.unicode
-    const isBrandsIcon = props.icon.fontAwesomeIcon.isBrandsIcon
-    const style = props.icon.fontAwesomeIcon.style
-    const duotoneAlpha = props.icon.fontAwesomeIcon.duotoneAlpha
+    const id = currentIcon.value.fontAwesomeIcon.id
+    const label = currentIcon.value.fontAwesomeIcon.label
+    const unicode = currentIcon.value.fontAwesomeIcon.unicode
+    const isBrandsIcon = currentIcon.value.fontAwesomeIcon.isBrandsIcon
+    const style = currentIcon.value.fontAwesomeIcon.style
+    const duotoneAlpha = currentIcon.value.fontAwesomeIcon.duotoneAlpha
     return { id, label, unicode, isBrandsIcon, family, style, duotoneAlpha }
   }
 }
@@ -106,7 +103,7 @@ function updateAlpha(event: Event) {
     <input
       id="iconSize"
       type="range"
-      :value="props.icon?.fontSize ?? 180"
+      :value="currentIcon.fontSize ?? 180"
       @input="(event) => updateSize(event)"
       min="50"
       max="250"
@@ -114,7 +111,7 @@ function updateAlpha(event: Event) {
     />
   </div>
 
-  <div v-if="props.icon.fontAwesomeIcon.family.includes(DuotoneKeyword)">
+  <div v-if="currentIcon.fontAwesomeIcon.family.includes(DuotoneKeyword)">
     <label
       for="duotoneAlpha"
       class="mb-[0.5] block text-sm font-medium text-gray-900 dark:text-white"
@@ -123,7 +120,7 @@ function updateAlpha(event: Event) {
     <input
       id="duotoneAlpha"
       type="range"
-      :value="props.icon?.fontAwesomeIcon.duotoneAlpha ?? 0.5"
+      :value="currentIcon.fontAwesomeIcon.duotoneAlpha ?? 0.5"
       @input="(event) => updateAlpha(event)"
       min="0"
       max="1"
@@ -143,7 +140,7 @@ function updateAlpha(event: Event) {
           :value="family"
           class="peer hidden"
           @input="() => updateFamily(family)"
-          :checked="family === props.icon?.fontAwesomeIcon.family"
+          :checked="family === currentIcon.fontAwesomeIcon.family"
         />
         <label
           :for="family"
@@ -159,7 +156,7 @@ function updateAlpha(event: Event) {
       </div>
     </div>
 
-    <div v-if="!icon.fontAwesomeIcon.family.includes(DuotoneKeyword)">
+    <div v-if="!currentIcon.fontAwesomeIcon.family.includes(DuotoneKeyword)">
       <label class="mt-3 block text-sm font-medium text-gray-900 dark:text-white"
         >Font Style:
       </label>
@@ -172,7 +169,7 @@ function updateAlpha(event: Event) {
             :value="style"
             class="peer hidden"
             @input="() => updateStyle(style)"
-            :checked="style === props.icon?.fontAwesomeIcon.style"
+            :checked="style === currentIcon.fontAwesomeIcon.style"
           />
           <label
             :for="style"
