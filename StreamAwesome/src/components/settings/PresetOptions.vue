@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import ClassicPreset from '@/components/settings/presets/ClassicPreset.vue'
 import ModernPreset from '@/components/settings/presets/ModernPreset.vue'
 import NeoPreset from '@/components/settings/presets/NeoPreset.vue'
 import CustomPreset from '@/components/settings/presets/CustomPreset.vue'
 import { ref, computed } from 'vue'
 import type { VNode, Component } from 'vue'
+import { useIconsStore } from '@/stores/icons.ts'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps<{
-  icon: CustomIcon<FontAwesomePreset>
-}>()
+const iconStore = useIconsStore()
+const { currentIcon } = storeToRefs(iconStore)
 
 const presets = {
   Classic: ClassicPreset,
@@ -21,10 +21,8 @@ const presets = {
 const presetKeys = Object.keys(presets) as IconPreset[]
 type IconPreset = keyof typeof presets
 
-const selectedPreset = ref<IconPreset>(props.icon.presetSettings.preset)
-const selectedPresetComponent = computed(() => {
-  return presets[selectedPreset.value]
-})
+const selectedPreset = ref(currentIcon.value.presetSettings.preset)
+const selectedPresetComponent = computed(() => presets[selectedPreset.value])
 </script>
 
 <template>
@@ -42,6 +40,6 @@ const selectedPresetComponent = computed(() => {
       </option>
     </select>
 
-    <component :is="selectedPresetComponent" :icon="icon" />
+    <component :is="selectedPresetComponent" :icon="currentIcon" />
   </div>
 </template>
