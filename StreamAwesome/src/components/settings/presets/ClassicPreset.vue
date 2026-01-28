@@ -2,6 +2,7 @@
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { useIconsStore } from '@/stores/icons.ts'
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
 defineProps<{
   icon: CustomIcon<FontAwesomePreset>
@@ -22,6 +23,8 @@ function applyDefaultSettings() {
   currentIcon.value.fontAwesomeIcon.style = 'solid'
   currentIcon.value.fontAwesomeIcon.family = 'classic'
 }
+
+const currentHue = computed(() => (currentIcon.value as CustomIcon<'Classic'>).presetSettings.hue)
 </script>
 
 <template>
