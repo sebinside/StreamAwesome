@@ -1,1 +1,53 @@
 @import 'tailwindcss';
+
+.color-range-input {
+  display: block;
+  height: 1rem;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  background: linear-gradient(
+    90deg,
+    hsl(0, 72%, 56%) 0%,
+    hsl(60, 72%, 56%) 25%,
+    hsl(120, 72%, 56%) 33.3%,
+    hsl(240, 72%, 56%) 66.6%,
+    hsl(360, 72%, 56%) 100%
+  );
+  appearance: none;
+  -webkit-appearance: none;
+
+  /* ::-webkit-slider-thumb is supported by all browsers except Firefox */
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background-color: hsl(v-bind('currentHue'), 72%, 56%);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  }
+
+  /* The -moz prefix is only supported by Firefox */
+  &::-moz-range-track {
+    height: 8px;
+    background: transparent;
+    border: none;
+  }
+
+  &::-moz-range-progress {
+    height: 8px;
+    background: transparent;
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: hsl(v-bind('currentHue'), 72%, 56%);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+  }
+}
