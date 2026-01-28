@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
 import { ColorSpaceKeys } from '@/model/customIcon'
+import { useIconsStore } from '@/stores/icons.ts'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps<{
+defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+const iconStore = useIconsStore()
+const { currentIcon } = storeToRefs(iconStore)
+
 if (currentIcon.value.presetSettings.preset !== 'Neo') {
   applyDefaultSettings()
 }
@@ -28,7 +32,7 @@ function applyDefaultSettings() {
   currentIcon.value.fontAwesomeIcon.family = 'classic'
 }
 
-const currentHue = ref((currentIcon.value as CustomIcon<'Neo'>).presetSettings.hueStart)
+const currentHue = computed(() => (currentIcon.value as CustomIcon<'Neo'>).presetSettings.hueStart)
 
 const settingsExpanded = ref(false)
 const toggleSettings = () => {
@@ -47,7 +51,6 @@ const toggleSettings = () => {
     max="360"
     class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
     v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
-    @input="currentHue = (currentIcon as CustomIcon<'Neo'>).presetSettings.hueStart"
   />
 
   <label class="mt-3 inline-flex cursor-pointer items-center">
