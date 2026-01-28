@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
+import { useIconsStore } from '@/stores/icons.ts'
+import { storeToRefs } from 'pinia'
 
-const props = defineProps<{
+defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+const iconStore = useIconsStore()
+const { currentIcon } = storeToRefs(iconStore)
+
 if (currentIcon.value.presetSettings.preset !== 'Custom') {
   applyDefaultSettings()
 }
