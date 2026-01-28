@@ -37,12 +37,12 @@ const toggleSettings = () => {
 </script>
 
 <template>
-  <label for="hueSelector" class="block flex-grow text-sm font-medium text-gray-900 dark:text-white"
+  <label for="hue" class="block flex-grow text-sm font-medium text-gray-900 dark:text-white"
     >Hue Start:</label
   >
   <input
     type="range"
-    id="hueSelector"
+    id="hue"
     min="0"
     max="360"
     class="color-range-input focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
@@ -113,43 +113,39 @@ const toggleSettings = () => {
       v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.translation"
     />
 
-    <label
-      for="saturationSelector"
-      class="mt-2 block text-sm font-medium text-gray-900 dark:text-white"
+    <label for="saturation" class="mt-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Saturation:</label
     >
     <input
       type="range"
-      id="saturationSelector"
+      id="saturation"
       max="1"
       min="0.05"
       step="0.01"
-      class="color-range-input focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+      class="saturation-range-input color-range-input focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
       v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.saturation"
     />
 
-    <label
-      for="lightnessSelector"
-      class="mt-2 block text-sm font-medium text-gray-900 dark:text-white"
+    <label for="lightness" class="mt-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Lightness:</label
     >
     <input
       type="range"
-      id="lightnessSelector"
+      id="lightness"
       max="0.95"
       min="0.05"
       step="0.01"
-      class="color-range-input focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+      class="lightness-range-input color-range-input focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
       v-model.number="(currentIcon as CustomIcon<'Neo'>).presetSettings.lightness"
     />
 
     <label
-      for="colorSpaceSelector"
+      for="colorSpace"
       class="mt-3 mb-2 block text-sm font-medium text-gray-900 dark:text-white"
       >Select Color Space:</label
     >
     <select
-      id="presetselector"
+      id="colorSpace"
       v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.colorSpace"
       class="mb-6 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
     >
@@ -161,7 +157,7 @@ const toggleSettings = () => {
 </template>
 
 <style scoped>
-#saturationSelector {
+.saturation-range-input {
   background: linear-gradient(
     90deg,
     hsl(v-bind('currentHue'), 5%, 56%) 0%,
@@ -169,7 +165,7 @@ const toggleSettings = () => {
   );
 }
 
-#lightnessSelector {
+.lightness-range-input {
   background: linear-gradient(
     90deg,
     hsl(v-bind('currentHue'), 72%, 5%) 0%,

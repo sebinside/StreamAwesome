@@ -24,12 +24,12 @@ const currentHue = ref((currentIcon.value as CustomIcon<'Classic'>).presetSettin
 </script>
 
 <template>
-  <label for="hueSelector" class="block flex-grow text-sm font-medium text-gray-900 dark:text-white"
+  <label for="hue" class="block flex-grow text-sm font-medium text-gray-900 dark:text-white"
     >Hue:</label
   >
   <input
     type="range"
-    id="hueSelector"
+    id="hue"
     max="360"
     min="0"
     class="color-range-input focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
