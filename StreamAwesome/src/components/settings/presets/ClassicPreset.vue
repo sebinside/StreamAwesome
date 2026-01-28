@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
+import { useIconsStore } from '@/stores/icons.ts'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   icon: CustomIcon<FontAwesomePreset>
 }>()
 
-const currentIcon = ref(props.icon ?? ({} as CustomIcon<FontAwesomePreset>))
+const iconStore = useIconsStore()
+const { currentIcon } = storeToRefs(iconStore)
+
 if (currentIcon.value.presetSettings.preset !== 'Classic') {
   applyDefaultSettings()
 }
@@ -20,7 +24,7 @@ function applyDefaultSettings() {
   currentIcon.value.fontAwesomeIcon.family = 'classic'
 }
 
-const currentHue = ref((currentIcon.value as CustomIcon<'Classic'>).presetSettings.hue)
+const currentHue = computed(() => (currentIcon.value as CustomIcon<'Classic'>).presetSettings.hue)
 </script>
 
 <template>
@@ -34,7 +38,6 @@ const currentHue = ref((currentIcon.value as CustomIcon<'Classic'>).presetSettin
     min="0"
     class="selector focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
     v-model.number="(currentIcon as CustomIcon<'Classic'>).presetSettings.hue"
-    @input="currentHue = (currentIcon as CustomIcon<'Classic'>).presetSettings.hue"
   />
 </template>
 
