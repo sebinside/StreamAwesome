@@ -17,15 +17,11 @@ function selectIcon(icon: FontAwesomeIconType) {
 }
 
 function iconTypetoFontAwesomeIcon(iconType: FontAwesomeIconType): FontAwesomeIcon {
-  const id = iconType.id
-  const label = iconType.label
-  const unicode = iconType.unicode
+  const { id, label, unicode } = iconType
   const isBrandsIcon = iconType.isBrand()
 
   // Icons have some previously selected properties, selecting an icon does not change this
-  const style = iconStore.currentIcon.fontAwesomeIcon.style
-  const family = iconStore.currentIcon.fontAwesomeIcon.family
-  const duotoneAlpha = iconStore.currentIcon.fontAwesomeIcon.duotoneAlpha
+  const { style, family, duotoneAlpha } = iconStore.currentIcon.fontAwesomeIcon
 
   return { id, label, unicode, isBrandsIcon, style, family, duotoneAlpha }
 }
