@@ -24,7 +24,7 @@ export class PersistentIconConverter {
       isBrandsIcon: this.extractBoolean(record, 'fontawesomeicon.isbrandsicon'),
       style: this.extractString(record, 'fontawesomeicon.style'),
       family: this.extractString(record, 'fontawesomeicon.family'),
-      duotoneAlpha: this.extractNumber(record, 'fontawesomeicon.duotonealpha')
+      duotoneAlpha: this.extractOptionalNumber(record, 'fontawesomeicon.duotonealpha', 0.5)
     }
   }
 
@@ -72,6 +72,13 @@ export class PersistentIconConverter {
       throw new Error(`${key} in URL parameters is not a valid number.`)
     }
     return parsedNumber
+  }
+
+  private extractOptionalNumber(record: Record<string, unknown>, key: string, fallback: number): number {
+    if (record[key] === undefined || record[key] === null) {
+      return fallback
+    }
+    return this.extractNumber(record, key)
   }
 
   private extractString(record: Record<string, unknown>, key: string): string {

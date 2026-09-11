@@ -18,8 +18,8 @@ export class PersistenceHandler {
       return null
     }
 
-    if (record.version !== streamAwesomeVersion) {
-      console.error('Incompatible version found in persistent icon.')
+    if (!PersistenceHandler.isCompatibleVersion(record.version)) {
+      console.error(`Incompatible version found in persistent icon: ${record.version} (current: ${streamAwesomeVersion}).`)
 
       return null
     }
@@ -27,6 +27,21 @@ export class PersistenceHandler {
     return new PersistentIconConverter().convertPersistentIconToIcon(
       record
     ) as CustomIcon<FontAwesomePreset> | null
+  }
+
+  // major versions are compatible
+  private static isCompatibleVersion(version: string): boolean {
+    if (!/^\d+\.\d+\.\d+$/.test(version)) {
+      return false
+    }
+
+    // dev environment
+    const currentMajor = streamAwesomeVersion.split('.')[0]
+    if (currentMajor === '0') {
+      return true
+    }
+
+    return version.split('.')[0] === currentMajor
   }
 
   public static convertIconToPersistentIcon(icon: CustomIcon<FontAwesomePreset>): PersistentIcon {
