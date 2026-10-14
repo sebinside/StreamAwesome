@@ -24,6 +24,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "24"
+        
+      - name: Enable pnpm ⚡
+        run: corepack enable
 
       - name: Install Dependencies 🔧
         working-directory: StreamAwesome
