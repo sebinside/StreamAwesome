@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Enable pnpm ⚡
+        run: corepack enable
+
       - name: Install and Build 🔧
         working-directory: StreamAwesome
         run: |
