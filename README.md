@@ -30,7 +30,7 @@ Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https
 
 ### Manual Installation
 
-1. Install [Node](https://nodejs.org) and npm
+1. Install [Node](https://nodejs.org) and [pnpm](https://pnpm.io)
 2. Download or clone this repository, e.g. using `git clone https://github.com/sebinside/StreamAwesome.git`
 3. Download the **correct** version of [Font Awesome For The Web](https://fontawesome.com/download)
     1. Have a look at the orange font awesome shield in this readme to see which version is used
@@ -44,6 +44,6 @@ Generate awesome-looking Stream Deck icons. Close to the [Elgato original](https
               ├── css
               └── webfonts
     ```
-5. Run `npm install` from within the `StreamAwesome` folder to install all dependencies
-6. Run `npm run dev` from within the `StreamAwesome` folder or use the provided Visual Studio Code config
+5. Run `pnpm install` from within the `StreamAwesome` folder to install all dependencies
+6. Run `pnpm run dev` from within the `StreamAwesome` folder or use the provided Visual Studio Code config
 7. Open the displayed localhost port in your web browser, by default: `http://localhost:5173`

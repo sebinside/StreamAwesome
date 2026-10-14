@@ -6,7 +6,7 @@
             "request": "launch",
             "name": "Launch StreamAwesome",
             "cwd": "${workspaceRoot}/StreamAwesome",
-            "runtimeExecutable": "npm",
+            "runtimeExecutable": "pnpm",
             "runtimeArgs": [
                 "run-script", "dev"
             ],
