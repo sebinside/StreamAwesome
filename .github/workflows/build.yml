@@ -26,6 +26,6 @@ jobs:
       - name: Install and Build 🔧
         working-directory: StreamAwesome
         run: |
-          npm install
-          npm run render-version
-          npm run build
+          pnpm install
+          pnpm run render-version
+          pnpm run build

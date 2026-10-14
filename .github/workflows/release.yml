@@ -27,15 +27,15 @@ jobs:
 
       - name: Install Dependencies 🔧
         working-directory: StreamAwesome
-        run: npm install
+        run: pnpm install
 
       - name: Render Version 🏷️
         working-directory: StreamAwesome
-        run: npm run render-version
+        run: pnpm run render-version
 
       - name: Build for Latest 🔨
         working-directory: StreamAwesome
-        run: npm run build
+        run: pnpm run build
         env:
           VITE_BASE_PATH: /latest/
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: Build for Tagged Version 🔨
         working-directory: StreamAwesome
-        run: npm run build
+        run: pnpm run build
         env:
           VITE_BASE_PATH: /${{ github.ref_name }}/
 
