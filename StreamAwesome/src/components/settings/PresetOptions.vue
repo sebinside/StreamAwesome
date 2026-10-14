@@ -40,6 +40,6 @@ const selectedPresetComponent = computed(() => presets[selectedPreset.value])
       </option>
     </select>
 
-    <component :is="selectedPresetComponent" :icon="currentIcon" />
+    <component :is="selectedPresetComponent" />
   </div>
 </template>

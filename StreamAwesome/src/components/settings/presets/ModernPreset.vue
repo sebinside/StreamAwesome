@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import type { CustomIcon, FontAwesomePreset } from '@/model/customIcon'
+import type { CustomIcon } from '@/model/customIcon'
 import { useIconsStore } from '@/stores/icons.ts'
 import { storeToRefs } from 'pinia'
-
-defineProps<{
-  icon: CustomIcon<FontAwesomePreset>
-}>()
 
 const iconStore = useIconsStore()
 const { currentIcon } = storeToRefs(iconStore)
