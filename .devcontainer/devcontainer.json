@@ -5,6 +5,7 @@
   },
   "forwardPorts": [5173],
   "postCreateCommand": ".devcontainer/setup-fontawesome-free.sh && .devcontainer/post-install.sh",
+  "initializeCommand": "mkdir -p \"${localEnv:HOME}/.claude\" && touch \"${localEnv:HOME}/.claude.json\"",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -17,6 +18,8 @@
   },
   "mounts": [
     "source=${env:HOME}/.ssh,target=/home/node/.ssh,type=bind,readonly",
-    "source=${env:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly"
+    "source=${env:HOME}/.gitconfig,target=/home/node/.gitconfig,type=bind,readonly",
+    "source=${env:HOME}/.claude,target=/home/node/.claude,type=bind",
+    "source=${env:HOME}/.claude.json,target=/home/node/.claude.json,type=bind"
   ]
 }
