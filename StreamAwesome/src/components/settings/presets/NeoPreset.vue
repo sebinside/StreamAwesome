@@ -4,10 +4,7 @@ import type { CustomIcon, NeoStyle } from '@/model/customIcon'
 import { ColorSpaceKeys, NeoStyleKeys } from '@/model/customIcon'
 import { useIconsStore } from '@/stores/icons.ts'
 import { storeToRefs } from 'pinia'
-import neoWhiteIcon from '@/assets/examples/neo-style-white.png'
-import neoBlackIcon from '@/assets/examples/neo-style-black.png'
-import neoBlackBg from '@/assets/examples/neo-style-background.png'
-import neoDarkBg from '@/assets/examples/neo-style-dark.png'
+import Icon from '@/components/utils/IconDisplay.vue'
 
 const iconStore = useIconsStore()
 const { currentIcon } = storeToRefs(iconStore)
@@ -43,16 +40,19 @@ const updateNeoStyle = (style: NeoStyle) => {
   ;(currentIcon.value as CustomIcon<'Neo'>).presetSettings.neoStyle = style
 }
 
-function getIconDisplayForNeoStyle(style: NeoStyle): string {
+function getPreviewStyle(style: NeoStyle): { background: string; color: string } {
+  const { hueStart, saturation, lightness } = (currentIcon.value as CustomIcon<'Neo'>)
+    .presetSettings
+  const hsl = (s: number, l: number) => `hsl(${hueStart} ${s * 100}% ${l * 100}%)`
   switch (style) {
     case 'whiteicon':
-      return neoWhiteIcon
+      return { background: hsl(saturation, lightness), color: 'white' }
     case 'blackicon':
-      return neoBlackIcon
+      return { background: hsl(saturation, lightness), color: 'black' }
     case 'blackbackground':
-      return neoBlackBg
+      return { background: 'black', color: hsl(saturation, lightness) }
     case 'darkbackground':
-      return neoDarkBg
+      return { background: hsl(saturation * 0.5, lightness * 0.3), color: hsl(saturation, lightness) }
   }
 }
 </script>
@@ -104,11 +104,16 @@ function getIconDisplayForNeoStyle(style: NeoStyle): string {
         }"
         class="block cursor-pointer justify-center border border-gray-200 bg-white px-4 py-2 select-none peer-checked:border-blue-600 hover:bg-gray-100 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
       >
-        <img
-          class="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-700"
-          :src="getIconDisplayForNeoStyle(style)"
+        <div
+          class="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-base dark:border-gray-700"
+          :style="{ background: getPreviewStyle(style).background }"
           :title="style"
-        />
+        >
+          <Icon
+            :fontAwesomeIcon="currentIcon.fontAwesomeIcon"
+            :style="{ color: getPreviewStyle(style).color }"
+          />
+        </div>
       </label>
     </div>
   </div>

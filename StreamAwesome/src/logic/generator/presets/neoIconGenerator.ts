@@ -16,7 +16,7 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
 
   protected getIconFillStyle(icon: CustomIcon<'Neo'>): string | CanvasGradient | CanvasPattern {
     const style = icon.presetSettings.neoStyle
-    if (style === 'whiteicon' || style === 'darkbackground') {
+    if (style === 'whiteicon') {
       return chroma('white').hex()
     }
     if (style === 'blackicon') {
@@ -43,8 +43,8 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
     if (icon.presetSettings.neoStyle === 'darkbackground') {
       const colors = this.calculateColors(icon)
       this.renderingContext.fillStyle = this.calculateGradient(icon, {
-        start: colors.start.darken(2.5).desaturate(2),
-        stop: colors.stop.darken(2.5).desaturate(2)
+        start: colors.start.darken(2).desaturate(0),
+        stop: colors.stop.darken(2.5).desaturate(0.5)
       })
     } else if (icon.presetSettings.neoStyle !== 'blackbackground') {
       this.renderingContext.fillStyle = this.calculateGradient(icon, this.calculateColors(icon))
