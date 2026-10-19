@@ -47,7 +47,7 @@ export class PersistentIconConverter {
         return {
           preset: 'Neo',
           invertDirection: this.extractBoolean(record, 'presetsettings.invertdirection'),
-          symbolOnly: this.extractBoolean(record, 'presetsettings.symbolonly'),
+          neoStyle: this.extractString(record, 'presetsettings.neostyle'),
           hueStart: this.extractNumber(record, 'presetsettings.huestart'),
           hueShift: this.extractNumber(record, 'presetsettings.hueshift'),
           saturation: this.extractNumber(record, 'presetsettings.saturation'),

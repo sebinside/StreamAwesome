@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { CustomIcon } from '@/model/customIcon'
-import { ColorSpaceKeys } from '@/model/customIcon'
+import type { CustomIcon, NeoStyle } from '@/model/customIcon'
+import { ColorSpaceKeys, NeoStyleKeys } from '@/model/customIcon'
 import { useIconsStore } from '@/stores/icons.ts'
 import { storeToRefs } from 'pinia'
+import neoWhiteIcon from '@/assets/examples/neo-style-white.png'
+import neoBlackIcon from '@/assets/examples/neo-style-black.png'
+import neoBlackBg from '@/assets/examples/neo-style-background.png'
+import neoDarkBg from '@/assets/examples/neo-style-dark.png'
 
 const iconStore = useIconsStore()
 const { currentIcon } = storeToRefs(iconStore)
@@ -21,7 +25,7 @@ function applyDefaultSettings() {
     lightness: 0.6,
     invertDirection: false,
     saturation: 0.8,
-    symbolOnly: false,
+    neoStyle: 'whiteicon',
     translation: 0
   }
   currentIcon.value.fontAwesomeIcon.style = 'solid'
@@ -34,10 +38,27 @@ const settingsExpanded = ref(false)
 const toggleSettings = () => {
   settingsExpanded.value = !settingsExpanded.value
 }
+
+const updateNeoStyle = (style: NeoStyle) => {
+  ;(currentIcon.value as CustomIcon<'Neo'>).presetSettings.neoStyle = style
+}
+
+function getIconDisplayForNeoStyle(style: NeoStyle): string {
+  switch (style) {
+    case 'whiteicon':
+      return neoWhiteIcon
+    case 'blackicon':
+      return neoBlackIcon
+    case 'blackbackground':
+      return neoBlackBg
+    case 'darkbackground':
+      return neoDarkBg
+  }
+}
 </script>
 
 <template>
-  <label for="hueSelector" class="block flex-grow text-sm font-medium text-gray-900 dark:text-white"
+  <label for="hueSelector" class="block grow text-sm font-medium text-gray-900 dark:text-white"
     >Hue Start:</label
   >
   <input
@@ -56,24 +77,41 @@ const toggleSettings = () => {
       v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.invertDirection"
     />
     <div
-      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
+      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:inset-s-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
     ></div>
     <span class="ms-3 text-sm font-medium text-gray-900 dark:text-white">Invert Direction</span>
   </label>
 
   <br />
 
-  <label class="mt-3 inline-flex cursor-pointer items-center">
-    <input
-      type="checkbox"
-      class="peer sr-only"
-      v-model="(currentIcon as CustomIcon<'Neo'>).presetSettings.symbolOnly"
-    />
-    <div
-      class="peer relative h-6 w-11 rounded-full bg-gray-200 peer-checked:bg-blue-600 peer-focus:ring-4 peer-focus:ring-blue-300 peer-focus:outline-none after:absolute after:start-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-blue-800"
-    ></div>
-    <span class="ms-3 text-sm font-medium text-gray-900 dark:text-white">Symbol Only</span>
-  </label>
+  <label class="mt-3 block text-sm font-medium text-gray-900 dark:text-white">Neo Style: </label>
+  <div class="mt-1 flex rounded-md shadow-sm">
+    <div class="flex-1" v-for="(style, index) in NeoStyleKeys" :key="style">
+      <input
+        type="radio"
+        name="iconNeoStyle"
+        :id="style"
+        :value="style"
+        class="peer hidden"
+        @input="() => updateNeoStyle(style)"
+        :checked="style === (currentIcon as CustomIcon<'Neo'>).presetSettings.neoStyle"
+      />
+      <label
+        :for="style"
+        :class="{
+          'rounded-s-lg': index === 0,
+          'rounded-e-lg': index === NeoStyleKeys.length - 1
+        }"
+        class="block cursor-pointer justify-center border border-gray-200 bg-white px-4 py-2 select-none peer-checked:border-blue-600 hover:bg-gray-100 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+      >
+        <img
+          class="h-8 w-8 rounded-full border border-gray-200 dark:border-gray-700"
+          :src="getIconDisplayForNeoStyle(style)"
+          :title="style"
+        />
+      </label>
+    </div>
+  </div>
 
   <br />
 

@@ -12,7 +12,7 @@ export const useIconsStore = defineStore('icons', () => {
       lightness: 0.6,
       invertDirection: false,
       saturation: 0.8,
-      symbolOnly: false,
+      neoStyle: 'whiteicon',
       translation: 0
     },
     fontSize: 180,
