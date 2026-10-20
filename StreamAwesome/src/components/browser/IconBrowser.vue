@@ -11,12 +11,24 @@ import { defaultSecondaryIconFontSize } from '@/logic/generator/secondaryIconPla
 import { type SecondaryCorner } from '@/model/customIcon'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { useEventListener } from '@vueuse/core'
 
 const availableIcons = ref<FontAwesomeIconType[]>([])
 const iconStore = useIconsStore()
 const { editTarget: target } = storeToRefs(iconStore)
 
 const targets = ['main', 'secondary'] as const
+
+// Keys 1 and 2 switch between main and secondary icon, unless the user is typing
+useEventListener(window, 'keydown', (e: KeyboardEvent) => {
+  const el = e.target as HTMLElement
+  if (e.ctrlKey || e.metaKey || e.altKey || el.matches('input:is([type=text],[type=search],[type=number],:not([type])), textarea, select')) {
+    return
+  }
+  if (e.key === '1' || e.key === '2') {
+    target.value = targets[Number(e.key) - 1]!
+  }
+})
 
 const cornerDotClasses: Record<SecondaryCorner, string> = {
   tl: 'top-0.5 left-0.5',
@@ -99,8 +111,8 @@ queryIcons('video')
           :for="`iconTarget-${option}`"
           :title="
             option === 'main'
-              ? 'Edit main icon'
-              : 'Edit secondary icon (click again to move it to the next corner)'
+              ? 'Edit main icon (1)'
+              : 'Edit secondary icon (2, click again to move it to the next corner)'
           "
           @click="cycleCorner(option)"
           :class="{
