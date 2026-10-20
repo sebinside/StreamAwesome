@@ -9,6 +9,10 @@ export class PersistentIconConverter {
         presetSettings: this.extractPreset(record)
       }
 
+      if (record['secondaryicon.icon.id'] !== undefined) {
+        icon.secondaryIcon = this.extractSecondaryIcon(record)
+      }
+
       return icon
     } catch (error) {
       console.error('Error during persistent icon conversion.', error)
@@ -16,15 +20,26 @@ export class PersistentIconConverter {
     }
   }
 
-  private extractFontAwesomeIcon(record: Record<string, unknown>): Record<string, unknown> {
+  private extractFontAwesomeIcon(
+    record: Record<string, unknown>,
+    prefix = 'fontawesomeicon'
+  ): Record<string, unknown> {
     return {
-      id: this.extractString(record, 'fontawesomeicon.id'),
-      label: this.extractString(record, 'fontawesomeicon.label'),
-      unicode: this.extractString(record, 'fontawesomeicon.unicode'),
-      isBrandsIcon: this.extractBoolean(record, 'fontawesomeicon.isbrandsicon'),
-      style: this.extractString(record, 'fontawesomeicon.style'),
-      family: this.extractString(record, 'fontawesomeicon.family'),
-      duotoneAlpha: this.extractOptionalNumber(record, 'fontawesomeicon.duotonealpha', 0.5)
+      id: this.extractString(record, `${prefix}.id`),
+      label: this.extractString(record, `${prefix}.label`),
+      unicode: this.extractString(record, `${prefix}.unicode`),
+      isBrandsIcon: this.extractBoolean(record, `${prefix}.isbrandsicon`),
+      style: this.extractString(record, `${prefix}.style`),
+      family: this.extractString(record, `${prefix}.family`),
+      duotoneAlpha: this.extractOptionalNumber(record, `${prefix}.duotonealpha`, 0.5)
+    }
+  }
+
+  private extractSecondaryIcon(record: Record<string, unknown>): Record<string, unknown> {
+    return {
+      icon: this.extractFontAwesomeIcon(record, 'secondaryicon.icon'),
+      corner: this.extractString(record, 'secondaryicon.corner'),
+      fontSize: this.extractNumber(record, 'secondaryicon.fontsize')
     }
   }
 

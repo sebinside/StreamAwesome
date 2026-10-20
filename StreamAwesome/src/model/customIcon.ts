@@ -6,9 +6,19 @@ export type FontAwesomePreset = (typeof FontAwesomePresetKeys)[number]
 export const ColorSpaceKeys = ['rgb', 'hsl', 'lab', 'lch', 'oklch', 'lrgb'] as const
 export type ColorSpace = (typeof ColorSpaceKeys)[number]
 
+export const SecondaryCornerKeys = ['tl', 'tr', 'bl', 'br'] as const
+export type SecondaryCorner = (typeof SecondaryCornerKeys)[number]
+
+export interface SecondaryIcon {
+  icon: FontAwesomeIcon
+  corner: SecondaryCorner
+  fontSize: number
+}
+
 export interface CustomIcon<T extends FontAwesomePreset> {
   fontSize: number
   fontAwesomeIcon: FontAwesomeIcon
+  secondaryIcon?: SecondaryIcon
   presetSettings: (ClassicPreset | ModernPreset | NeoPreset | CustomPreset) & {
     preset: T
   }
