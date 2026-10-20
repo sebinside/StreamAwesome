@@ -43,8 +43,8 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
     if (icon.presetSettings.neoStyle === 'darkbackground') {
       const colors = this.calculateColors(icon)
       this.renderingContext.fillStyle = this.calculateGradient(icon, {
-        start: colors.start.darken(2).desaturate(0),
-        stop: colors.stop.darken(2.5).desaturate(0.5)
+        start: colors.start.set('hsl.s', 0.5).set('hsl.l', 0.1),
+        stop: colors.stop.set('hsl.s', 0.5).set('hsl.l', 0.06)
       })
     } else if (icon.presetSettings.neoStyle !== 'blackbackground') {
       this.renderingContext.fillStyle = this.calculateGradient(icon, this.calculateColors(icon))
@@ -52,7 +52,29 @@ export default class NeoIconGenerator extends IconGenerator<'Neo'> {
       this.renderingContext.fillStyle = 'black'
     }
     this.renderingContext.fillRect(0, 0, this.canvas.width, this.canvas.height)
+
+    if (icon.presetSettings.neoStyle === 'darkbackground') {
+      this.drawGlow(icon)
+    }
   }
+
+  private drawGlow(icon: CustomIcon<'Neo'>): void {
+    const { width, height } = this.canvas
+    const color = this.calculateColors(icon).start.darken(0.8)
+    const glow = this.renderingContext.createRadialGradient(
+      width / 2,
+      height / 2,
+      0,
+      width / 2,
+      height / 2,
+      width * 0.75
+    )
+    glow.addColorStop(0, color.alpha(0.5).css())
+    glow.addColorStop(1, color.alpha(0).css())
+    this.renderingContext.fillStyle = glow
+    this.renderingContext.fillRect(0, 0, width, height)
+  }
+
   private calculateGradient(
     icon: CustomIcon<'Neo'>,
     colors: { start: Color; stop: Color }
