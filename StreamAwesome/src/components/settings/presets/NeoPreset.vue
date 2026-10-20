@@ -102,7 +102,7 @@ function getPreviewStyle(style: NeoStyle): { background: string; color: string }
           'rounded-s-lg': index === 0,
           'rounded-e-lg': index === NeoStyleKeys.length - 1
         }"
-        class="block cursor-pointer justify-center border border-gray-200 bg-white px-4 py-2 select-none peer-checked:border-blue-600 hover:bg-gray-100 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+        class="flex cursor-pointer justify-center border border-gray-200 bg-white px-4 py-2 select-none peer-checked:border-blue-600 hover:bg-gray-100 focus:z-10 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:peer-checked:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-gray-300"
       >
         <div
           class="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-base dark:border-gray-700"
