@@ -24,8 +24,24 @@ export const useIconsStore = defineStore('icons', () => {
       style: 'solid',
       unicode: 'f013',
       duotoneAlpha: 0.5
+    },
+    secondaryIcon: {
+      icon: {
+        id: 'microphone-lines',
+        family: 'classic',
+        label: 'Microphone Lines',
+        isBrandsIcon: false,
+        style: 'solid',
+        unicode: 'f3c9',
+        duotoneAlpha: 0.5
+      },
+      corner: 'br',
+      fontSize: 70
     }
   })
 
-  return { currentIcon }
+  // Which icon the search and the style/size settings currently edit (UI state, not persisted)
+  const editTarget = ref<'main' | 'secondary'>('main')
+
+  return { currentIcon, editTarget }
 })

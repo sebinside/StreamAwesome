@@ -118,10 +118,8 @@ function getPreviewStyle(style: NeoStyle): { background: string; color: string }
     </div>
   </div>
 
-  <br />
-
   <button
-    class="mt-3 cursor-pointer rounded bg-slate-900 p-1 leading-3 text-gray-200 hover:text-blue-500"
+    class="mt-4 cursor-pointer rounded bg-slate-900 p-1 leading-3 text-gray-200 hover:text-blue-500"
     :title="settingsExpanded ? 'Fewer options' : 'More options'"
     @click="toggleSettings"
   >

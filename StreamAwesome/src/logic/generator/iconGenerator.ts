@@ -5,7 +5,9 @@ import {
   type FontFamilySuffix,
   type FontWeight
 } from '@/model/fontAwesomeConstants'
+import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
+import { getSecondaryIconPlacement, secondaryIconGap } from './secondaryIconPlacement'
 import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
 import chroma from 'chroma-js'
 import namer from 'color-namer'
@@ -65,33 +67,97 @@ export default abstract class IconGenerator<T extends FontAwesomePreset> {
     }
   }
 
-  protected drawIcon(icon: CustomIcon<T>): void {
-    const centerOfCanvas = this.canvas.width / 2
-    const iconCode = this.calculateIcon(icon.fontAwesomeIcon.unicode)
-    const fontWeight = FontAwesomeIconType.getFontWeightOfStyle(icon.fontAwesomeIcon.style)
-    const fontFamilySuffix = FontAwesomeIconType.getFontFamilySuffix(icon.fontAwesomeIcon)
+  protected drawGlyph(
+    icon: CustomIcon<T>,
+    fontAwesomeIcon: FontAwesomeIcon,
+    fontSize: number,
+    x: number,
+    y: number
+  ): void {
+    const iconCode = this.calculateIcon(fontAwesomeIcon.unicode)
+    const fontWeight = FontAwesomeIconType.getFontWeightOfStyle(fontAwesomeIcon.style)
+    const fontFamilySuffix = FontAwesomeIconType.getFontFamilySuffix(fontAwesomeIcon)
 
-    this.setupFont(icon.fontAwesomeIcon.unicode, icon.fontSize, fontWeight, fontFamilySuffix)
+    this.setupFont(fontAwesomeIcon.unicode, fontSize, fontWeight, fontFamilySuffix)
 
-    if (
-      icon.fontAwesomeIcon.family.includes(DuotoneKeyword) &&
-      !icon.fontAwesomeIcon.isBrandsIcon
-    ) {
+    if (fontAwesomeIcon.family.includes(DuotoneKeyword) && !fontAwesomeIcon.isBrandsIcon) {
       this.renderingContext.fillStyle = this.getIconFillStyle(icon)
 
-      this.renderingContext.globalAlpha = icon.fontAwesomeIcon.duotoneAlpha ?? 0.5
-      const secondaryIconCode = this.calculateSecondaryIcon(icon.fontAwesomeIcon.unicode)
-      this.renderingContext.fillText(secondaryIconCode, centerOfCanvas, centerOfCanvas)
+      this.renderingContext.globalAlpha = fontAwesomeIcon.duotoneAlpha ?? 0.5
+      const secondaryIconCode = this.calculateSecondaryIcon(fontAwesomeIcon.unicode)
+      this.renderingContext.fillText(secondaryIconCode, x, y)
       this.renderingContext.globalAlpha = 1
     }
 
     this.renderingContext.fillStyle = this.getIconFillStyle(icon)
-    this.renderingContext.fillText(iconCode, centerOfCanvas, centerOfCanvas)
+    this.renderingContext.fillText(iconCode, x, y)
+  }
+
+  protected drawIcon(icon: CustomIcon<T>): void {
+    const centerOfCanvas = this.canvas.width / 2
+    this.drawGlyph(icon, icon.fontAwesomeIcon, icon.fontSize, centerOfCanvas, centerOfCanvas)
   }
 
   generateIcon(icon: CustomIcon<T>) {
     this.drawBackground(icon)
-    this.drawIcon(icon)
+
+    const secondary = icon.secondaryIcon
+    if (!secondary) {
+      this.drawIcon(icon)
+      return
+    }
+
+    const { x, y } = getSecondaryIconPlacement(
+      secondary.corner,
+      secondary.fontSize,
+      this.canvas.width
+    )
+
+    const secondaryLayer = this.renderLayer(() =>
+      this.drawGlyph(icon, secondary.icon, secondary.fontSize, x, y)
+    )
+
+    // Duotone transparency must not weaken the cutout, so the cutout uses a fully opaque silhouette
+    const silhouetteLayer = this.renderLayer(() =>
+      this.drawGlyph(icon, { ...secondary.icon, duotoneAlpha: 1 }, secondary.fontSize, x, y)
+    )
+
+    // The main icon gets its own layer, so the cutout shows the background and does not erase it
+    const mainLayer = this.renderLayer(() => {
+      this.drawIcon(icon)
+      this.eraseExpandedSilhouette(silhouetteLayer, secondaryIconGap)
+    })
+
+    this.renderingContext.drawImage(mainLayer, 0, 0)
+    this.renderingContext.drawImage(secondaryLayer, 0, 0)
+  }
+
+  private renderLayer(draw: () => void): HTMLCanvasElement {
+    const layer = document.createElement('canvas')
+    layer.width = this.canvas.width
+    layer.height = this.canvas.height
+
+    const finalContext = this.renderingContext
+    this.renderingContext = layer.getContext('2d')!
+    try {
+      draw()
+    } finally {
+      this.renderingContext = finalContext
+    }
+    return layer
+  }
+
+  // Erases the shape of the layer, grown by the given distance, from the current context.
+  // Stamping the layer around a circle of offsets grows its silhouette by that distance in every direction.
+  private eraseExpandedSilhouette(layer: HTMLCanvasElement, distance: number) {
+    const steps = 32
+    this.renderingContext.globalCompositeOperation = 'destination-out'
+    this.renderingContext.drawImage(layer, 0, 0)
+    for (let i = 0; i < steps; i++) {
+      const angle = (i / steps) * Math.PI * 2
+      this.renderingContext.drawImage(layer, Math.cos(angle) * distance, Math.sin(angle) * distance)
+    }
+    this.renderingContext.globalCompositeOperation = 'source-over'
   }
 
   protected prepareIconForExport(icon: CustomIcon<T>) {
