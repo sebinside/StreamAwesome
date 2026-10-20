@@ -3,7 +3,7 @@ import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
 export const FontAwesomePresetKeys = ['Classic', 'Modern', 'Neo', 'Custom'] as const
 export type FontAwesomePreset = (typeof FontAwesomePresetKeys)[number]
 
-export const ColorSpaceKeys = ['rgb', 'hsl', 'lab', 'lch', 'lrgb'] as const
+export const ColorSpaceKeys = ['rgb', 'hsl', 'lab', 'lch', 'oklch', 'lrgb'] as const
 export type ColorSpace = (typeof ColorSpaceKeys)[number]
 
 export interface CustomIcon<T extends FontAwesomePreset> {
