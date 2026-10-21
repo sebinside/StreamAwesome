@@ -10,9 +10,10 @@ updates:
     cooldown:
       default-days: 2
     groups:
-      all:
-        patterns:
-          - "*"
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
   - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
