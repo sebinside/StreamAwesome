@@ -9,6 +9,10 @@ updates:
       prefix: "Dependency"
     cooldown:
       default-days: 2
+    groups:
+      all:
+        patterns:
+          - "*"
   - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
