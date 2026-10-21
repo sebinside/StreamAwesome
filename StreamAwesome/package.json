@@ -20,7 +20,7 @@
     "chroma-js": "^3.2.0",
     "color-namer": "^1.4.0",
     "meta-png": "^1.0.6",
-    "pinia": "^4.0.3",
+    "pinia": "^4.1.0",
     "vue": "^3.5.43",
     "vue-router": "^5.4.0"
   },
