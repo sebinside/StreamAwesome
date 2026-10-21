@@ -21,7 +21,7 @@
     "color-namer": "^1.4.0",
     "meta-png": "^1.0.6",
     "pinia": "^4.0.3",
-    "vue": "^3.5.43",
+    "vue": "^3.5.44",
     "vue-router": "^5.4.0"
   },
   "devDependencies": {
