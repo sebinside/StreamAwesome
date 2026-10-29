@@ -4,7 +4,7 @@ import Icon from '@/components/utils/IconDisplay.vue'
 
 import { FontAwesomeBrowser } from '@/logic/fontAwesomeBrowser'
 import type { FontAwesomeIcon } from '@/model/fontAwesomeIcon'
-import type { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
+import { FontAwesomeIconType } from '@/model/fontAwesomeIconType'
 import { fontAwesomeVersionInfo } from '@/model/fontAwesomeInfo'
 import { useIconsStore } from '@/stores/icons'
 import { defaultSecondaryIconFontSize } from '@/logic/generator/secondaryIconPlacement'
@@ -26,24 +26,57 @@ useEventListener(window, 'keydown', (e: KeyboardEvent) => {
     return
   }
   if (e.key === '1' || e.key === '2') {
+    // Like clicking, pressing 2 again moves the secondary icon to the next position
+    cycleCorner(targets[Number(e.key) - 1]!)
     target.value = targets[Number(e.key) - 1]!
   }
 })
 
+// Only top/left with fixed values, so the dot animates between all positions (auto values cannot transition)
 const cornerDotClasses: Record<SecondaryCorner, string> = {
   tl: 'top-0.5 left-0.5',
-  tr: 'top-0.5 right-0.5',
-  br: 'right-0.5 bottom-0.5',
-  bl: 'bottom-0.5 left-0.5'
+  tr: 'top-0.5 left-2.5',
+  br: 'top-2.5 left-2.5',
+  bl: 'top-2.5 left-0.5',
+  center: 'top-1.5 left-1.5'
 }
 
-// Clicking the already active Secondary button moves the secondary icon to the next corner (clockwise)
+function defaultIcon(id: string, unicode: string): FontAwesomeIconType {
+  const solid = [{ family: 'classic', style: 'solid' }] as const
+  return new FontAwesomeIconType(id, id, unicode, { free: [...solid], pro: [...solid] })
+}
+
+// Fixed quick picks shown above the search results, independent of the search string
+const defaultIcons: Record<(typeof targets)[number], FontAwesomeIconType[]> = {
+  main: [
+    defaultIcon('video', 'f03d'),
+    defaultIcon('microphone', 'f130'),
+    defaultIcon('camera', 'f030'),
+    defaultIcon('desktop', 'f390'),
+    defaultIcon('gamepad', 'f11b'),
+    defaultIcon('comments', 'f086'),
+    defaultIcon('music', 'f001'),
+    defaultIcon('heart', 'f004')
+  ],
+  secondary: [
+    defaultIcon('slash', 'f715'),
+    defaultIcon('square', 'f0c8'),
+    defaultIcon('circle-plus', 'f055'),
+    defaultIcon('circle-minus', 'f056'),
+    defaultIcon('circle-xmark', 'f057'),
+    defaultIcon('play', 'f04b'),
+    defaultIcon('pause', 'f04c'),
+    defaultIcon('gear', 'f013')
+  ]
+}
+
+// Clicking the already active Secondary button moves the secondary icon to the next position (clockwise, then center)
 function cycleCorner(option: (typeof targets)[number]) {
   const secondary = iconStore.currentIcon.secondaryIcon
   if (option !== 'secondary' || target.value !== 'secondary' || !secondary) {
     return
   }
-  const order: SecondaryCorner[] = ['tl', 'tr', 'br', 'bl']
+  const order: SecondaryCorner[] = ['tl', 'tr', 'br', 'bl', 'center']
   secondary.corner = order[(order.indexOf(secondary.corner) + 1) % order.length]!
 }
 
@@ -112,7 +145,7 @@ queryIcons('video')
           :title="
             option === 'main'
               ? 'Edit main icon (1)'
-              : 'Edit secondary icon (2, click again to move it to the next corner)'
+              : 'Edit secondary icon (2, press or click again to move it to the next position)'
           "
           @click="cycleCorner(option)"
           :class="{
@@ -150,6 +183,17 @@ queryIcons('video')
   >
     Pick an icon below to add a secondary icon.
   </p>
+  <div class="mt-3 grid grid-cols-6 gap-1 text-center sm:grid-cols-8">
+    <Icon
+      v-for="icon of defaultIcons[target]"
+      @click="selectIcon(icon)"
+      :key="icon.id"
+      :title="icon.label"
+      :fontAwesomeIcon="iconTypetoFontAwesomeIcon(icon)"
+      class="cursor-pointer rounded bg-slate-900 p-2 text-xl hover:text-blue-500 focus:text-blue-500"
+    ></Icon>
+  </div>
+  <hr class="mt-3 border-gray-200 dark:border-gray-700" />
   <div
     class="mt-3 grid grid-cols-6 grid-rows-3 justify-items-stretch gap-1 text-center sm:grid-cols-8"
   >

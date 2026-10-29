@@ -10,6 +10,10 @@ export function getSecondaryIconPlacement(
   canvasSize: number
 ) {
   const radius = fontSize / 2
+  if (corner === 'center') {
+    return { x: canvasSize / 2, y: canvasSize / 2, radius }
+  }
+
   const near = radius + secondaryIconMargin
   const far = canvasSize - near
 
